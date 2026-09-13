@@ -1,0 +1,5 @@
+﻿Id,名称,类别,层级,分享文件名,wingetId,官网直链,安装方式,检测方式,检测参数,说明,补丁程序
+watt,Watt Toolkit,网络加速,推荐,,,,安装,arp,Watt Toolkit,Steam 加速与网络工具,
+ccspeed,CC加速器,网络加速,推荐,CCspeed_GW_V3.4.0917.567.exe,,,安装,arp,CCspeed,游戏加速器,
+geili,给梨加速器,网络加速,按需,,,https://www.geilijiasu.com/,安装,none,,给梨加速器,
+evdo,EVDO,网络加速,推荐,EVDO.exe,,,便携,none,,EVDO 加速器,

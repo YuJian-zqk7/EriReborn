@@ -1,0 +1,526 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:SetupLauncher.App;assembly=__ASM__"
+        Title="安装系统 · 3D建模 / 运行库驱动 / 安全清理" Height="800" Width="1240"
+        MinHeight="620" MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource WindowBg}"
+        FontFamily="Microsoft YaHei UI, Segoe UI" FontSize="13"
+        UseLayoutRounding="True" TextOptions.TextFormattingMode="Display">
+
+    <Window.Resources>
+        <local:HexToBrushConverter x:Key="HexToBrush"/>
+        <local:NonEmptyToVisibilityConverter x:Key="NonEmptyToVis"/>
+
+        <!-- 层级标签 -->
+        <Style x:Key="TierPill" TargetType="Border">
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="Padding" Value="6,1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- 运行库卡片 -->
+        <DataTemplate x:Key="RuntimeCard">
+            <Border Margin="0,0,0,8" Padding="12,10" CornerRadius="6"
+                    Background="{Binding CardBg}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Center"
+                              IsChecked="{Binding Selected, Mode=TwoWay}"
+                              IsEnabled="{Binding CanSelect}"/>
+
+                    <StackPanel Grid.Column="1">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            <Border Margin="8,0,0,0" Style="{StaticResource TierPill}"
+                                    Background="{Binding TierColor, Converter={StaticResource HexToBrush}}">
+                                <TextBlock Text="{Binding Tier}" FontSize="11"
+                                           Foreground="{DynamicResource TextPrimary}"/>
+                            </Border>
+                            <TextBlock Text="{Binding Category}" Margin="10,0,0,0" FontSize="11"
+                                       Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Detail}" Margin="0,4,0,0" FontSize="11"
+                                   Foreground="{DynamicResource TextSecondary}" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Note}" Margin="0,2,0,0" FontSize="11"
+                                   Foreground="{DynamicResource TextMuted}" TextTrimming="CharacterEllipsis"
+                                   Visibility="{Binding Note, Converter={StaticResource NonEmptyToVis}}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" MinWidth="96">
+                        <Border CornerRadius="3" Padding="8,2" HorizontalAlignment="Right"
+                                Background="{Binding StatusColor, Converter={StaticResource HexToBrush}}">
+                            <TextBlock Text="{Binding Status}" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="White"/>
+                        </Border>
+                        <TextBlock Text="{Binding Source}" Margin="0,4,0,0" FontSize="10"
+                                   HorizontalAlignment="Right"
+                                   Foreground="{DynamicResource TextMuted}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!-- 软件清单卡片: 勾选决定装什么, 并写清装到哪个英文目录 -->
+        <DataTemplate x:Key="SoftwareCard">
+            <Border Margin="0,0,0,8" Padding="12,10" CornerRadius="6"
+                    Background="{Binding CardBg}" BorderBrush="{Binding BorderColor}" BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Center"
+                              IsChecked="{Binding Selected, Mode=TwoWay}"
+                              IsEnabled="{Binding CanSelect}"/>
+
+                    <StackPanel Grid.Column="1">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            <Border Margin="8,0,0,0" Style="{StaticResource TierPill}"
+                                    Background="{Binding TierColor, Converter={StaticResource HexToBrush}}">
+                                <TextBlock Text="{Binding Tier}" FontSize="11"
+                                           Foreground="{DynamicResource TextPrimary}"/>
+                            </Border>
+                            <TextBlock Text="{Binding Category}" Margin="10,0,0,0" FontSize="11"
+                                       Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Dir}" Margin="8,0,0,0" FontSize="11"
+                                       Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Dest}" Margin="0,4,0,0" FontSize="11"
+                                   Foreground="{DynamicResource TextSecondary}" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Detail}" Margin="0,2,0,0" FontSize="11"
+                                   Foreground="{DynamicResource TextMuted}" TextTrimming="CharacterEllipsis"
+                                   Visibility="{Binding Detail, Converter={StaticResource NonEmptyToVis}}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" MinWidth="96">
+                        <Border CornerRadius="3" Padding="8,2" HorizontalAlignment="Right"
+                                Background="{Binding StatusColor, Converter={StaticResource HexToBrush}}">
+                            <TextBlock Text="{Binding Status}" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="White"/>
+                        </Border>
+                        <Border Margin="0,4,0,0" CornerRadius="3" Padding="8,1" HorizontalAlignment="Right"
+                                Background="{Binding HowColor, Converter={StaticResource HexToBrush}}">
+                            <TextBlock Text="{Binding How}" FontSize="10" Foreground="White"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!-- 驱动 / 来源 / 外设 通用行 -->
+        <DataTemplate x:Key="PlainRow">
+            <Border Margin="0,0,0,6" Padding="12,9" CornerRadius="6"
+                    Background="{DynamicResource CardBg}" BorderThickness="1"
+                    BorderBrush="{DynamicResource LineBrush}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Sub}" Margin="0,3,0,0" FontSize="11"
+                                   Foreground="{DynamicResource TextSecondary}" TextWrapping="Wrap"
+                                   Visibility="{Binding Sub, Converter={StaticResource NonEmptyToVis}}"/>
+                    </StackPanel>
+                    <Border Grid.Column="1" CornerRadius="3" Padding="8,2" VerticalAlignment="Center"
+                            Background="{Binding TagColor, Converter={StaticResource HexToBrush}}">
+                        <TextBlock Text="{Binding Tag}" FontSize="11" Foreground="White"/>
+                    </Border>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <Style x:Key="NavItem" TargetType="RadioButton">
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="Padding" Value="12,9"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Bd" CornerRadius="5" Background="Transparent" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource CardBgHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource CardBgSel}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- 左侧栏普通按钮（云盘账号入口），外观与导航项一致 -->
+        <Style x:Key="NavBtn" TargetType="Button">
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="Padding" Value="12,9"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" CornerRadius="5" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource CardBgHover}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ============ 顶栏 ============ -->
+        <Border Grid.Row="0" Background="{DynamicResource PanelBg}" Padding="18,14"
+                BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="安装系统" FontSize="19" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimary}"/>
+                    <TextBlock x:Name="TxtMachine" Margin="0,3,0,0" FontSize="12"
+                               Foreground="{DynamicResource TextSecondary}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock x:Name="TxtSummary" FontSize="12" VerticalAlignment="Center"
+                               Margin="0,0,14,0" Foreground="{DynamicResource TextSecondary}"/>
+                    <Button x:Name="BtnRefresh" Content="重新检测" Padding="14,6"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ============ 主体 ============ -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="176"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左侧导航 -->
+            <Border Grid.Column="0" Background="{DynamicResource PanelBg2}"
+                    BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,1,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10,14">
+                    <RadioButton x:Name="NavOverview" Content="全部软件" IsChecked="True"
+                                 Style="{StaticResource NavItem}"/>
+                    <!-- 分类子页面在运行时按清单生成: 每个分类一个中文子导航项 -->
+                    <StackPanel x:Name="NavCats" Margin="0,6,0,0"/>
+                    <!-- 运行库驱动 / 安全清理 / 插件应用 是「全部软件」的子类别 -->
+                    <RadioButton x:Name="NavRuntimes" Content="运行库驱动" Margin="14,0,0,4"
+                                 Style="{StaticResource NavItem}"/>
+                    <RadioButton x:Name="NavCleanup"  Content="安全清理" Margin="14,0,0,4"
+                                 Style="{StaticResource NavItem}"/>
+                    <RadioButton x:Name="NavPlugins"  Content="插件应用" Margin="14,0,0,4"
+                                 Style="{StaticResource NavItem}"/>
+                    <Border Height="1" Background="{DynamicResource LineBrush}" Margin="6,8,6,8"/>
+                    <RadioButton x:Name="NavHardware" Content="硬件" Style="{StaticResource NavItem}"/>
+                    <RadioButton x:Name="NavCloud" Content="网盘下载" Style="{StaticResource NavItem}"/>
+                    <RadioButton x:Name="NavLog"      Content="日志" Style="{StaticResource NavItem}"/>
+                    <Border Height="1" Background="{DynamicResource LineBrush}" Margin="6,8,6,4"/>
+                    <Button x:Name="BtnCloudAcct" Content="云盘账号（绑定 / 登录）"
+                            Style="{StaticResource NavBtn}"/>
+                    <TextBlock x:Name="TxtRoot" Margin="6,18,6,0" FontSize="10" TextWrapping="Wrap"
+                               Foreground="{DynamicResource TextMuted}"/>
+                </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- 右侧内容 -->
+            <Grid Grid.Column="1" Margin="16,14,16,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- 筛选条 -->
+                <Border x:Name="FilterBar" Grid.Row="0" Margin="0,0,0,10" Padding="12,9" CornerRadius="6"
+                        Background="{DynamicResource PanelBg}" BorderBrush="{DynamicResource LineBrush}"
+                        BorderThickness="1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="层级" VerticalAlignment="Center" Margin="0,0,8,0"
+                                   Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                        <CheckBox x:Name="ChkCore" Content="核心" IsChecked="True" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="ChkRec"  Content="推荐" IsChecked="True" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="ChkOpt"  Content="按需" Margin="0,0,18,0" VerticalAlignment="Center"/>
+                        <Border Width="1" Background="{DynamicResource LineBrush}" Margin="0,2,18,2"/>
+                        <CheckBox x:Name="ChkMissing" Content="只看未安装" Margin="0,0,18,0" VerticalAlignment="Center"/>
+                        <Button x:Name="BtnAll"  Content="全选"   Padding="10,4" Margin="0,0,6,0"/>
+                        <Button x:Name="BtnNone" Content="全不选" Padding="10,4"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- 软件清单筛选条 -->
+                <Border x:Name="SoftwareBar" Grid.Row="0" Margin="0,0,0,10" Padding="12,9" CornerRadius="6"
+                        Background="{DynamicResource PanelBg}" BorderBrush="{DynamicResource LineBrush}"
+                        BorderThickness="1" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="层级" VerticalAlignment="Center" Margin="0,0,8,0"
+                                   Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                        <CheckBox x:Name="ChkSwCore" Content="核心" IsChecked="True" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="ChkSwRec"  Content="推荐" IsChecked="True" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="ChkSwOpt"  Content="按需" Margin="0,0,18,0" VerticalAlignment="Center"/>
+                        <Border Width="1" Background="{DynamicResource LineBrush}" Margin="0,2,18,2"/>
+                        <CheckBox x:Name="ChkSwMissing" Content="只看未安装" Margin="0,0,18,0" VerticalAlignment="Center"/>
+                        <Button x:Name="BtnSwAll"  Content="全选"   Padding="10,4" Margin="0,0,6,0"/>
+                        <Button x:Name="BtnSwNone" Content="全不选" Padding="10,4" Margin="0,0,6,0"/>
+                        <Button x:Name="BtnSwPatchOnly" Content="只打补丁" Padding="10,4"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- 全部软件页（所有分类的子页都共用这一个内容区） -->
+                <ScrollViewer x:Name="PanelSoftware" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock x:Name="TxtSwTitle" Text="全部软件" FontSize="16" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,0,0,4"/>
+                        <TextBlock x:Name="TxtSwHint" FontSize="11" Margin="0,0,0,4"
+                                   Foreground="{DynamicResource TextSecondary}" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="TxtSwDest" FontSize="11" Margin="0,0,0,10" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextMuted}"/>
+                        <TextBlock Text="安装根目录（英文）" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,0,0,4"/>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TxtAppsRoot" Grid.Column="0" Padding="6,4"
+                                     VerticalContentAlignment="Center" FontSize="12"/>
+                            <Button x:Name="BtnBrowseAppsRoot" Grid.Column="1" Content="浏览..." Padding="10,4" Margin="6,0,0,0"/>
+                            <Button x:Name="BtnRebuildCatalog" Grid.Column="2" Content="重读清单" Padding="10,4" Margin="6,0,0,0"/>
+                        </Grid>
+                        <!-- 插件工作区入口只出现在「插件应用」子页，不再挤在全部软件页 -->
+                        <StackPanel x:Name="PluginBar" Orientation="Horizontal" Margin="0,0,0,12" Visibility="Collapsed">
+                            <Button x:Name="BtnPluginWorkspace" Content="插件工作区（做一个自己的插件）"
+                                    Padding="16,7" Style="{StaticResource PrimaryButton}" Margin="0,0,10,0"/>
+                            <Button x:Name="BtnOpenPluginDir" Content="打开插件目录" Padding="14,7"
+                                    ToolTip="把别人给的插件 json 丢进 E:\安装系统\插件\ 就能导入"/>
+                        </StackPanel>
+                        <ItemsControl x:Name="SoftwareList" ItemTemplate="{StaticResource SoftwareCard}"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- 网盘下载页 -->
+                <ScrollViewer x:Name="PanelCloud" Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                              Visibility="Collapsed">
+                    <StackPanel>
+                        <TextBlock Text="123 云盘账号" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,0,0,4"/>
+                        <TextBlock x:Name="TxtCredState" FontSize="12" Margin="0,0,0,8"
+                                   Foreground="{DynamicResource TextSecondary}" TextWrapping="Wrap"/>
+                        <TextBlock FontSize="11" Margin="0,0,0,8" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextMuted}"
+                                   Text="点下面「用浏览器登录」，会开一个 Chromium 内核（Edge/Chrome）窗口让你自己登录 123 云盘；登录完关掉窗口，登录态会被自动取回来并验证，不用手动抠 cookie。窗口用的是独立配置目录，不影响你日常浏览器的数据。"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                            <Button x:Name="BtnChromiumLogin" Content="用浏览器登录（推荐）" Padding="18,7"
+                                    Style="{StaticResource PrimaryButton}" Margin="0,0,10,0"/>
+                            <Button x:Name="BtnSaveCred" Content="保存并自检" Padding="14,7" Margin="0,0,10,0"/>
+                            <Button x:Name="BtnProbeCred" Content="测试登录态" Padding="14,7" Margin="0,0,10,0"/>
+                            <Button x:Name="BtnOpenShare" Content="打开分享页" Padding="14,7"/>
+                        </StackPanel>
+                        <TextBlock Text="手动粘贴（自动登录不好使时用这个）" FontSize="12" Margin="0,16,0,4"
+                                   Foreground="{DynamicResource TextSecondary}"/>
+                        <TextBlock FontSize="11" Margin="0,0,0,6" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextMuted}"
+                                   Text="二选一：① 已登录 123pan.com，按 F12 → Network → 任一 /api/ 请求 → 复制请求头里的整条 Cookie；② F12 → Application → Local Storage → 复制 PassportToken 或 token 的值。凭据只存在本机 E:\安装系统\123云盘cookie.txt，只发往清单里的分享地址。"/>
+                        <TextBox x:Name="TxtCred" Height="86" Padding="8,6" FontSize="12"
+                                 AcceptsReturn="True" TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Foreground="{DynamicResource TextPrimary}"
+                                 Background="{DynamicResource CardBg}"/>
+                        <TextBlock Text="怎么判断好不好用" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,20,0,4"/>
+                        <TextBlock FontSize="11" Margin="0,0,0,10" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextSecondary}"
+                                   Text="自检会真的去取一次下载直链：通过就是登录态有效，之后「网盘下载并安装」能把云盘里的包全部拉到 E:\安装系统\缓存\安装包 再自动安装。若报 5112「您需要注册登录或付费后下载」，说明这份登录态没被认（123 云盘对分享下载要求登录），换个来源重取一次 Cookie 再贴。" />
+                        <TextBlock x:Name="TxtCloudHint" FontSize="11" Margin="0,6,0,0"
+                                   Foreground="{DynamicResource TextSecondary}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- 运行库 + 驱动页 -->
+                <ScrollViewer x:Name="PanelRuntimes" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
+                    <StackPanel>
+                        <ItemsControl x:Name="RuntimeList" ItemTemplate="{StaticResource RuntimeCard}"/>
+                        <Button x:Name="BtnOpenOem" Content="打开 OEM 驱动支持页（浏览器）"
+                                Padding="14,6" Margin="0,16,0,0" HorizontalAlignment="Left"/>                        <TextBlock Text="Windows Update 驱动" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,0,0,4"/>
+                        <TextBlock x:Name="TxtWuHint" FontSize="11" Margin="0,0,0,10"
+                                   Foreground="{DynamicResource TextSecondary}" TextWrapping="Wrap"/>
+                        <ItemsControl x:Name="WuList" ItemTemplate="{StaticResource PlainRow}"/>
+
+                        <TextBlock Text="固件更新（默认不装）" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,4"/>
+                        <TextBlock FontSize="11" Margin="0,0,0,10" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource WarnBrush}"
+                                   Text="刷固件中途断电会变砖，需要显式勾选下面的开关才会安装。"/>
+                        <CheckBox x:Name="ChkFirmware" Content="连固件一起安装（有风险）" Margin="0,0,0,10"/>
+                        <ItemsControl x:Name="FwList" ItemTemplate="{StaticResource PlainRow}"/>
+
+                        <TextBlock Text="厂商与整机厂驱动源" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,4"/>
+                        <TextBlock FontSize="11" Margin="0,0,0,10" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextSecondary}"
+                                   Text="按本机实际存在的硬件厂商匹配。标「手动」的需要点开链接自行下载。"/>
+                        <ItemsControl x:Name="SourceList" ItemTemplate="{StaticResource PlainRow}"/>
+
+                        <TextBlock Text="外设配套软件" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,4"/>
+                        <ItemsControl x:Name="PeriphList" ItemTemplate="{StaticResource PlainRow}"/>
+                        <TextBlock Text="本机已装组件（驱动/外设）" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,4"/>
+                        <TextBlock FontSize="11" Margin="0,0,0,10" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextSecondary}"
+                                   Text="这些是装驱动时一块装上的组件，检测到就说明驱动这一块是完整的。"/>
+                        <ItemsControl x:Name="CompList" ItemTemplate="{StaticResource PlainRow}"/>
+                    
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- 安全清理页 -->
+                <ScrollViewer x:Name="PanelCleanup" Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                              Visibility="Collapsed">
+                    <StackPanel>
+                        <TextBlock Text="安全与清理软件" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,0,0,4"/>
+                        <TextBlock x:Name="TxtCleanHint" FontSize="11" Margin="0,0,0,10"
+                                   Foreground="{DynamicResource TextSecondary}" TextWrapping="Wrap"/>
+                        <ItemsControl x:Name="CleanupList" ItemTemplate="{StaticResource PlainRow}"/>
+                        <TextBlock Text="基础工具" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,4"/>
+                        <TextBlock x:Name="TxtBasicHint" FontSize="11" Margin="0,0,0,10"
+                                   Foreground="{DynamicResource TextSecondary}" TextWrapping="Wrap"/>
+                        <ItemsControl x:Name="BasicList" ItemTemplate="{StaticResource PlainRow}"/>
+
+                        <TextBlock Text="安装包" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,4"/>
+                        <TextBlock FontSize="11" Margin="0,0,0,10" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextSecondary}"
+                                   Text="123 云盘下载接口要求参数签名，无法自动下载。用浏览器打开分享页下载后放进 E:\安全软件，再点「导入并安装」。便携类解压到 E:\安全清理，重装系统后仍在。"/>
+                        <TextBlock Text="安装包位置（你自己决定放哪）" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,4"/>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TxtPkgDir" Grid.Column="0" Padding="6,4"
+                                     VerticalContentAlignment="Center" FontSize="12"/>
+                            <Button x:Name="BtnBrowsePkg" Grid.Column="1" Content="浏览..." Padding="10,4" Margin="6,0,0,0"/>
+                        </Grid>
+                        <TextBlock Text="解压到（自动按类别建英文文件夹）" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,12,0,4"/>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TxtRootDir" Grid.Column="0" Padding="6,4"
+                                     VerticalContentAlignment="Center" FontSize="12"/>
+                            <Button x:Name="BtnBrowseRoot" Grid.Column="1" Content="浏览..." Padding="10,4" Margin="6,0,0,0"/>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="BtnOpenCleanShare" Content="打开 123 云盘分享（浏览器）"
+                                    Padding="14,6" Margin="0,0,8,0"/>
+                            <Button x:Name="BtnOpenPkg" Content="打开安装包目录" Padding="14,6" Margin="0,0,8,0"/>
+                            <Button x:Name="BtnImportCleanup" Content="导入并安装" Padding="18,6"
+                                    Style="{StaticResource PrimaryButton}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+                <!-- 硬件页 -->
+                <ScrollViewer x:Name="PanelHardware" Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                              Visibility="Collapsed">
+                    <StackPanel>
+                        <TextBlock Text="缺驱动的设备" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,0,0,10"/>
+                        <ItemsControl x:Name="ProblemList" ItemTemplate="{StaticResource PlainRow}"/>
+
+                        <TextBlock Text="显卡" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,10"/>
+                        <ItemsControl x:Name="DisplayList" ItemTemplate="{StaticResource PlainRow}"/>
+
+                        <TextBlock Text="网络" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,10"/>
+                        <ItemsControl x:Name="NetList" ItemTemplate="{StaticResource PlainRow}"/>
+
+                        <TextBlock Text="音频" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,10"/>
+                        <ItemsControl x:Name="AudioList" ItemTemplate="{StaticResource PlainRow}"/>
+
+                        <TextBlock Text="厂商分布" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" Margin="0,18,0,10"/>
+                        <ItemsControl x:Name="VendorList" ItemTemplate="{StaticResource PlainRow}"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- 日志页 -->
+                <Border x:Name="PanelLog" Grid.Row="1" Visibility="Collapsed" CornerRadius="6"
+                        Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource LineBrush}"
+                        BorderThickness="1" Padding="12">
+                    <ScrollViewer x:Name="LogScroll" VerticalScrollBarVisibility="Auto"
+                                 >
+                        <TextBox x:Name="TxtLog" IsReadOnly="True" BorderThickness="0"
+                                 Background="Transparent" FontFamily="Consolas, Courier New"
+                                 FontSize="12" TextWrapping="NoWrap"
+                                 Foreground="{DynamicResource TextPrimary}"
+                                 VerticalScrollBarVisibility="Auto"/>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- ============ 底栏 ============ -->
+        <Border Grid.Row="2" Background="{DynamicResource PanelBg}" Padding="18,12"
+                BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,1,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="TxtStatus" Grid.Column="0" VerticalAlignment="Center"
+                           TextWrapping="Wrap" Foreground="{DynamicResource TextSecondary}"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button x:Name="BtnCloudInstall" Content="网盘下载并安装" Padding="18,8" Margin="0,0,10,0"/>
+                    <Button x:Name="BtnPatchRun" Content="打补丁" Padding="18,8" Margin="0,0,10,0"/>
+                    <Button x:Name="BtnSwInstall" Content="安装勾选项" Padding="26,8"
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,10,0"/>
+                    <Button x:Name="BtnDrivers" Content="安装驱动" Padding="18,8" Margin="0,0,10,0"/>
+                    <Button x:Name="BtnInstall" Content="安装选中项" Padding="26,8"
+                            Style="{StaticResource PrimaryButton}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

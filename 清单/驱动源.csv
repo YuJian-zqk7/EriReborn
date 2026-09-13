@@ -1,0 +1,26 @@
+﻿Id,匹配类型,匹配值,名称,类别,来源类型,地址,自动,说明
+wu.windowsupdate,内置,*,Windows Update 驱动更新,系统,系统,ms-settings:windowsupdate,是,按本机实际设备 ID 匹配 硬件无关 是所有平台的首选
+nvidia,厂商,NVIDIA,NVIDIA 显卡驱动,显卡,厂商页,https://www.nvidia.com/en-us/drivers/,否,按设备号查询的旧接口已下线 转到官方查询页
+amd,厂商,AMD,AMD 显卡驱动,显卡,厂商页,https://www.amd.com/en/support/download/drivers.html,否,官方页面按产品型号检索
+intel.gpu,厂商,Intel,Intel 显卡驱动,显卡,厂商页,https://www.intel.com/content/www/us/en/download-center/home.html,否,实测 Intel 显卡驱动会经 Windows Update 推送 自动化优先走 WU
+realtek.net,厂商,Realtek,Realtek 网卡与声卡驱动,网卡声卡,厂商页,https://www.realtek.com/Download/List?cate_id=584,否,笔记本机型建议优先用 OEM 版本
+qualcomm.wifi,厂商,Qualcomm/Atheros,Qualcomm 无线网卡驱动,网卡,厂商页,https://www.qualcomm.com/support/product-security/wifi,否,无线网卡驱动通常由 OEM 提供
+mediatek,厂商,MediaTek,MediaTek 无线驱动,网卡,厂商页,https://www.mediatek.com/products/broadband-wifi,否,
+broadcom,厂商,Broadcom,Broadcom 支持,网卡,厂商页,https://www.broadcom.com/support,否,
+ymtc,厂商,YMTC/长江存储,长江存储 SSD 固件工具,存储,厂商页,https://www.ymtc.com/cn/,否,SSD 固件更新需谨慎
+kingston,厂商,Kingston,金士顿 SSD 工具,存储,厂商页,https://www.kingston.com/cn/support/technical,否,
+bison,厂商,Bison/摄像头,摄像头驱动,摄像头,系统,ms-settings:windowsupdate,是,SunplusIT 等摄像头驱动由 Windows Update 提供
+elan,厂商,ELAN,ELAN 触摸板驱动,输入,厂商页,https://www.emc.com.tw/emc/en/Download,否,触摸板驱动建议用 OEM 版本
+ite,厂商,ITE,ITE 键盘控制器,输入,系统,ms-settings:windowsupdate,是,多数情况由系统自带 HID 驱动覆盖
+generic.hid,厂商,通用HID外设,通用 HID 外设,输入,系统,ms-settings:windowsupdate,是,标准 HID 外设无需额外驱动
+oem.lenovo,整机厂,LENOVO,联想驱动与固件支持,整机,整机厂,https://pcsupport.lenovo.com/,否,输入序列号可查本机专属驱动列表
+oem.asus,整机厂,ASUS,华硕支持,整机,整机厂,https://www.asus.com.cn/support/,否,
+oem.acer,整机厂,ACER,宏碁支持,整机,整机厂,https://www.acer.com.cn/support,否,
+oem.dell,整机厂,DELL,戴尔支持,整机,整机厂,https://www.dell.com/support/home/zh-cn,否,
+oem.hp,整机厂,HP,惠普支持,整机,整机厂,https://support.hp.com/cn-zh,否,
+oem.msi,整机厂,MSI,微星支持,整机,整机厂,https://cn.msi.com/support,否,
+oem.gigabyte,整机厂,GIGABYTE,技嘉支持,整机,整机厂,https://www.gigabyte.cn/Support,否,
+oem.mechrevo,整机厂,MECHREVO,机械革命支持,整机,整机厂,https://www.mechrevo.com/,否,
+oem.thunderobot,整机厂,THUNDEROBOT,雷神支持,整机,整机厂,https://www.thunderobot.com/,否,
+oem.hasee,整机厂,HASEE,神舟支持,整机,整机厂,https://www.hasee.com/,否,
+oem.microsoft,整机厂,MICROSOFT,Surface 支持,整机,整机厂,https://support.microsoft.com/zh-cn/surface,否,

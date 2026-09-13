@@ -1,0 +1,5 @@
+﻿Id,名称,类别,层级,分享文件名,wingetId,官网直链,安装方式,检测方式,检测参数,说明,补丁程序
+baidunetdisk,百度网盘,网盘,核心,BaiduNetdisk_8.2.1.102.exe,,,安装,arp,百度网盘|BaiduNetdisk,百度网盘 PC 版,
+pan123,123云盘,网盘,核心,123pan.exe,,,便携,arp,123云盘|123pan,123 云盘客户端,
+onedrive,OneDrive,网盘,推荐,,Microsoft.OneDrive,,安装,arp,OneDrive,微软 OneDrive,
+baidu.desktopsync,百度网盘 DesktopSync,网盘,推荐,,,https://pan.baidu.com/download,安装,none,,百度网盘同步盘,

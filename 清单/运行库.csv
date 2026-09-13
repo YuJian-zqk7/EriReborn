@@ -1,0 +1,54 @@
+﻿Id,名称,类别,层级,wingetId,直链,SHA256,静默参数,检测方式,检测参数,最低版本,架构,备注
+vcredist.2005.x64,VC++ 2005 运行库 (x64),VC++ 运行库,推荐,Microsoft.VCRedist.2005.x64,https://download.microsoft.com/download/4/A/2/4A22001F-FA3B-4C13-BF4E-42EC249D51C4/vcredist_x64.EXE,b602acda396292f3df9e998cf7014b62f909edc854516f24501cb75e0ba6cf0c,/Q /T:{DIR},arp,"Visual C\+\+ 2005 Redistributable \(x64\)",,x64,老游戏与老软件常见依赖
+vcredist.2005.x86,VC++ 2005 运行库 (x86),VC++ 运行库,推荐,Microsoft.VCRedist.2005.x86,https://download.microsoft.com/download/4/A/2/4A22001F-FA3B-4C13-BF4E-42EC249D51C4/vcredist_x86.EXE,1305a2028addb7aaade3f632ee664dc789a6abe1b7cd9275b7374a37c20852ec,/Q /T:{DIR},arp,"Visual C\+\+ 2005 Redistributable(?! \(x64\))",,x86,老游戏与老软件常见依赖
+vcredist.2008.x64,VC++ 2008 运行库 (x64),VC++ 运行库,推荐,Microsoft.VCRedist.2008.x64,,,,arp,"Visual C\+\+ 2008 Redistributable - x64",,x64,
+vcredist.2008.x86,VC++ 2008 运行库 (x86),VC++ 运行库,推荐,Microsoft.VCRedist.2008.x86,,,,arp,"Visual C\+\+ 2008 Redistributable - x86",,x86,
+vcredist.2010.x64,VC++ 2010 运行库 (x64),VC++ 运行库,推荐,Microsoft.VCRedist.2010.x64,,,,arp,"Visual C\+\+ 2010\s+x64 Redistributable",,x64,
+vcredist.2010.x86,VC++ 2010 运行库 (x86),VC++ 运行库,推荐,Microsoft.VCRedist.2010.x86,,,,arp,"Visual C\+\+ 2010\s+x86 Redistributable",,x86,
+vcredist.2012.x64,VC++ 2012 运行库 (x64),VC++ 运行库,推荐,Microsoft.VCRedist.2012.x64,,,,arp,"Visual C\+\+ 2012 Redistributable \(x64\)",,x64,
+vcredist.2012.x86,VC++ 2012 运行库 (x86),VC++ 运行库,推荐,Microsoft.VCRedist.2012.x86,,,,arp,"Visual C\+\+ 2012 Redistributable \(x86\)",,x86,
+vcredist.2013.x64,VC++ 2013 运行库 (x64),VC++ 运行库,推荐,Microsoft.VCRedist.2013.x64,,,,arp,"Visual C\+\+ 2013 Redistributable \(x64\)",,x64,
+vcredist.2013.x86,VC++ 2013 运行库 (x86),VC++ 运行库,推荐,Microsoft.VCRedist.2013.x86,,,,arp,"Visual C\+\+ 2013 Redistributable \(x86\)",,x86,
+vcredist.2015.x64,VC++ 2015-2022 运行库 (x64),VC++ 运行库,核心,Microsoft.VCRedist.2015+.x64,,,,arp,"Visual C\+\+ 2015-\d{4} Redistributable \(x64\)",,x64,绝大多数现代软件都需要
+vcredist.2015.x86,VC++ 2015-2022 运行库 (x86),VC++ 运行库,核心,Microsoft.VCRedist.2015+.x86,,,,arp,"Visual C\+\+ 2015-\d{4} Redistributable \(x86\)",,x86,绝大多数现代软件都需要
+dotnetfx48,.NET Framework 4.8.1 运行时,.NET Framework,核心,Microsoft.DotNet.Framework.Runtime,,,,regRelease,HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full,533320,any,Win10 1903+ 与 Win11 已内置
+dotnetfx48.devpack,.NET Framework 4.8.1 开发包,.NET Framework,按需,Microsoft.DotNet.Framework.DeveloperPack_4,,,,arp,"\.NET Framework 4\.8\.1 (Developer Pack|SDK|Targeting Pack)",,any,仅开发用途 体积较大
+dotnetfx11,.NET Framework 1.1 运行时,.NET Framework,按需,Microsoft.DotNet.Framework.Redistributable.1_1,,,,regSubkey,HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP|v1.1.4322,,any,极老软件才需要
+dotnet.repairtool,.NET Framework 修复工具,.NET Framework,按需,Microsoft.DotNet.RepairTool,,,,none,,,any,只在 .NET 出问题时手动运行
+dotnet.desktop.3_1,.NET 桌面运行时 3.1,.NET 运行时,按需,Microsoft.DotNet.DesktopRuntime.3_1,,,,dotnet,Microsoft.WindowsDesktop.App|3,,any,已停止支持
+dotnet.desktop.5,.NET 桌面运行时 5,.NET 运行时,按需,Microsoft.DotNet.DesktopRuntime.5,,,,dotnet,Microsoft.WindowsDesktop.App|5,,any,已停止支持
+dotnet.desktop.6,.NET 桌面运行时 6,.NET 运行时,推荐,Microsoft.DotNet.DesktopRuntime.6,,,,dotnet,Microsoft.WindowsDesktop.App|6,,any,已停止支持但存量软件多
+dotnet.desktop.8,.NET 桌面运行时 8,.NET 运行时,核心,Microsoft.DotNet.DesktopRuntime.8,,,,dotnet,Microsoft.WindowsDesktop.App|8,,any,LTS 主力版本
+dotnet.desktop.9,.NET 桌面运行时 9,.NET 运行时,推荐,Microsoft.DotNet.DesktopRuntime.9,,,,dotnet,Microsoft.WindowsDesktop.App|9,,any,标准支持期版本
+dotnet.desktop.10,.NET 桌面运行时 10,.NET 运行时,推荐,Microsoft.DotNet.DesktopRuntime.10,,,,dotnet,Microsoft.WindowsDesktop.App|10,,any,最新 LTS
+dotnet.runtime.3_1,.NET 运行时 3.1 (控制台),.NET 运行时,按需,Microsoft.DotNet.Runtime.3_1,,,,dotnet,Microsoft.NETCore.App|3,,any,已停止支持
+dotnet.runtime.5,.NET 运行时 5 (控制台),.NET 运行时,按需,Microsoft.DotNet.Runtime.5,,,,dotnet,Microsoft.NETCore.App|5,,any,已停止支持
+dotnet.runtime.6,.NET 运行时 6 (控制台),.NET 运行时,推荐,Microsoft.DotNet.Runtime.6,,,,dotnet,Microsoft.NETCore.App|6,,any,
+dotnet.runtime.8,.NET 运行时 8 (控制台),.NET 运行时,核心,Microsoft.DotNet.Runtime.8,,,,dotnet,Microsoft.NETCore.App|8,,any,大量命令行工具依赖
+dotnet.runtime.9,.NET 运行时 9 (控制台),.NET 运行时,推荐,Microsoft.DotNet.Runtime.9,,,,dotnet,Microsoft.NETCore.App|9,,any,
+dotnet.runtime.10,.NET 运行时 10 (控制台),.NET 运行时,推荐,Microsoft.DotNet.Runtime.10,,,,dotnet,Microsoft.NETCore.App|10,,any,
+dotnet.aspnet.6,ASP.NET Core 运行时 6,.NET 运行时,按需,Microsoft.DotNet.AspNetCore.6,,,,dotnet,Microsoft.AspNetCore.App|6,,any,Web 服务端用途
+dotnet.aspnet.8,ASP.NET Core 运行时 8,.NET 运行时,按需,Microsoft.DotNet.AspNetCore.8,,,,dotnet,Microsoft.AspNetCore.App|8,,any,Web 服务端用途
+dotnet.aspnet.9,ASP.NET Core 运行时 9,.NET 运行时,按需,Microsoft.DotNet.AspNetCore.9,,,,dotnet,Microsoft.AspNetCore.App|9,,any,Web 服务端用途
+java.temurin.8,Temurin JDK 8 (LTS),Java 运行环境,按需,EclipseAdoptium.Temurin.8.JDK,,,,regSubkey,HKLM:\SOFTWARE\Eclipse Adoptium\JDK|8,,x64,免费开源 替代 Oracle JDK8
+java.temurin.17,Temurin JDK 17 (LTS),Java 运行环境,推荐,EclipseAdoptium.Temurin.17.JDK,,,,regSubkey,HKLM:\SOFTWARE\Eclipse Adoptium\JDK|17,,x64,Minecraft 等常用
+java.temurin.21,Temurin JDK 21 (LTS),Java 运行环境,推荐,EclipseAdoptium.Temurin.21.JDK,,,,regSubkey,HKLM:\SOFTWARE\Eclipse Adoptium\JDK|21,,x64,当前主流 LTS
+directx.legacy,DirectX 9.0c 旧版运行时库,图形运行库,核心,,https://download.microsoft.com/download/8/4/A/84A35BF1-DAFE-4AE8-82AF-AD2AE20B6B14/directx_Jun2010_redist.exe,053f76dcbb28802e23341b6a787e3b0791c0fa5c8d4d011b1044172dbf89c73b,/Q /T:{DIR},file,"all:SysWOW64\d3dx9_43.dll|System32\d3dx9_43.dll|SysWOW64\d3dx10_43.dll|System32\d3dx10_43.dll|SysWOW64\d3dx11_43.dll|System32\d3dx11_43.dll|SysWOW64\xinput1_3.dll|System32\xinput1_3.dll|SysWOW64\xaudio2_7.dll|System32\xaudio2_7.dll|SysWOW64\xactengine3_7.dll|System32\xactengine3_7.dll|SysWOW64\d3dcompiler_43.dll|System32\d3dcompiler_43.dll",,any,老游戏必需的 D3DX9/10/11 与 XAudio2.7
+webview2,Edge WebView2 运行时,Web 运行库,核心,Microsoft.EdgeWebView2Runtime,,,,webview2,,,any,内嵌浏览器控件 大量软件依赖
+xna,XNA Framework 4.0,XNA 框架,核心,Microsoft.XNARedist,,,,arp,XNA Framework Redistributable,,any,老 XNA 游戏必需
+openal,OpenAL 音频库,音频运行库,核心,CreativeTechnology.OpenAL,,,,arp,^OpenAL,,any,3D 音频 API 游戏常用
+gameinput,Microsoft GameInput,输入运行库,核心,Microsoft.GameInput,,,,arp,Microsoft GameInput,,any,手柄与游戏输入支持
+physx,NVIDIA PhysX 系统软件,图形运行库,按需,Nvidia.PhysX,,,,arp,NVIDIA PhysX,,any,仅在 NVIDIA 显卡上安装
+physx.legacy,NVIDIA PhysX 旧版运行时,图形运行库,按需,Nvidia.PhysXLegacy,,,,arp,"NVIDIA PhysX \(Legacy\)|NVIDIA PhysX 物理加速",,any,老游戏专用
+msxml4,MSXML 4.0 SP3 解析器,XML 组件,核心,Microsoft.MSXML.4,,,,arp,MSXML 4\.0 SP3,,any,老软件与老游戏依赖
+winappsdk.1.5,Windows App Runtime 1.5,应用框架,按需,Microsoft.WindowsAppRuntime.1.5,,,,msix,Microsoft.WindowsAppRuntime.1.5,,any,
+winappsdk.1.6,Windows App Runtime 1.6,应用框架,按需,Microsoft.WindowsAppRuntime.1.6,,,,msix,Microsoft.WindowsAppRuntime.1.6,,any,
+winappsdk.1.7,Windows App Runtime 1.7,应用框架,按需,Microsoft.WindowsAppRuntime.1.7,,,,msix,Microsoft.WindowsAppRuntime.1.7,,any,
+winappsdk.1.8,Windows App Runtime 1.8,应用框架,推荐,Microsoft.WindowsAppRuntime.1.8,,,,msix,Microsoft.WindowsAppRuntime.1.8,,any,新式 WinUI3 应用依赖
+winappsdk.2,Windows App Runtime 2.x,应用框架,按需,Microsoft.WindowsAppRuntime.2,,,,msix,Microsoft.WindowsAppRuntime.2,,any,
+uixaml.2.5,WinUI 2.5,应用框架,按需,Microsoft.UI.Xaml.2.5,,,,msix,Microsoft.UI.Xaml.2.5,,any,
+uixaml.2.6,WinUI 2.6,应用框架,按需,Microsoft.UI.Xaml.2.6,,,,msix,Microsoft.UI.Xaml.2.6,,any,
+uixaml.2.7,WinUI 2.7,应用框架,按需,Microsoft.UI.Xaml.2.7,,,,msix,Microsoft.UI.Xaml.2.7,,any,
+uixaml.2.8,WinUI 2.8,应用框架,推荐,Microsoft.UI.Xaml.2.8,,,,msix,Microsoft.UI.Xaml.2.8,,any,大量第三方界面依赖
+java.oracle.8,Oracle Java 8 (JRE),Java 运行环境,推荐,Oracle.JavaRuntimeEnvironment,,,,arp,"^Java 8 Update|^Java\(TM\) SE Development Kit 1\.8",,any,本机已装 Oracle JRE 8 Update 481
+java.oracle.25,Oracle JDK 25,Java 运行环境,推荐,,,,arp,"Java\(TM\) SE Development Kit 25",,x64,本机已装 Oracle JDK 25

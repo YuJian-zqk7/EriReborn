@@ -1,0 +1,10 @@
+﻿Id,名称,类别,层级,分享文件名,wingetId,官网直链,安装方式,检测方式,检测参数,说明,补丁程序
+thunder,迅雷,下载,推荐,XunLeiWebSetup12.1.6.2780gw.exe,,,安装,arp,迅雷|Thunder,迅雷下载,
+quark,夸克,下载,推荐,QuarkPC_V6.3.0.701_pc_pf30002_(zh-cn)_releasemini_(Build2655854-1001-x64).exe,,,安装,arp,夸克|Quark,夸克网盘与浏览器,
+bitcomet,BitComet,下载,推荐,BitComet Stable (build 2.20.1.19) 比特彗星全功能解锁豪华版.7z,,,便携,arp,BitComet,比特彗星豪华解锁版 破解包稍后给,
+motrix,Motrix,下载,推荐,Motrix-1.8.19-x64.exe,,,安装,arp,Motrix,开源多协议下载器,
+xdown,XDown,下载,按需,xdown-2.0.9.5.zip,,,便携,none,,轻量多线程下载器,
+megadownloader,MegaDownloader,下载,按需,MegaDownloader.exe,,,便携,none,,MEGA 网盘下载器,
+ndm,NeatDM 下载器,下载,推荐,别再骂下载慢了，请先安装这个下载器(NDM).exe,,,安装,none,,Neat Download Manager,
+moegirl,萌娘助手,下载,按需,,,https://zh.moegirl.org.cn/,便携,none,,萌娘百科辅助工具,
+jijidown,JiJiDown,下载,按需,JiJiDown_setup.exe,,,安装,none,,B 站视频下载,

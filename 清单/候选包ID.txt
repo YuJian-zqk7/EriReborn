@@ -1,0 +1,73 @@
+# Runtime candidates to probe against winget.
+# One package id per line. Lines starting with # are ignored.
+
+# --- Visual C++ redistributables (2005 .. 2015-2022, both architectures) ---
+Microsoft.VCRedist.2005.x64
+Microsoft.VCRedist.2005.x86
+Microsoft.VCRedist.2008.x64
+Microsoft.VCRedist.2008.x86
+Microsoft.VCRedist.2010.x64
+Microsoft.VCRedist.2010.x86
+Microsoft.VCRedist.2012.x64
+Microsoft.VCRedist.2012.x86
+Microsoft.VCRedist.2013.x64
+Microsoft.VCRedist.2013.x86
+Microsoft.VCRedist.2015+.x64
+Microsoft.VCRedist.2015+.x86
+
+# --- .NET Framework runtime ---
+Microsoft.DotNet.Framework.Runtime
+Microsoft.DotNet.Framework.DeveloperPack_4
+Microsoft.DotNet.Framework.Redistributable.1_1
+Microsoft.DotNet.RepairTool
+
+# --- .NET desktop runtime ---
+Microsoft.DotNet.DesktopRuntime.3_1
+Microsoft.DotNet.DesktopRuntime.5
+Microsoft.DotNet.DesktopRuntime.6
+Microsoft.DotNet.DesktopRuntime.8
+Microsoft.DotNet.DesktopRuntime.9
+Microsoft.DotNet.DesktopRuntime.10
+
+# --- .NET console runtime ---
+Microsoft.DotNet.Runtime.3_1
+Microsoft.DotNet.Runtime.5
+Microsoft.DotNet.Runtime.6
+Microsoft.DotNet.Runtime.8
+Microsoft.DotNet.Runtime.9
+Microsoft.DotNet.Runtime.10
+
+# --- ASP.NET Core runtime ---
+Microsoft.DotNet.AspNetCore.6
+Microsoft.DotNet.AspNetCore.8
+Microsoft.DotNet.AspNetCore.9
+
+# --- Java ---
+EclipseAdoptium.Temurin.8.JDK
+EclipseAdoptium.Temurin.17.JDK
+EclipseAdoptium.Temurin.21.JDK
+
+# --- graphics / web / audio / input ---
+Microsoft.DirectX
+Microsoft.EdgeWebView2Runtime
+Microsoft.XNARedist
+CreativeTechnology.OpenAL
+Microsoft.GameInput
+Nvidia.PhysX
+Nvidia.PhysXLegacy
+
+# --- XML / database / COM prerequisites ---
+Microsoft.MSXML.4
+Microsoft.SQLServerCompact
+Microsoft.Silverlight
+
+# --- WinUI / Windows App SDK native deps ---
+Microsoft.UI.Xaml.2.5
+Microsoft.UI.Xaml.2.6
+Microsoft.UI.Xaml.2.7
+Microsoft.UI.Xaml.2.8
+Microsoft.WindowsAppRuntime.1.5
+Microsoft.WindowsAppRuntime.1.6
+Microsoft.WindowsAppRuntime.1.7
+Microsoft.WindowsAppRuntime.1.8
+Microsoft.WindowsAppRuntime.2

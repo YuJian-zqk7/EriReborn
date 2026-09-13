@@ -1,0 +1,6 @@
+﻿Id,名称,类别,层级,分享文件名,wingetId,官网直链,安装方式,检测方式,检测参数,说明,补丁程序
+wechat,微信,聊天社交,核心,WeChatWin_4.1.7.exe,,,安装,arp,微信|WeChat,腾讯微信 PC 版,
+qq,QQ,聊天社交,核心,QQ_9.9.26_260116_x64_01.exe,,,安装,arp,^QQ,腾讯 QQ,
+superconnect,超级互联,聊天社交,推荐,,,https://www.lenovo.com/,安装,none,,联想超级互联 手机电脑联动,
+teams,Microsoft Teams,聊天社交,推荐,,Microsoft.Teams.Free,,安装,arp,Microsoft Teams,微软 Teams,
+outlook,Outlook,聊天社交,推荐,,,https://www.microsoft.com/microsoft-365/outlook/,安装,none,,微软邮件客户端,

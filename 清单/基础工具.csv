@@ -1,0 +1,9 @@
+﻿Id,名称,类别,层级,分享文件名,官网直链,安装方式,检测方式,检测参数,说明,补丁程序
+bandizip,Bandizip,压缩解压,核心,bandizipprofessionalpatch.zip,,便携,arp,^Bandizip,Bandizip 专业版 含补丁包,bandizipprofessionalpatch\20200614-PRO0D8E8DBDD86AE2518-16D9FEE4.exe
+bandiview,BandiView,看图,核心,BandiView Pro v7.07 多国语言特别版.7z,,便携,arp,^BandiView,看图软件 Pro 特别版
+everything,Everything,文件搜索,核心,,https://www.voidtools.com/downloads/,安装,none,,全盘文件秒搜 官网下载安装器
+quicklook,QuickLook,预览,推荐,QuickLook-4.4.0.7z,,便携,none,,空格键快速预览文件
+copyq,CopyQ,剪贴板,推荐,copyq-13.0.0-setup.exe,,安装,arp,^CopyQ,剪贴板管理器
+snowshot,Snow Shot,截图,推荐,Snow_Shot_windows-x64.exe,https://snowshot.top/download/,安装,arp,^Snow Shot,截图工具 官网 https://snowshot.top
+otp,Office Tool Plus,Office 工具,推荐,,https://otp.landian.vip/,便携,none,,Office 部署工具 解压即用
+

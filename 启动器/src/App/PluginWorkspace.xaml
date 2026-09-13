@@ -1,0 +1,253 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:SetupLauncher.App;assembly=__ASM__"
+        Title="插件工作区 · 做一个自己的安装插件" Height="760" Width="1080"
+        MinHeight="600" MinWidth="940"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource WindowBg}"
+        FontFamily="Microsoft YaHei UI, Segoe UI" FontSize="13"
+        UseLayoutRounding="True" TextOptions.TextFormattingMode="Display">
+    <Window.Resources>
+        <local:HexToBrushConverter x:Key="HexToBrush"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 顶栏 -->
+        <Border Grid.Row="0" Background="{DynamicResource PanelBg}" Padding="18,12"
+                BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,0,1">
+            <StackPanel>
+                <TextBlock Text="插件工作区" FontSize="18" FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextPrimary}"/>
+                <TextBlock FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap"
+                           Foreground="{DynamicResource TextSecondary}"
+                           Text="把自己下载的 / 自己做的应用做进插件：填插件信息 → 选好要进哪个分区（可以新建分区）→ 逐个添加应用 → 点「生成插件」。生成的文件放进 E:\安装系统\插件\ 就生效，启动器「软件清单」里会多出这些条目和分区。"/>
+            </StackPanel>
+        </Border>
+
+        <!-- 主体 -->
+        <Grid Grid.Row="1" Margin="16,12,16,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="380"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左：插件信息 + 应用列表 -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- 插件信息 -->
+                <Border Grid.Row="0" Padding="14,12" CornerRadius="6"
+                        Background="{DynamicResource PanelBg}" BorderBrush="{DynamicResource LineBrush}"
+                        BorderThickness="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="插件名称" FontSize="12" Margin="0,0,0,4"
+                                       Foreground="{DynamicResource TextSecondary}"/>
+                            <TextBox x:Name="TxtPluginName" Padding="8,6" FontSize="13"/>
+                            <TextBlock Text="作者" FontSize="12" Margin="0,10,0,4"
+                                       Foreground="{DynamicResource TextSecondary}"/>
+                            <TextBox x:Name="TxtPluginAuthor" Padding="8,6" FontSize="13"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="插件 id（英文，文件名就是它）" FontSize="12" Margin="0,0,0,4"
+                                       Foreground="{DynamicResource TextSecondary}"/>
+                            <TextBox x:Name="TxtPluginId" Padding="8,6" FontSize="13"/>
+                            <TextBlock Text="说明（可选）" FontSize="12" Margin="0,10,0,4"
+                                       Foreground="{DynamicResource TextSecondary}"/>
+                            <TextBox x:Name="TxtPluginDesc" Padding="8,6" FontSize="13"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- 标题 + 计数 -->
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,14,0,6">
+                    <TextBlock Text="应用列表" FontSize="14" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TxtCount" Margin="10,0,0,0" FontSize="12" VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextSecondary}"/>
+                    <Button x:Name="BtnDelApp" Content="删除选中" Padding="12,4" Margin="18,0,0,0"/>
+                </StackPanel>
+
+                <Border Grid.Row="2" CornerRadius="6" Padding="6"
+                        Background="{DynamicResource PanelBg}" BorderBrush="{DynamicResource LineBrush}"
+                        BorderThickness="1">
+                    <ListBox x:Name="AppList" BorderThickness="0" Background="Transparent"
+                             Foreground="{DynamicResource TextPrimary}"
+                             HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="10,7" Margin="0,0,0,4" CornerRadius="5"
+                                        Background="{DynamicResource CardBg}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="{Binding Title}" FontWeight="SemiBold"
+                                                       Foreground="{DynamicResource TextPrimary}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Sub}" FontSize="11" Margin="0,3,0,0"
+                                                       Foreground="{DynamicResource TextSecondary}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                        <Border Grid.Column="1" CornerRadius="3" Padding="8,2"
+                                                VerticalAlignment="Center"
+                                                Background="{Binding TagColor, Converter={StaticResource HexToBrush}}">
+                                            <TextBlock Text="{Binding Tag}" FontSize="11" Foreground="White"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+
+            <!-- 右：分类 + 添加应用 -->
+            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <!-- 分类 -->
+                    <Border Padding="14,12" CornerRadius="6"
+                            Background="{DynamicResource PanelBg}" BorderBrush="{DynamicResource LineBrush}"
+                            BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="分区（应用进哪一类，可多选）" FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimary}"/>
+                            <Button x:Name="BtnPickCats" Content="点这里勾选分区 ▾" Margin="0,8,0,0"
+                                    Padding="8,6" HorizontalContentAlignment="Left"/>
+                            <TextBlock x:Name="TxtPickedCats" FontSize="11" Margin="0,6,0,0" TextWrapping="Wrap"
+                                       Foreground="{DynamicResource TextPrimary}"/>
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="TxtNewCategory" Grid.Column="0" Padding="8,6"
+                                         ToolTip="新建一个自己的分区，中文名；英文目录名自动生成"/>
+                                <Button x:Name="BtnNewCategory" Grid.Column="1" Content="新建分区"
+                                        Padding="12,6" Margin="8,0,0,0"/>
+                            </Grid>
+                            <TextBlock x:Name="TxtCatHint" FontSize="11" Margin="0,8,0,0" TextWrapping="Wrap"
+                                       Foreground="{DynamicResource TextMuted}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- 添加应用 -->
+                    <Border Margin="0,12,0,0" Padding="14,12" CornerRadius="6"
+                            Background="{DynamicResource PanelBg}" BorderBrush="{DynamicResource LineBrush}"
+                            BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="添加一个应用" FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimary}"/>
+                            <TextBlock Text="应用名称" FontSize="12" Margin="0,8,0,4"
+                                       Foreground="{DynamicResource TextSecondary}"/>
+                            <TextBox x:Name="TxtAppName" Padding="8,6"/>
+
+                            <TextBlock Text="来源" FontSize="12" Margin="0,10,0,4"
+                                       Foreground="{DynamicResource TextSecondary}"/>
+                            <ComboBox x:Name="CmbSource" Padding="8,6"/>
+                            <TextBlock FontSize="11" Margin="0,6,0,0" TextWrapping="Wrap"
+                                       Foreground="{DynamicResource TextMuted}"
+                                       Text="123云盘：填分享链接 + 文件名（启动器用登录态自动下载，登录态可在「网盘下载」页一键获取）。官方链接：填直链，会自动下载再装。winget：填包 ID。本地文件：填文件名，放进 E:\安全软件 或 缓存\安装包 即可。"/>
+
+                            <TextBlock Text="123 云盘分享链接" FontSize="12" Margin="0,10,0,4"
+                                       Foreground="{DynamicResource TextSecondary}"/>
+                            <TextBox x:Name="TxtShareUrl" Padding="8,6"/>
+                            <TextBlock Text="文件名 / 官方直链 / winget ID" FontSize="12" Margin="0,10,0,4"
+                                       Foreground="{DynamicResource TextSecondary}"/>
+                            <TextBox x:Name="TxtFileOrUrl" Padding="8,6"/>
+
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="安装方式" FontSize="12" Margin="0,0,0,4"
+                                               Foreground="{DynamicResource TextSecondary}"/>
+                                    <ComboBox x:Name="CmbMode" Padding="8,6"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="层级" FontSize="12" Margin="0,0,0,4"
+                                               Foreground="{DynamicResource TextSecondary}"/>
+                                    <ComboBox x:Name="CmbTier" Padding="8,6"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Text="检测方式 / 参数（可选，用来判断装没装）" FontSize="12" Margin="0,10,0,4"
+                                       Foreground="{DynamicResource TextSecondary}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox x:Name="CmbDetect" Grid.Column="0" Padding="8,6"/>
+                                <TextBox x:Name="TxtDetectParam" Grid.Column="2" Padding="8,6"
+                                         ToolTip="arp 方式填程序在「程序和功能」里的名字关键字"/>
+                            </Grid>
+
+                            <TextBlock Text="备注 / 说明" FontSize="12" Margin="0,10,0,4"
+                                       Foreground="{DynamicResource TextSecondary}"/>
+                            <TextBox x:Name="TxtAppNote" Padding="8,6"/>
+
+                            <Button x:Name="BtnAddApp" Content="添加到列表" Padding="16,8" Margin="0,14,0,0"
+                                    Style="{StaticResource PrimaryButton}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- 导入 / 导出 -->
+                    <Border Margin="0,12,0,0" Padding="14,12" CornerRadius="6"
+                            Background="{DynamicResource PanelBg}" BorderBrush="{DynamicResource LineBrush}"
+                            BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="从一个 JSON 插件继续编辑" FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimary}"/>
+                            <TextBlock FontSize="11" Margin="0,6,0,8" TextWrapping="Wrap"
+                                       Foreground="{DynamicResource TextMuted}"
+                                       Text="别人给你的插件文件可以直接读进来改，改完再生成。"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="BtnImportJson" Content="读入 JSON" Padding="12,6" Margin="0,0,8,0"/>
+                                <Button x:Name="BtnSaveJson" Content="导出 JSON" Padding="12,6"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- 底栏 -->
+        <Border Grid.Row="2" Background="{DynamicResource PanelBg}" Padding="18,12"
+                BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,1,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="TxtStatus" Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap"
+                           Foreground="{DynamicResource TextSecondary}"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button x:Name="BtnOpenPluginDir" Content="打开插件目录" Padding="14,8" Margin="0,0,10,0"/>
+                    <Button x:Name="BtnGenPlugin" Content="生成插件" Padding="26,8"
+                            Style="{StaticResource PrimaryButton}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

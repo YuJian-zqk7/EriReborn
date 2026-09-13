@@ -1,0 +1,554 @@
+﻿123云盘 · 修改后的完整名单（我要包括的所有应用）
+===========================================================
+含义：这是「最终想要的样子」——把你要的 10 类规则清单，
+      和云盘上实际已有的东西合并后的一张总表。
+标注：
+  [有]  = 云盘上已经有了
+  [补]  = 还没有，需要加入
+  [挪]  = 已有，但放错了地方，建议移动
+  ★     = 重装后第一批要用
+数据来源：https://1828566527.share.123pan.cn/123pan/2KXljv-32GUv（只读）
+===========================================================
+
+总量速览
+  已有 [有]  ：181 条
+  待补 [补]  ：172 条
+  待挪 [挪]  ： 21 条（已经有，只是放错了地方）
+  优先 ★     ： 23 条（重装后第一批要用）
+  云盘体积   ：约 505 GB（其中课程 217 GB、游戏 97 GB、素材 48 GB）
+
+
+===========================================================
+01_系统基础        子组：驱动 / 运行库 / 安全 / 清理 / 输入法 / 压缩 / 搜索 / 截图 / 剪贴板
+===========================================================
+
+【驱动】
+  [补] NVIDIA 应用程序（NVIDIA App / GeForce Experience）
+  [补] NVIDIA Container
+  [补] Intel Graphics 显卡驱动
+  [补] Realtek 音频驱动
+  [补] Realtek 网卡驱动
+  [补] Nahimic
+  [补] Lenovo Fn 快捷键驱动
+  [补] Lenovo ACPI 驱动
+         GaomonTablet  [补] HUION 数位板驱动
+  [补] Iriun Webcam
+  [补] VB-Audio Cable A
+  [补] Voicemeeter
+  [补] VBCABLE
+  [补] X-Rite Color Assistant
+  [补] AISpeech
+  [补] Xvdd SCSI
+
+【运行库】★
+  [补] Visual C++ 2008（x86 + x64）
+  [补] Visual C++ 2010（x86 + x64）
+  [补] Visual C++ 2012（x86 + x64）
+  [补] Visual C++ 2013（x86 + x64）
+  [补] Visual C++ 2015-2022（x86 + x64）
+  [补] .NET 6 Desktop Runtime
+  [补] .NET 8 Desktop Runtime
+  [补] XNA Framework
+  [有] Java 8
+  [补] Java 25
+  [补] OpenJDK 21
+  [补] GameInput
+  [补] Edge WebView2 Runtime
+  [有] VC++ 运行库（基础包
+【安全】
+  [有] 火绒 
+  [有] IObit Malware Fighter
+  [有] 流氓软件数签证书 → 流氓软件数签证书.zip
+  [有] 禁止软件联网 → Firewall_App_Blocker.rar
+  [有] 阻止应用联网 → 阻止应用联网.zip
+  [有] AdvancedSystemCare 本体
+  [有] 图吧工具箱 → 图吧工具箱202601.1安装包.exe
+  [有] 4DDiG DLL Fixer → 4DDiG DLL Fixer v1.0.7.3-Setup∕Crack.7z
+  [有] iTop Data Recovery → itop_data_recovery_5.4.0.840-Portable.zip
+  [有] IObit Unlocker → IObit_Unlocker_1.3.0.11_Single.zip
+  [有] DriverBooster → DriverBoosterPro13.2.0.184Portable.7z
+  [有] SoftCnKiller → SoftCnKiller2.85.exe
+  [有] Autoruns → Autoruns启动项管理工具14.09.zip
+  [有] WinTune → WinTune.2.75.Pre-release.7z
+  [有] ZyperWin++ → ZyperWin++4.1.zip
+  [有] Optimizer → Optimizer-16.7.exe
+  [有] NTLite → NTLite_2025.8.10552_Green.7z
+  [有] Windows 高级电源辅助管理工具 → Windows 高级电源辅助管理工具.exe
+  [有] SmartDefrag → SmartDefrag_11.1.0.466_Single.zip
+  [有] WiseCare365 → WiseCare365-Pro-6.6.6.636.zip
+  [有] 个人文件转移工具 → 个人文件转移工具 V1.8.exe
+【清理】
+  [有] BCUninstaller → BCUninstaller_5.7.0.0.zip
+  [有] IObit Uninstaller → IObitUninstaller15.2.0.2Green.7z
+【输入法】
+  [有] 搜狗输入法 
+  [有] 输入法删除工具 
+  [有] 初音未来预设（.mepack）
+
+【压缩】
+  [有] Bandizip 安装包 
+  [有] 解压软件.zip
+
+【搜索】
+  [有] Everything （图吧工具箱自带）
+
+【截图】
+  [有] Snow Shot → Snow_Shot_windows-x64.exe
+
+【剪贴板】
+  [有] CopyQ → copyq-13.0.0-setup.exe
+  [有] TieZ → TieZ_0.2.7_x64-setup.exe
+
+【预览】
+  [有] BandiView Pro → BandiView Pro v7.07 多国语言特别版.7z
+  [有] QuickLook → QuickLook-4.4.0.7z
+
+【基础工具】
+  [有] Office Tool Plus 
+  [有] 摄像头.exe
+
+===========================================================
+02_网络下载        子组：聊天 / 网盘 / 下载 / 浏览器 / 加速器
+===========================================================
+
+【聊天】
+  [有] 微信 → WeChatWin_4.1.7.exe
+  [有] QQ → QQ_9.9.26_260116_x64_01.exe
+  [有] 防撤回插件 → 防撤回.zip
+  [补] 超级互联
+  [补] Microsoft Teams
+  [补] Outlook 桌面版
+
+【网盘】
+  [有] 百度网盘 
+  [有] 123云盘客户端 
+  [补] OneDrive
+  [有] 迅雷 → XunLeiWebSetup12.1.6.2780gw.exe
+  [有] 夸克 → QuarkPC_V6.3.0.701...exe
+【下载】
+  [有] BitComet → BitComet Stable (build 2.20.1.19) 比特彗星全功能解锁豪华版.7z
+  [有] Motrix → Motrix-1.8.19-x64.exe
+  [有] XDown → xdown-2.0.9.5.zip
+  [有] NeatDM 下载器 → 别再骂下载慢了，请先安装这个下载器(NDM).exe
+  [有] JiJiDown → JiJiDown_setup.exe
+  [有] 网盘解析.exe
+  [有] 试卷下载.exe
+  [有] 萌娘助手
+
+【浏览器】—— 目前空的 
+  [补] Microsoft Edge 离线安装包 
+  [有] Edge 扩展
+
+【加速器】
+  [有] Watt Toolkit（原 Steam++）→ Steam___v3.0.0-rc.16_win_x64.exe
+  [有] CC加速器 → CCspeed_GW_V3.4.0917.567.exe
+  [有] EVDO → evdo_x64_2.2.11.exe
+  [有] OpenSpeedy → OpenSpeedy-v1.7.6.zip
+
+
+===========================================================
+03_开发AI          子组：IDE / 环境 / 终端 / AI 客户端 / AI 项目
+===========================================================
+
+【IDE】
+  [有] VS Code → VSCodeUserSetup-x64-1.108.2.exe
+  [有] PyCharm → PyCharm2025.1.zip
+
+【环境】★
+  [有] Anaconda → Anaconda3-2025.12-1-Windows-x86_64.exe
+  [有] Git 2.52 → Git-2.52.0-64-bit.exe
+  [有] Git 2.53 → Git-2.53.0-rc0-64-bit.exe
+
+【终端】★
+  [补] Windows Terminal
+
+【AI 客户端】
+  [有] Chatbox → Chatbox-1.19.1-Setup.exe
+  [有] 豆包 → Doubao_installer_1.88.3.exe
+  [有] Everywhere → Everywhere-Windows-x64-Setup-v0.6.0.exe
+  [有] Super-Agent-Party → Super-Agent-Party-Setup-0.3.7.exe
+  [有] Tuboshu → Tuboshu-Setup-2.1.0-win-x64.exe
+  [有] Nano
+
+【AI 项目】
+  [有] GPT-SoVITS → GPT-SoVITS-v2pro-20250604-nvidia50.7z
+  [有] RVC → RVC20240604Nvidia50x0.7z
+  [有] MaiBot 一键包 → MaiBot一键包-v6.0.0-MaiCore-0.11.4-Main-AutoUpdate.zip
+  [有] Facefusion → facefusion-3.5.0.rar
+  [有] sd-webui-aki → sd-webui-aki v4.10.zip
+  [有] 配套文档 → MaiBot配置指南.docx、MaiBot一键包使用指南.docx、一般插件的安装方法.docx
+
+【开发工具】
+  [有] Kun_Tools → Kun_Tools.zip
+  [有] 翻译器.exe
+  [有] 网站打包成软件.msi
+  [有] CodeBuddy CN
+  [补] GitHub-Store
+  [让用户自己去安装] OpenAI Codex
+  [点击按钮自动部署]DeepseekHarness
+推荐插件：
+jiesou/dsh-cline-free-provider,modlens,memos,openviking,dsh-market,archify,dsh-at-file,dsh-genui,dsh-token-saver,headroom,local-saver,compressor插件
+
+===========================================================
+04_平面绘画        子组：Adobe / 绘画 / 笔刷素材 / 图像处理
+===========================================================
+
+【Adobe】—— 一个合集全包了
+  [有] Adobe Creative Master Collection 2025 V2025.06（含 PS / AI / ID / InCopy /
+        Bridge / Lightroom / Animate / Character Animator / Dimension / Substance /
+        Fresco / XD / UXP WebView）
+        位置：04_平面绘画\Adobe\Adobe Creative Master Collection 2025 V2025.06 Win x64(2)(1).zip
+
+【绘画】
+  [有] CLIP STUDIO PAINT EX v5.0.0 → Clip Studio Paint EX v5.0.0 多国语言特别版.7z
+  [有] 草稿工程 → 草稿.sutg（SAI2 格式）
+  [有] mc资源包·绘画.exe
+  [有] Live2D Cubism → 5.1 学习版现在在 05_3D建模\主程序
+  [有] SAI Ver.2 
+  [有] Aseprite
+  [有] Blockbench
+  [有] 千鹿Pr助手
+ 
+【笔刷素材】
+  [有] 轻微课素材大礼包 → 【001】轻微课素材大礼包 密码1234.rar
+  [有] 九窖徒 CSP 笔刷 → 九窖徒_csp_240926.zip
+  [有] 羽兔网 PS素材 → 13_设计素材库\PS素材（PS笔刷动作渐变预设）
+  [有] 羽兔网 电商设计 → 13_设计素材库\电商设计（笔刷/字体/PSD/插件+动作）
+
+【图像处理 / 扩展】
+  [补] X-Rite Color Assistant
+
+【参考书】—— 云盘有，规则里没写
+  [有] 素描的诀窍（经典版）.pdf
+
+【本类还包含的云盘内容（规则外）】
+  [有] 13_设计素材库 整包：pr大礼包、天空贴图合集、3DMAX资料汇总、AI插件大全、PPT素材、快捷键
+
+
+===========================================================
+05_3D建模         子组：主程序 / 插件 / 渲染 / 工具
+===========================================================
+
+【主程序】
+  [有] 3ds Max 2026 → 3DMAX_2026.3_VR7.2008_CR14.1整合包V4.1.0.rar（内含 V-Ray 7.2008 + Corona 14.1）
+  [有] Maya 2026 → Maya 2026.3 Win.rar
+  [有] Blender → blender-5.0.1-windows-x64.zip
+  [有] Cinema 4D 2026 → Cinema-4D-C4D-2026.1.2-Win.rar
+  [有] ZBrush → ZBrush-2026.1.1-Win.rar
+  [有] Marvelous Designer → Marvelous-Designer-Enterprise-2025.2.143-Win.rar
+  [有] Marmoset Toolbag → Marmoset Toolbag 5.02.zip（另有 5 汉化包）
+  [有] Live2D Cubism 5.1 学习版 → Live2D_Cubism_5.1.00学习版.zip
+
+【插件 / 组件】
+3dsMax自带
+  [] Bifrost
+  [] MayaUSD
+  [] MtoA（Arnold for Maya）
+  [] Flow Retopology
+  [] Retopology Tools
+  [] 3ds Max Scene Security Tools
+  [] Substance 3D for Maya
+  [] Team Render Client
+  [] Team Render Server
+  [] Cinema 4D Commandline
+  [] FCheck
+
+【渲染】—— 目前空的
+  [有] V-Ray 7 / Corona 14（已含在 3ds Max 整合包里）
+  [补] （如需独立版可加：V-Ray for Maya、Arnold、Corona）
+
+【工具】—— 目前空的
+
+
+
+===========================================================
+06_音视频         子组：音频 / 视频 / 直播录制 / 音乐播放
+===========================================================
+
+【音频】
+  [有] VOCALOID 6.5 → VOCALOID_6.5_editor_with_DLL.zip
+  [有] VOCALOID 6.5 汉化包 → VOCALOID6.5汉化包.zip
+  [有] VOCALOID 6 旧声库识别 → VOCALOID6识别旧声库.zip
+  [有] V6CP.exe
+  [有] VOCALOID 5 洛天依 → Luo_Tianyi_5.0.0.zip
+  [有] HATSUNE MIKU V4 CHN → HATSUNE MIKU V4 CHN.7z
+  [有] HATSUNE MIKU V4X → HATSUNE MIKU V4X.7z
+  [有] HATSUNE MIKU V4 ENG → HATSUNE_MIKU_V4_ENG.7z
+  [有] OpenUtau → OpenUtau-win-x64 (1).exe
+  [有] AIMP → aimp_3685.zip
+  [有] Listen1 → listen1_2.33.0_win.exe
+  [有] AniCh → anich-windows-1.5.9.zip 与 1.5.16.zip
+  [有] 日文乱码处理软件 → 日文乱码处理软件.exe
+  [有] UTAU
+  [有] Ultimate Vocal Remover
+  [有] Voicemeeter
+  [有？] VBCABLE
+
+【视频】★
+  [有] 剪映专业版 → 剪映专业版 6.0.1 x64_解锁VIP.7z
+
+【直播录制】
+  [有] OBS Studio → OBS-Studio-32.0.4-Windows-x64-Installer.exe
+
+【音乐播放 / 音乐资源】
+  [有] 音乐合集 → 音乐合集（有几个无音源）.zip
+
+
+===========================================================
+07_游戏           子组：Steam / 独立游戏 / 模拟器 / Minecraft / 加速器
+===========================================================
+
+【平台】
+  [有] Steam → SteamSetup.exe、SteamChinaSetup.exe
+  [有] HMCL → HMCL3.9.1.zip
+  [有] PCL2 → Plain Craft Launcher 2.exe
+  [有] gamebox → Gamebox游戏盒子_2.3.2.exe
+  [有] Minecraft 安装器 → MinecraftInstaller.exe
+  [有] MuMu 模拟器 → 现在在 15_安卓折腾\MuMu模拟器.exe
+
+【Steam 游戏 】
+自己安装
+
+【独立游戏 / 绿色游戏】
+  [有] 弹丸论破 1 → 16_游戏软件\弹丸1
+  [有] 弹丸论破 2 → 16_游戏软件\弹丸2
+  [有] 弹丸论破 V3 → 16_游戏软件\弹丸3
+  [有] 弹丸论破 绝望少女 → 16_游戏软件\绝望少女
+  [有] MiSide（米塔）→ 16_游戏软件\米塔
+  [有] SenrenBanka（千恋万花）→ 16_游戏软件\千恋万花
+  [有] That's not my neighbor（伪人）→ 16_游戏软件\伪人
+  [有] 植物大战僵尸 融合版 / 杂交版 → 16_游戏软件
+  [有] 逆转456、御剑123、成步堂123（逆转裁判系列）→ 16_游戏软件
+  [有] 梦日记、魔裁、黑魂(BLACK SOULS)、你好新蒸程！→ 16_游戏软件
+  [有] Alice in Cradle
+  [有] Astral
+  [有] DELTARUNE 1&2
+  [有] DELTARUNE 3&4
+  [有] ENDER LILIES
+  [有] 卡拉彼丘
+
+【模拟器】
+  [有] MuMu 模拟器
+
+
+【Minecraft】
+  [有] 整合包：龙之冒险：新征程、落幕曲、新指导0.402、最变态钻石大陆、
+        sanjiaofuwen、地图及服务器の自定义整合包
+  [有] 工具：FireAxe、NBTExplorer、NbtStudio、联机工具.exe
+
+【加速器】
+  [有] Watt Toolkit、CC加速器、EVDO（同 02_网络下载\加速器）
+
+
+===========================================================
+08_办公阅读        子组：Office / 笔记 / PDF / 阅读 / 影音
+===========================================================
+
+【Office】
+  [有] office激活.bat
+  [有] office一键安装及其卸载脚本.docx
+  
+【笔记】
+  [有] 幕布 → Mubu-5.4.1-x64.exe
+  [有] Logseq → Logseq-win-x64-0.10.15.exe
+  [有] Project Graph → Project.Graph_2.9.13_x64-setup.exe
+  [有] Readest → Readest_0.9.101_x64-setup.exe
+
+【PDF】
+  [有] PDFelement → wondershare_pdfelement_12.1.7.3970.exe 与 .7z（两份，可留一份）
+
+【阅读】
+  [有] 试卷下载.exe
+  [有] 素描的诀窍（经典版）.pdf
+
+【影音】
+  [有] 哔哩哔哩客户端
+  [有] AIMP、Listen1、AniCh（在 06_音视频\音频）
+  [有] Chatbox、豆包（在 03_开发AI\AI客户端）
+
+
+===========================================================
+09_美化便携        子组：右键菜单 / 图标 / 托盘 / 输入法 / 窗口 / 截图 / 剪贴板 / 压缩 / 预览
+===========================================================
+
+【右键菜单】
+  [有] ContextMenuManager → ContextMenuManager.NET.4.0.exe
+  [有] noMeiryoUI → noMeiryoUI3.3.1.zip
+  [有] windhawk → windhawk_setup_offline.exe
+  [有] FluentContextMenu
+  [有] ExplorerPatcher
+
+【图标】
+  [有] XizoDiskIconChanger → XizoDiskIconChangerV1.2.rar
+  [有] 特殊图标查找工具 → 特殊图标查找工具.zip
+  [有] 删除烦人的图标 → 删除烦人的图标.exe
+  [有] TileIconifier
+
+【托盘】
+  [挪] 托盘图标管理 → 现在在 09_美化便携\11\托盘图标管理.zip
+  [挪] TrayMgr64.exe → 现在在 05_3D建模\主程序\11\
+
+
+【输入法】
+  [有] 搜狗输入法（在 01_系统基础\输入法）
+
+【窗口】
+  [有] 流萤桌宠 -无表情版 → 流萤桌宠 -无表情版.zip
+  [有] 初音电脑预设包 → 初音电脑预设包.rar / 初音电脑预设包2.zip
+  [有] 初音鼠标 → 初音鼠标.rar
+  [有] miku皮肤 → miku皮肤.rar
+  [有] 美化本身.zip
+
+【截图 / 剪贴板 / 压缩 / 预览（本类也要一份）】
+  [挪] Snow Shot → 现在在 01_系统基础\截图
+  [挪] CopyQ → 现在在 01_系统基础\剪贴板
+  [挪] TieZ → 现在在 01_系统基础\剪贴板
+  [挪] QuickLook → 现在在 01_系统基础\预览
+  [挪] BandiView → 现在在 01_系统基础\预览
+  [挪] Optimizer → 现在在 01_系统基础\安全_清理
+  [挪] NTLite → 现在在 01_系统基础\安全_清理
+  [挪] ZyperWin++ → 现在在 01_系统基础\安全_清理
+  [挪] 图吧工具箱 → 现在在 01_系统基础\安全_清理
+  [挪] Everything、Bandizip其它地方
+
+【其他美化小工具（规则外，云盘已有）】
+  [有] Tickeys → Install Tickeys x64 1.2.0.msi / .zip
+  [有] MToolBox → MToolBox_v2.0.2.zip
+  [有] Quicker → Quicker.x64.1.44.55.0.msi
+  [有] RMT → RMTv1.0.9_x64.zip
+  [有] Edge锁定.zip、桌面多开.rar、音量键分离.exe、StudyWithMiku.zip
+
+【还缺的一整批（规则里有）★】
+  [有了] MFCMouseEffect
+
+
+===========================================================
+10_扩展与清单      做成「恢复清单 / 链接页」，不做启动器项
+===========================================================
+
+【Edge 扩展 29 个】—— 全缺 ★★
+  [补] AdGuard
+  [补] Tampermonkey
+  [补] Immersive Translate（沉浸式翻译）
+  [补] iTab
+  [补] ScriptCat
+  [补] SteamDB
+  [补] Global Speed
+  [补] AIX Downloader
+  [补] ImageAssistant
+  [补] NeatDownloadManager
+  [补] Listen1
+  [补] 初音未来主题
+  [补] 其余 17 个（按你浏览器里实际装的补齐）
+
+【Store / UWP 应用 130 个】—— 全缺 ★★
+  [补] Windows Terminal
+  [补] Photos
+  [补] Notepad
+  [补] Calculator
+  [补] Paint
+  [补] Sticky Notes
+  [补] Todos
+  [补] PowerAutomate
+  [补] DevHome
+  [补] Xbox
+  [补] GamingApp
+  [补] Adobe Fresco / Adobe XD
+  [补] EarTrumpet
+  [补] NVIDIA Control Panel
+  [补] Intel Arc
+  [补] OpenAI Codex
+  [补] 其余 114 个
+
+【第三方服务 46 个】
+  [补] 全部 46 个，导出成清单，重装后按清单逐个装
+
+【第三方驱动 15 个】
+  [补] 全部 15 个（与 01_系统基础\驱动 有重叠，以这份为准做核对）
+
+【计划任务 3 个 / 启动项】
+  [补] 全部导出成清单
+
+  这一类的做法（不用下载任何东西，但必须现在导出）
+  1) Edge 扩展：装好后在 edge://extensions 逐个复制商店链接，存成一个 HTML 书签页
+  2) Store 应用：PowerShell 执行
+       Get-AppxPackage | Select-Object Name, PackageFullName | Export-Csv UWP清单.csv -Encoding UTF8
+  3) 服务 / 驱动 / 计划任务：导出成 txt，重装后按清单装，不要做启动器项
+
+
+===========================================================
+以下 5 类是「你原来的 10 类规则里没有、但云盘上确实有」的内容
+===========================================================
+
+11_课程教程        [有] 217.53 GB
+    [有] DM老师课程
+        - dm袋喵毛厂头像课（含课件）
+        - 袋喵第1阶段平淡无奇透视课（含课件）
+        - 袋喵第2阶段人体录播课（含课件）
+        - 袋喵第3阶段素描与色彩课
+        - 毛厂场景班一期（53 个分组）
+        - 速写第四期（mp4 若干，注意有一批 (1) 重复文件）
+    [有] 医学课件（解剖学 pptx 7 个 + 25级学分统计表.xlsx）
+
+12_AI模型素材      [有] 目前只有空目录「音色模型」★
+    [挪] model 整个目录 → 现在在 13_设计素材库\model（127 GB）
+        - 000gaosongdeng / 000lubenwei / 000shenying（音色样本 wav）
+        - 500+（1~11 组，RVC 模型 .pth/.index/.npy）
+        - model（按批次分的模型包：2 / 4.新加入16 / 5 / 6 / 7.新加入77 / 8 / 9.新加入20 / 10 / 11）
+        - Live2D_Cubism_5.2.03-main（补丁）
+
+13_设计素材库      [有] 47.97 GB
+    [有] 羽兔网学习资料
+        - pr大礼包（pr模板/背景视频/插件/实拍视频/音效）
+        - PS素材（1000张高清图片素材 / PS笔刷动作渐变预设）
+        - 电商设计（PSD文件/笔刷×2/插件+动作/可商用字体/字体×2）
+        - 天空贴图合集（N多天空/ Viz-People Sky / 黄昏夜景天 / 一套水天空 / 制作天空 等）
+        - 3DMAX资料汇总.zip、AI插件大全.zip、PPT素材.zip、快捷键.zip
+
+14_个人资料        [有] 0.32 GB
+    [有] 我的其它
+        - 皮肤模板（64/128 模板、眼睛模板）
+        - 皮肤色卡（39 张 jpg）
+        - 我的密码（部分解压密码.txt、密码：csp.txt、我的密码.txt）
+        - 我的作品（image / others / ppt / Skin / txt）
+        - 中国传统色（1~12 月 jpg）
+        - tiz.exe、备份到D盘并压缩.bat、诡秘之主.txt、作业视频.mp4
+
+15_安卓折腾        [有] 只剩 MuMu模拟器.exe ★需要补回
+    [补] MT管理器.apk            ← 原在 4343，已丢失
+    [补] Shizuku(激活授权MT).apk  ← 原在 4343，已丢失
+    [补] 新手抓包v330.mp4         ← 原在 4343，已丢失
+    [补] 3.8.0全植物五阶最新存档_救赎制作.txt ← 原在 4343，已丢失
+    [有] MuMu模拟器.exe（按 07_游戏 的规则它也该在那边）
+
+16_游戏软件        [有] 91.53 GB —— 与 07_游戏 重复，建议合并成一个
+    [有] 成步堂123（含 iso）
+    [有] 弹丸1、弹丸2、弹丸3（part05 未下完）
+    [有] 绝望少女
+    [有] 黑魂（BLACK SOULS）
+    [有] 梦日记
+    [有] 米塔（MiSide）
+    [有] 魔裁（Mahou Shoujo no Majo Shiken）
+    [有] 你好，新蒸程！（存档 / 服务端 / 整合包本体）
+    [有] 逆转456
+    [有] 千恋万花（SenrenBanka）
+    [有] 伪人（That's not my neighbor）
+    [有] 御剑123
+    [有] 植物大战僵尸融合版 3.3.1 / 杂交版 v0.14
+    [有] 联机工具.exe、FireAxe、SteamSetup/SteamChinaSetup、Gamebox、
+          HMCL、MinecraftInstaller、NBTExplorer、NbtStudio、Plain Craft Launcher 2
+
+
+===========================================================
+顺手的清理项（不用下载，是云盘上已经多余的）
+===========================================================
+  1) 07_游戏\Steam(1)、独立游戏(1)、加速器(1)、模拟器(1) —— 4 个空壳，直接删
+  2) 09_美化便携\11、05_3D建模\主程序\11 —— 拍平后即可删
+  3) 01_系统基础\安全_清理 —— 拆成「安全」「清理」两个子组
+  4) 13_设计素材库\model —— 挪到 12_AI模型素材\音色模型
+  5) 16_游戏软件 与 07_游戏 —— 二选一合并
+  6) 08_办公阅读\PDF 里 PDFelement 有 exe 与 7z 两份，留一份
+  7) 13_设计素材库\天空贴图合集 里 N多天空(1).zip、Viz-People Sky(1).zip 是重复的，可省约 9.4 GB
+  8) 11_课程教程\DM老师课程\速写第四期 里有一批「xxx(1).mp4」重复文件，可删
+  9) 06_音视频\音频 里 anich 有 1.5.9 和 1.5.16 两版，留新版
+ 10) 10_扩展与清单、12_AI模型素材 目前是空的，填完就不空了

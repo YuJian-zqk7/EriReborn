@@ -1,0 +1,24 @@
+﻿Id,名称,类别,层级,分享文件名,官网直链,安装方式,检测方式,检测参数,说明,补丁程序
+huorong,火绒安全,杀毒防护,核心,火绒.exe,https://www.huorong.cn/person5.html,安装,arp,火绒安全|Huorong,国产免费杀毒 无广告无捆绑 主动防御强
+liumang.cert,流氓软件数签证书,杀毒防护,推荐,流氓软件数签证书.zip,,手动,none,,流氓软件数字签名证书库 配合 SoftCnKiller 与火绒拦截用
+iobit.mf,IObit Malware Fighter Pro,杀毒防护,按需,IObitMalwareFighterPro_8.2.0.691_Setup.7z,,安装,arp,Malware Fighter,反恶意软件 分享内为 Pro 版
+bcuninstaller,Bulk Crap Uninstaller,卸载清理,推荐,BCUninstaller_5.7.0.0.zip,https://github.com/Klocman/Bulk-Crap-Uninstaller,便携,arp,Bulk Crap Uninstaller,开源批量卸载 能清残留 官网最新为 v6.3
+iobit.uninstaller,IObit Uninstaller 15 绿色版,卸载清理,推荐,IObitUninstaller15.2.0.2Green.7z,,便携,arp,IObit Uninstaller,强力卸载与残留清理 绿色版免安装
+iobit.unlocker,IObit Unlocker,卸载清理,推荐,IObit_Unlocker_1.3.0.11_Single.zip,https://www.iobit.com/en/iobit-unlocker.php,便携,arp,IObit Unlocker,解除文件占用 删除被锁定的文件
+wisecare,WiseCare 365 Pro,清理优化,按需,WiseCare365-Pro-6.6.6.636.zip,,便携,arp,WiseCare 365,系统清理与优化 分享内为 Pro 版
+advanced.systemcare,Advanced SystemCare 12 补丁,清理优化,按需,Advanced_SystemCare_12.x补丁.zip,,手动,none,,ASC 12 的授权补丁 需自备 ASC 主体
+smartdefrag,Smart Defrag 11,清理优化,按需,SmartDefrag_11.1.0.466_Single.zip,,便携,arp,Smart Defrag,磁盘碎片整理
+wintune,WinTune,清理优化,按需,WinTune.2.75.Pre-release.7z,,便携,arp,WinTune,Windows 调优工具
+autoruns,Autoruns 启动项管理,启动项管理,推荐,Autoruns启动项管理工具14.09.zip,https://download.sysinternals.com/files/Autoruns.zip,便携,none,,微软官方 Sysinternals 工具 查看全部自启动点
+softcnkiller,SoftCnKiller,流氓软件查杀,推荐,SoftCnKiller2.85.exe,,便携,none,,专杀国产流氓软件与全家桶
+zyperwin,ZyperWin++,系统优化,按需,ZyperWin++4.1.zip,,便携,none,,Windows 精简与优化
+filemove,个人文件转移工具 V1.8,系统工具,推荐,个人文件转移工具 V1.8.exe,,便携,none,,把用户文件夹迁到别的盘 重装前必备
+tbtool,图吧工具箱,硬件工具,推荐,图吧工具箱202601.1安装包.exe,https://www.tbtool.cn/,安装,arp,图吧工具箱,硬件检测工具箱 CPU显卡内存硬盘烤机
+driverbooster,Driver Booster Pro 13,驱动管理,按需,DriverBoosterPro13.2.0.184Portable.7z,,便携,arp,Driver Booster,驱动更新 分享内为 Pro 便携版
+for4ddig,4DDiG DLL Fixer,系统修复,按需,4DDiG DLL Fixer v1.0.7.3-Setup∕Crack.7z,,安装,arp,DLL Fixer,DLL 缺失修复 分享内带授权
+itop.recovery,iTop 数据恢复 5.4,数据恢复,按需,itop_data_recovery_5.4.0.840-Portable.zip,,便携,none,,误删文件恢复 便携版
+winscp,WinSCP,文件传输,按需,winscp.exe,https://winscp.net/eng/download.php,安装,arp,WinSCP,SFTP/SCP 客户端 开源免费
+asc.pro,Advanced SystemCare Pro 19 便携版,清理优化,按需,AdvancedSystemCarePro19.1.0.176Portable.7z,,便携,arp,Advanced SystemCare,ASC Pro 19 便携版 分享内附带的额外版本
+ntlite,NTLite 绿色版,系统精简,按需,NTLite_2025.8.10552_Green.7z,,便携,none,,Windows 系统精简与封装工具
+powerassist,Windows 高级电源辅助管理工具,系统优化,按需,Windows 高级电源辅助管理工具.exe,,便携,none,,电源计划辅助管理
+optimizer,Optimizer,系统优化,按需,,https://github.com/hellzerg/optimizer/releases,便携,none,,开源 Windows 优化器 官网下载

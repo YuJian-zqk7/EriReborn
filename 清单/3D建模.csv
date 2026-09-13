@@ -1,0 +1,10 @@
+﻿Id,名称,类别,层级,包文件名,包大小,检测方式,检测参数,说明
+blender,Blender,建模,核心,blender-5.0.1-windows-x64.zip,401385182,arp,Blender,开源 可从官网自动获取最新版
+max,3ds Max 2026.3,建模,核心,3DMAX_2026.3_VR7.2008_CR14.1整合包V4.1.0.rar,3594444666,arp,3ds Max,含 V-Ray 7 与 Corona 14
+maya,Maya 2026.3,建模,核心,Maya 2026.3 Win.rar,4316443410,arp,Maya,Autodesk ODIS 静默安装
+c4d,Cinema 4D 2026.1.2,建模,核心,Cinema-4D-C4D-2026.1.2-Win.rar,962450491,arp,Cinema 4D,Maxon InstallBuilder
+zbrush,ZBrush 2026.1.1,建模,核心,ZBrush-2026.1.1-Win.rar,2687104725,arp,ZBrush,雕刻
+marvelous,Marvelous Designer 2025.2.143,建模,推荐,Marvelous-Designer-Enterprise-2025.2.143-Win.rar,1919968115,arp,Marvelous Designer,服装设计
+marmoset,Marmoset Toolbag 5.02,建模,推荐,Marmoset Toolbag 5.02.zip,264052822,arp,Toolbag,烘焙与实时渲染
+live2d,Live2D Cubism 5.1.00,建模,推荐,Live2D_Cubism_5.1.00学习版.zip,242024285,arp,Live2D Cubism,2D 骨骼动画
+marmoset.cn,Marmoset Toolbag 5 汉化包,建模,按需,Marmoset Toolbag5汉化.zip,287854811,none,,配合 Toolbag 5.02 使用

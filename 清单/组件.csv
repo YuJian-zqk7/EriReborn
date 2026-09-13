@@ -1,0 +1,17 @@
+Id,名称,类别,检测方式,检测参数,说明
+nvidia.app,NVIDIA 应用程序 (NVIDIA App),显卡组件,arp,NVIDIA 应用程序,新版显卡控制面板 已装 11.0.2.337
+nvidia.container,NVIDIA Container,显卡组件,arp,^NVIDIA Container,NVIDIA 服务容器 含 LocalSystem/Session/User 三类
+nvidia.backend,NVIDIA 后台服务,显卡组件,arp,^NVIDIA (Backend|MessageBus|Telemetry|Watchdog|NvDLISR|Virtual Audio),NVIDIA 配套后台组件
+intel.graphics,Intel 显卡驱动,显卡组件,video,Intel,Intel UHD Graphics 驱动
+realtek.audio,Realtek 音频驱动,音频组件,sound,Realtek,Realtek HD Audio(SST)
+nahimic,Nahimic 音效,音频组件,pnp,Nahimic,Nahimic APO/VAD/环绕 3D 音效
+lenovo.fn,Lenovo Fn 热键,整机组件,pnp,Lenovo.*(Fn|Hotkey|Virtual Power),Fn 功能键驱动
+lenovo.acpi,Lenovo ACPI,整机组件,pnp,Lenovo ACPI,ACPI 电源管理组件
+gaomon,GaomonTablet 手写板,外设,arp,^GaomonTablet,高漫数位板驱动 已装 16.0.0.203
+huion,HUION 手写板,外设,arp,HUION,绘王数位板驱动 (本机未装)
+iriun,Iriun Webcam 虚拟摄像头,外设,arp,Iriun Webcam,手机当摄像头 已装 2.8.6
+vbcable,VB-Audio Cable 虚拟声卡,音频组件,arp,VBCABLE,虚拟音频线 已装
+voicemeeter,Voicemeeter 虚拟混音器,音频组件,arp,^Voicemeeter,虚拟混音器 已装
+xrite,X-Rite Color Assistant 校色,整机组件,arp,X-Rite Color Assistant,联想屏幕校色工具 已装 2.57.0
+aispeech,AISpeech 音效组件,音频组件,pnp,AISpeech,语音 AI 音效组件 已装 1.5.1.20
+xvdd,Xvdd SCSI Miniport (Xbox),系统组件,pnp,Xvdd SCSI,Xbox 虚拟 SCSI 设备 系统自带

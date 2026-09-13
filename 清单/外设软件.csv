@@ -1,0 +1,11 @@
+﻿Id,匹配类型,匹配值,名称,类别,wingetId,层级,说明
+logitech.ghub,厂商,Logitech,罗技 G HUB,键鼠外设,Logitech.GHUB,按需,罗技游戏外设的主控软件 管理按键宏与灯效
+logitech.omm,厂商,Logitech,罗技板载内存管理器,键鼠外设,Logitech.OnboardMemoryManager,按需,轻量工具 不需装 G HUB 时用
+razer.synapse4,厂商,Razer,雷蛇 Synapse 4,键鼠外设,RazerInc.RazerInstaller.Synapse4,按需,雷蛇外设主控软件
+steelseries.gg,厂商,SteelSeries,SteelSeries GG,键鼠外设,SteelSeries.GG,按需,赛睿外设主控软件
+corsair.icue5,厂商,Corsair,海盗船 iCUE 5,键鼠外设,Corsair.iCUE.5,按需,海盗船外设与灯效主控
+elgato.camerahub,厂商,Elgato,Elgato Camera Hub,采集卡,Elgato.CameraHub,按需,Elgato 摄像头与采集设备主控
+elgato.4kcapture,厂商,Elgato,Elgato 4K Capture Utility,采集卡,Elgato.4KCaptureUtility,按需,Elgato 采集卡录制工具
+elgato.controlcenter,厂商,Elgato,Elgato Control Center,采集卡,Elgato.ControlCenter,按需,Elgato 灯光控制
+vbaudio.banana,手动,,Voicemeeter Banana,虚拟声卡,VB-Audio.Voicemeeter.Banana,按需,虚拟混音器 本机已装 VB-Audio 设备
+vbaudio.potato,手动,,Voicemeeter Potato,虚拟声卡,VB-Audio.Voicemeeter.Potato,按需,虚拟混音器 功能最全版本

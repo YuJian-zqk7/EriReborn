@@ -1,0 +1,3 @@
+﻿Id,名称,类别,层级,分享文件名,wingetId,官网直链,安装方式,检测方式,检测参数,说明,补丁程序
+edge,Microsoft Edge,浏览器,核心,,Microsoft.Edge,,安装,arp,Microsoft Edge,微软 Edge 浏览器,
+edge.ext,Edge 扩展,浏览器,推荐,,,,none,,扩展清单见 D:\重装清单\源文件\browser_extensions.csv,
