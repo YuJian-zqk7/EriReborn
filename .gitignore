@@ -4,6 +4,9 @@
 报告/
 _bz/
 
+# CodeBuddy 项目数据 (skill 等仅本机使用)
+.codebuddy/
+
 # 凭据 —— 绝不入库
 123云盘cookie.txt
 123云盘cookie.txt.bak
