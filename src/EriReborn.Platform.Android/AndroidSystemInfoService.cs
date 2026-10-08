@@ -43,7 +43,7 @@ public sealed class AndroidSystemInfoService : ISystemInfoService
 
             var stats = new global::Android.OS.StatFs(path);
             var blockSize = stats.BlockSizeLong;
-            var total = blockSize * stats.TotalBlocksLong;
+            var total = blockSize * stats.BlockCountLong;
             if (total <= 0)
             {
                 return null;
