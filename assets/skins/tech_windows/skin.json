@@ -1,0 +1,58 @@
+{
+    "id": "tech_windows",
+    "name": "Tech · Windows",
+    "persona": "Tech",
+    "colors": {
+        "accent": "#4FD1C5",
+        "background": "#16161F",
+        "surface": "#1E1E2A",
+        "surfaceAlt": "#26263A",
+        "foreground": "#E6E6F0",
+        "muted": "#8A8AA0",
+        "border": "#33334A"
+    },
+    "metrics": {
+        "cornerRadius": "6",
+        "density": "compact"
+    },
+    "fontFamily": "Cascadia Mono, Microsoft YaHei UI, Segoe UI",
+    "assetManifestFile": "../../asset_manifest.json",
+    "theme": "dark",
+    "typography": {
+        "fontSizeLarge": "17",
+        "fontSizeSmall": "11",
+        "fontWeight": "400",
+        "fontSize": "13"
+    },
+    "controls": {
+        "listRowHeight": "36",
+        "buttonHeight": "32",
+        "touchTarget": "false",
+        "inputHeight": "32"
+    },
+    "navigation": {
+        "position": "left",
+        "mode": "sidebar",
+        "itemHeight": "40"
+    },
+    "window": {
+        "minwidth": "960",
+        "minheight": "600",
+        "chrome": "system"
+    },
+    "layout": "desktop",
+    "assets": {
+        "sheets": "tech_windows_*",
+        "character": "eri_windows_character",
+        "logo": "skin_tech_windows_logo_mark",
+        "emptyState": "v2_tech_sticker_idle",
+        "loadingState": "v2_tech_sticker_loading"
+    },
+    "cursors": {
+        "default": "asset:v2_tech_cursor_arrow",
+        "busy": "asset:v2_tech_cursor_busy",
+        "link": "asset:v2_tech_cursor_hand",
+        "resizeHorizontal": "asset:v2_tech_cursor_resize_h",
+        "text": "asset:v2_tech_cursor_text"
+    }
+}

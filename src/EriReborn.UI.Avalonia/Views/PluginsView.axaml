@@ -1,0 +1,194 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.PluginsView"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             x:DataType="vm:PluginsViewModel"
+             x:Name="PluginsRoot">
+  <!-- Same shape as the extensions page: one row of buttons across the top, then a single
+       scrollable column. The earlier version put a 210px rail of sections on the left, which
+       squeezed the content pane and pushed the card buttons out of reach; the three lists are
+       stacked here instead, each under its own heading, so nothing is hidden behind a rail. -->
+  <DockPanel>
+    <!-- 页头限高并可滚动：它不在下面的滚动区里，比视口高时会被裁掉、列表也被挤成 0 高。 -->
+    <ScrollViewer DockPanel.Dock="Top" MaxHeight="280"
+                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+    <StackPanel Spacing="6" Margin="0,0,0,10">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Button Command="{Binding ImportFromFolderCommand}" Classes="primary"
+                IsEnabled="{Binding !IsImporting}"
+                controls:SkinElement.Id="plugins.import_button">
+          <controls:UiText Key="plugins.import_folder" />
+        </Button>
+        <Button Command="{Binding OpenPluginsFolderCommand}"
+                controls:SkinElement.Id="plugins.open_folder_button">
+          <controls:UiText Key="plugins.open_folder" />
+        </Button>
+        <Button Command="{Binding RefreshMarketplaceCommand}"
+                controls:SkinElement.Id="plugins.refresh_marketplace_button">
+          <controls:UiText Key="plugins.refresh_marketplace" />
+        </Button>
+      </StackPanel>
+      <controls:UiText Key="plugins.hint" Classes="muted" TextWrapping="Wrap"
+                       controls:SkinElement.Id="plugins.hint" />
+      <!-- 与拓展页同一套版式：按钮一行 → 目录一行 → 状态若干行。 -->
+      <TextBlock Text="{Binding PluginsDirectory}" Classes="muted" TextWrapping="Wrap" />
+      <TextBlock Text="{Binding InstalledSummary}" Classes="muted" TextWrapping="Wrap" />
+      <TextBlock Text="{Binding Status}" Classes="muted" TextWrapping="Wrap" />
+      <TextBlock Text="{Binding StageText}" Classes="muted" />
+      <TextBlock Text="{Binding TrustText}" Classes="muted" TextWrapping="Wrap" />
+      <TextBlock Text="{Binding FolderStatus}" Classes="muted" TextWrapping="Wrap" />
+    </StackPanel>
+    </ScrollViewer>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+      <StackPanel Spacing="14">
+
+        <!-- ===== 插件列表 ===== -->
+        <StackPanel Spacing="8">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <controls:AssetImage AssetId="icon_plugin" Width="20" Height="20" VerticalAlignment="Center" />
+            <controls:UiText Key="plugins.installed_title" FontSize="15" FontWeight="SemiBold"
+                             VerticalAlignment="Center" controls:SkinElement.Id="plugins.installed_title" />
+          </StackPanel>
+          <views:EmptyStateView ItemsSource="{Binding Installed}" AssetId="empty_no_plugin"
+                                CaptionTextKey="plugins.empty_installed" />
+          <ItemsControl ItemsSource="{Binding Installed}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:PluginItemViewModel">
+                <!-- 与拓展页同一套卡片：名称 + 开关在第一行，下面依次是描述、ID/版本/资源、路径。 -->
+                <Border Classes="card" Margin="0,0,0,6">
+                  <StackPanel Spacing="3">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                      <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                      <Button Content="{Binding ToggleText}" VerticalAlignment="Center"
+                              Command="{Binding $parent[UserControl].((vm:PluginsViewModel)DataContext).TogglePluginCommand}"
+                              CommandParameter="{Binding}" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" Classes="muted" />
+                    <TextBlock Classes="muted" TextWrapping="Wrap">
+                      <Run Text="路径：" />
+                      <Run Text="{Binding Path}" />
+                    </TextBlock>
+                  </StackPanel>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+
+        <Border Classes="divider" />
+
+        <!-- ===== 插件商城 ===== -->
+        <StackPanel Spacing="8">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <controls:AssetImage AssetId="icon_search" Width="20" Height="20" VerticalAlignment="Center" />
+            <controls:UiText Key="plugins.marketplace_title" FontSize="15" FontWeight="SemiBold"
+                             VerticalAlignment="Center" controls:SkinElement.Id="plugins.marketplace_title" />
+            <TextBlock Text="{Binding MarketplaceStatus}" Classes="muted" VerticalAlignment="Center"
+                       TextWrapping="Wrap" />
+          </StackPanel>
+          <controls:UiText Key="plugins.marketplace_hint" Classes="muted" TextWrapping="Wrap"
+                           controls:SkinElement.Id="plugins.marketplace_hint" />
+          <views:EmptyStateView ItemsSource="{Binding MarketplaceEntries}" AssetId="empty_no_plugin"
+                                CaptionTextKey="plugins.empty_marketplace" />
+          <ItemsControl ItemsSource="{Binding MarketplaceEntries}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <!-- 与拓展页同一套卡片：名称 + 操作按钮在第一行，下面是描述、作者/版本、资源/平台。 -->
+                <Border Classes="card" Margin="0,0,0,6">
+                  <StackPanel Spacing="3">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                      <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                      <Button Content="{Binding ActionText}" Classes="primary" VerticalAlignment="Center"
+                              Command="{Binding $parent[UserControl].((vm:PluginsViewModel)DataContext).InstallMarketplacePluginCommand}"
+                              CommandParameter="{Binding}" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding Summary}" Classes="muted" TextWrapping="Wrap" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap">
+                      <Run Text="{Binding InstalledText}" />
+                      <Run Text="    " />
+                      <Run Text="{Binding ResourceText}" />
+                      <Run Text="    " />
+                      <Run Text="{Binding ProvidersText}" />
+                    </TextBlock>
+                  </StackPanel>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+
+        <Border Classes="divider" />
+
+        <!-- ===== 已导入资源 ===== -->
+        <StackPanel Spacing="8">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <controls:AssetImage AssetId="icon_cloud" Width="20" Height="20" VerticalAlignment="Center" />
+            <controls:UiText Key="plugins.resources_title" FontSize="15" FontWeight="SemiBold"
+                             VerticalAlignment="Center" controls:SkinElement.Id="plugins.resources_title" />
+            <!-- 条数写在标题旁：列表限高后可滚，不写出来用户会以为只导入了这几条。
+                 写法与插件编辑器里「资源列表」的计数一致。 -->
+            <TextBlock Text="{Binding Resources.Count, StringFormat='共 {0} 条'}" Classes="muted"
+                       FontSize="11" VerticalAlignment="Center" />
+          </StackPanel>
+          <controls:UiText Key="plugins.resources_hint" Classes="muted" TextWrapping="Wrap"
+                           controls:SkinElement.Id="plugins.resources_hint" />
+          <views:EmptyStateView ItemsSource="{Binding Resources}" AssetId="empty_no_plugin"
+                                CaptionTextKey="plugins.empty_resources" />
+          <!-- 限高并可滚动：官方插件一次导入 263 条，一行一张卡片会把这一页撑到上万像素，
+               下面的商城与高级设置要滚很久才看得到。这里和插件编辑器里的分享目录列表同一套
+               做法（限高 + 自带滚动条），条目一个不少，只是不再由条数决定页面高度。 -->
+          <ScrollViewer MaxHeight="260" VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Resources}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Classes="card" Margin="0,0,0,6">
+                    <Grid ColumnDefinitions="*,Auto">
+                      <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding Id}" Classes="muted" FontSize="11" />
+                      </StackPanel>
+                      <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding SourceText}" Classes="muted" FontSize="11" HorizontalAlignment="Right" />
+                        <TextBlock Text="{Binding Trust}" Classes="muted" FontSize="11" HorizontalAlignment="Right" />
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </StackPanel>
+
+        <Border Classes="divider" />
+
+        <Expander Header="高级：指定具体文件路径 / 商城索引地址（一般不用动）" IsExpanded="False">
+          <StackPanel Spacing="6">
+            <!-- 限宽：这一页在横向滚动的宿主里按无限宽度测量，而单行 TextBox 的期望宽度等于
+                 框里那串文字的长度 —— 一条长路径就能把整页撑得比窗口宽。 -->
+            <controls:UiText Key="plugins.file_label" Classes="muted" controls:SkinElement.Id="plugins.file_label" />
+            <TextBox Text="{Binding PluginPath}" MinWidth="260" MaxWidth="520"
+                     Watermark=".eriplugin.json 的完整路径" />
+            <controls:UiText Key="plugins.signature_label" Classes="muted"
+                             controls:SkinElement.Id="plugins.signature_label" />
+            <TextBox Text="{Binding SignaturePath}" MinWidth="260" MaxWidth="520"
+                     Watermark=".eriplugin.sig 的完整路径" />
+            <Button Command="{Binding ImportCommand}" HorizontalAlignment="Left"
+                    controls:SkinElement.Id="plugins.import_file_button"
+                    IsEnabled="{Binding !IsImporting}">
+              <controls:UiText Key="plugins.import_file" />
+            </Button>
+            <controls:UiText Key="plugins.index_label" Classes="muted"
+                             controls:SkinElement.Id="plugins.index_label" />
+            <TextBox Text="{Binding MarketplaceIndexUrl}" MinWidth="260" MaxWidth="520"
+                     Watermark="插件商城索引 JSON 地址" />
+          </StackPanel>
+        </Expander>
+
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</UserControl>

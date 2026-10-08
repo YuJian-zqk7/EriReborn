@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>EriReborn.Tools.CatalogMigration</RootNamespace>
+    <AssemblyName>EriReborn.Tools.CatalogMigration</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EriReborn.Core\EriReborn.Core.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,11 @@
+{
+  "id": "erireborn_cloud_123pan",
+  "name": "123 云盘",
+  "version": "1.0.0",
+  "author": "EriReborn",
+  "description": "把 123 云盘接入「来源」页。导入对应资源插件后，可从该网盘下载资源；需要登录你自己的账号。",
+  "assembly": "EriReborn.Ext.Cloud.Pan123.dll",
+  "trust": "official",
+  "permissions": ["cloud.contribute", "network.http", "credentials.read"],
+  "categories": ["cloud"]
+}

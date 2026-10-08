@@ -1,0 +1,58 @@
+{
+    "id":  "android_style",
+    "name":  "Android Material",
+    "persona":  "Android",
+    "colors":  {
+                   "accent":  "#6750A4",
+                   "background":  "#FEF7FF",
+                   "surface":  "#FFFFFF",
+                   "surfaceAlt":  "#F5F0F7",
+                   "foreground":  "#1C1B1F",
+                   "muted":  "#79747E",
+                   "border":  "#E7E0EC"
+               },
+    "metrics":  {
+                    "cornerRadius": "16",
+                    "density":  "comfortable"
+                },
+    "fontFamily": "Roboto, Noto Sans CJK SC, sans-serif",
+    "assetManifestFile":  "../../asset_manifest.json",
+    "theme":  "light",
+    "typography":  {
+                       "fontSizeLarge":  "20",
+                       "fontSizeSmall":  "13",
+                       "fontWeight":  "500",
+                       "fontSize":  "15"
+                   },
+    "controls":  {
+                     "listRowHeight":  "56",
+                     "buttonHeight":  "48",
+                     "touchTarget":  "true",
+                     "inputHeight":  "48"
+                 },
+    "navigation":  {
+                       "position":  "bottom",
+                       "mode":  "bottomTabs",
+                       "itemHeight":  "56"
+                   },
+    "window":  {
+                   "minwidth":  "360",
+                   "minheight":  "640",
+                   "chrome":  "borderless"
+               },
+    "layout":  "mobile",
+    "assets":  {
+                   "sheets":  "android_style_*",
+                   "character": "eri_android_character",
+                   "logo":  "skin_android_style_logo_mark",
+                   "emptyState":  "skin_android_style_empty_state",
+                   "loadingState":  "skin_android_style_loading_state"
+                   },
+                   "cursors": {
+                       "default": "asset:v2_eri2_cursor_arrow",
+                       "busy": "asset:v2_eri2_cursor_busy",
+                       "link": "asset:v2_eri2_cursor_hand",
+                       "resizeHorizontal": "asset:v2_eri2_cursor_resize_h",
+                       "text": "asset:v2_eri2_cursor_text"
+                   }
+                   }

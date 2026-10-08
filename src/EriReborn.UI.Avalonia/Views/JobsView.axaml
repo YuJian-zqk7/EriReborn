@@ -1,0 +1,74 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             x:Class="EriReborn.UI.Avalonia.Views.JobsView"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             x:DataType="vm:JobsViewModel">
+  <!-- 这一页自己滚动（页头由外壳钉住），和其它页保持同一套版式。 -->
+  <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+  <StackPanel Spacing="6">
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <controls:UiText Key="page.jobs" FontWeight="SemiBold"
+                         controls:SkinElement.Id="jobs.title"
+                         controls:SkinElement.TextKey="page.jobs" />
+        <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" Classes="muted" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Command="{Binding RefreshCommand}">
+            <controls:UiText Key="common.refresh" />
+          </Button>
+          <Button Command="{Binding CancelAllCommand}" IsEnabled="{Binding HasJobs}"
+                  controls:SkinElement.Id="jobs.cancel_all"
+                  controls:SkinElement.Kind="Button"
+                  controls:SkinElement.TextKey="jobs.cancel_all">
+            <controls:UiText Key="jobs.cancel_all" />
+          </Button>
+        </StackPanel>
+      </StackPanel>
+    </Border>
+
+    <views:EmptyStateView ItemsSource="{Binding Jobs}" AssetId="empty_queue" CaptionTextKey="jobs.empty_state" />
+
+    <Border Classes="card" IsVisible="{Binding HasJobs}">
+      <ItemsControl ItemsSource="{Binding Jobs}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="{x:Type vm:JobItemViewModel}">
+            <Border Classes="chip" Margin="0,0,0,4">
+              <StackPanel Spacing="4">
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                  <StackPanel Grid.Column="0" Spacing="2">
+                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding Detail}" Classes="muted" TextWrapping="Wrap" />
+                  </StackPanel>
+                  <TextBlock Grid.Column="1" Text="{Binding ProgressText}" VerticalAlignment="Center" Margin="8,0" TextWrapping="Wrap" MaxWidth="320" />
+                  <Button Grid.Column="2" IsEnabled="{Binding CanCancel}"
+                          Command="{Binding $parent[UserControl].((vm:JobsViewModel)DataContext).CancelCommand}"
+                          CommandParameter="{Binding}">
+                    <controls:UiText Key="common.cancel" />
+                  </Button>
+                </Grid>
+
+                <!-- 真实进度：有分母才画比例条，否则由状态文字说明"进度未知"。 -->
+                <ProgressBar IsVisible="{Binding HasFraction}" Minimum="0" Maximum="1" Value="{Binding Fraction}" Height="6" />
+
+                <!-- 速度与剩余时间来自下载器本身，不是另算的估计。 -->
+                <TextBlock Text="{Binding TransferText}" Classes="muted" IsVisible="{Binding HasTransferDetail}" />
+
+                <!-- 校验结果（SHA-256 / 大小）。 -->
+                <TextBlock Text="{Binding VerdictText}" Classes="muted"
+                           IsVisible="{Binding HasVerdict}" TextWrapping="Wrap" />
+
+                <!-- 技术信息折叠起来，需要排查时再展开。 -->
+                <Expander Header="查看详细信息" IsVisible="{Binding HasTransferDetail}">
+                  <TextBlock Text="{Binding AdvancedDetail}" Classes="muted" TextWrapping="Wrap" />
+                </Expander>
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </Border>
+  </StackPanel>
+  </ScrollViewer>
+</UserControl>

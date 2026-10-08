@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>24.0</SupportedOSPlatformVersion>
+    <RootNamespace>EriReborn.Platform.Android</RootNamespace>
+    <AssemblyName>EriReborn.Platform.Android</AssemblyName>
+    <AndroidUseIntermediateOutputPath>true</AndroidUseIntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.Core" Version="1.12.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EriReborn.Core\EriReborn.Core.csproj" />
+    <ProjectReference Include="..\EriReborn.Platform.Abstractions\EriReborn.Platform.Abstractions.csproj" />
+    <ProjectReference Include="..\EriReborn.Cloud\EriReborn.Cloud.csproj" />
+    <ProjectReference Include="..\EriReborn.Engine\EriReborn.Engine.csproj" />
+  </ItemGroup>
+</Project>

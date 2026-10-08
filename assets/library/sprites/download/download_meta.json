@@ -1,0 +1,19 @@
+{
+    "name":  "download",
+    "frameCount":  6,
+    "frameWidth":  256,
+    "frameHeight":  256,
+    "columns":  6,
+    "rows":  1,
+    "fps":  8,
+    "sheet":  "download_sheet.png",
+    "loop":  true,
+    "frames":  [
+                   "dl_frame_01.png",
+                   "dl_frame_02.png",
+                   "dl_frame_03.png",
+                   "dl_frame_04.png",
+                   "dl_frame_05.png",
+                   "dl_frame_06.png"
+               ]
+}

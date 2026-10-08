@@ -1,0 +1,204 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.CloudView"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             x:DataType="vm:CloudViewModel">
+  <!-- 版式 B：顶栏说人话；下面「来源」与「网盘账号」分成两个页签，
+       不再把网盘账号挤在右半边。来源页签里左目录 / 右详情各占一整块，
+       块内的 ScrollViewer 让它们各自独立滚动（见 MainViewModel.PageFillsViewport）。 -->
+  <Grid RowDefinitions="Auto,*">
+    <Border Grid.Row="0" Classes="card" Margin="0,0,0,10">
+      <StackPanel Spacing="4">
+        <controls:UiText Key="cloud.heading" FontSize="18" FontWeight="SemiBold"
+                         controls:SkinElement.Id="cloud.title"
+                         controls:SkinElement.TextKey="cloud.heading" />
+        <TextBlock Classes="muted" TextWrapping="Wrap"
+                   Text="左边挑一个软件，右边列出它所有的来源：现在就能用的排在前面，需要登录的会写清楚原因，平台接不上的会直接说明。安装时会自动选一条现成可用的来源。" />
+        <TextBlock Text="{Binding Summary}" Classes="muted" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding CredentialsAvailable}" Classes="muted" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+
+    <TabControl Grid.Row="1">
+      <TabItem Header="来源">
+        <Grid ColumnDefinitions="Auto,14,*">
+          <Border Grid.Column="0" Classes="card" Padding="10" MinWidth="180" MaxWidth="280">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Top" Text="有来源的资源" FontWeight="SemiBold" Margin="0,0,0,6" />
+              <ListBox ItemsSource="{Binding Resources}" SelectedItem="{Binding SelectedResource}">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding Text}" TextWrapping="Wrap" />
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </DockPanel>
+          </Border>
+
+          <Border Grid.Column="2" Classes="card" MinWidth="380">
+            <DockPanel>
+              <StackPanel DockPanel.Dock="Top" Spacing="4">
+                <TextBlock Text="{Binding SelectedResource.Name}" FontSize="15" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding SourceStatus}" Classes="muted" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Recommended}" FontWeight="SemiBold" TextWrapping="Wrap" />
+              </StackPanel>
+
+              <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel Spacing="6">
+                  <views:EmptyStateView ItemsSource="{Binding Sources}"
+                                        AssetId="empty_nothing_to_detect"
+                                        CaptionTextKey="empty.sources" />
+
+                  <ItemsControl ItemsSource="{Binding Sources}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Border Classes="card" Margin="0,0,0,6">
+                          <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="2">
+                              <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding StateText}" Classes="muted" />
+                                <TextBlock Text="建议" IsVisible="{Binding IsRecommended}" FontWeight="SemiBold" />
+                              </StackPanel>
+                              <TextBlock Text="{Binding Reason}" Classes="muted" TextWrapping="Wrap" />
+                              <TextBlock Text="{Binding Detail}" Classes="muted" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <Button Grid.Column="1" Command="{Binding ReadShareCommand}"
+                                    IsVisible="{Binding CanReadShare}" VerticalAlignment="Center"
+                                    controls:SkinElement.Id="cloud.read_share"
+                                    controls:SkinElement.Kind="Button"
+                                    controls:SkinElement.TextKey="cloud.read_share">
+                              <controls:UiText Key="cloud.read_share" />
+                            </Button>
+                          </Grid>
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+
+                  <Border Classes="card">
+                    <StackPanel Spacing="6">
+                      <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="取到的文件" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <Button Command="{Binding OpenDriveCommand}"
+                                controls:SkinElement.Id="cloud.drive_button"
+                                controls:SkinElement.Kind="Button"
+                                controls:SkinElement.TextKey="cloud.my_drive">
+                          <controls:UiText Key="cloud.my_drive" />
+                        </Button>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding ShareStatus}" Classes="muted" TextWrapping="Wrap" />
+                      </StackPanel>
+
+                      <!-- 面包屑：一眼看出当前在分享树的哪一层，点一层就回到那一层。 -->
+                      <ItemsControl ItemsSource="{Binding Breadcrumbs}" IsVisible="{Binding HasBreadcrumbs}">
+                        <ItemsControl.ItemsPanel>
+                          <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                          </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,0,6,0">
+                              <Button FontSize="11" Padding="6,1" Content="{Binding Name}"
+                                      Command="{Binding $parent[UserControl].((vm:CloudViewModel)DataContext).GoToCrumbCommand}"
+                                      CommandParameter="{Binding}" />
+                              <TextBlock Text="/" Classes="muted" VerticalAlignment="Center" />
+                            </StackPanel>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+
+                      <ItemsControl ItemsSource="{Binding ShareFiles}">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                              <TextBlock Text="{Binding Text}" />
+                              <Button Content="进入" Command="{Binding OpenCommand}" IsVisible="{Binding IsFolder}" />
+                              <Button Command="{Binding DownloadCommand}" IsVisible="{Binding !IsFolder}"
+                                      controls:SkinElement.Id="cloud.download_button"
+                                      controls:SkinElement.Kind="Button"
+                                      controls:SkinElement.TextKey="common.download">
+                                <controls:UiText Key="common.download" />
+                              </Button>
+                            </StackPanel>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </StackPanel>
+                  </Border>
+                </StackPanel>
+              </ScrollViewer>
+            </DockPanel>
+          </Border>
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="网盘账号">
+        <Border Classes="card">
+          <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Spacing="6">
+              <TextBlock Classes="muted" TextWrapping="Wrap"
+                         Text="下面五个平台地位完全相同：没有主平台、辅助平台或默认平台。每个平台会如实报告自己现在能不能用；哪一条来源需要先登录，就到对应的平台登录。" />
+              <ItemsControl ItemsSource="{Binding Providers}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Border Classes="card">
+                      <Grid ColumnDefinitions="Auto,*,Auto">
+                        <controls:AssetImage Grid.Column="0" AssetId="{Binding BadgeAssetId}"
+                                             Width="56" Height="56" Margin="0,0,12,0" VerticalAlignment="Top" />
+                        <StackPanel Grid.Column="1" Spacing="3">
+                          <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" />
+                          <TextBlock Classes="muted">
+                            <Run Text="平台 ID：" />
+                            <Run Text="{Binding Id}" />
+                            <Run Text="   认证：" />
+                            <Run Text="{Binding AuthStateText}" />
+                            <Run Text="   实现：" />
+                            <Run Text="{Binding Implementation}" />
+                          </TextBlock>
+                          <TextBlock Text="{Binding ImplementationNote}" TextWrapping="Wrap" Classes="muted" />
+                          <TextBlock Text="{Binding LimitationNote}" TextWrapping="Wrap" Classes="muted" />
+                          <TextBlock Text="{Binding CredentialHint}" TextWrapping="Wrap" />
+                          <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,6,0,0"
+                                      IsVisible="{Binding CanEnterCredential}">
+                            <TextBox Text="{Binding TokenInput}" Watermark="Token 或 Cookie（如 BDUSS=...）" MinWidth="220" MaxWidth="300" />
+                            <Button Command="{Binding SaveCredentialCommand}" Classes="primary"
+                                    controls:SkinElement.Id="cloud.sign_in"
+                                    controls:SkinElement.Kind="Button"
+                                    controls:SkinElement.TextKey="cloud.sign_in">
+                              <controls:UiText Key="cloud.sign_in" />
+                            </Button>
+                            <Button Command="{Binding ClearCredentialCommand}"
+                                    controls:SkinElement.Id="cloud.unbind"
+                                    controls:SkinElement.Kind="Button"
+                                    controls:SkinElement.TextKey="cloud.unbind">
+                              <controls:UiText Key="cloud.unbind" />
+                            </Button>
+                          </StackPanel>
+                          <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,6,0,0"
+                                      IsVisible="{Binding CanOpenBrowserLogin}">
+                            <Button Click="OpenBrowserLogin"
+                                    controls:SkinElement.Id="cloud.browser_login"
+                                    controls:SkinElement.Kind="Button"
+                                    controls:SkinElement.TextKey="cloud.browser_login">
+                              <controls:UiText Key="cloud.browser_login" />
+                            </Button>
+                          </StackPanel>
+                          <TextBlock Text="{Binding LoginStatus}" Classes="muted" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <controls:AssetImage Grid.Column="2" AssetId="{Binding StateIconId}"
+                                             Width="24" Height="24" Margin="10,0,0,0" VerticalAlignment="Top" />
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </ScrollViewer>
+        </Border>
+      </TabItem>
+    </TabControl>
+  </Grid>
+</UserControl>

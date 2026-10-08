@@ -1,0 +1,19 @@
+{
+    "name":  "kuro_walk",
+    "frameCount":  6,
+    "frameWidth":  384,
+    "frameHeight":  384,
+    "columns":  6,
+    "rows":  1,
+    "fps":  10,
+    "sheet":  "kuro_walk_sheet.png",
+    "loop":  true,
+    "frames":  [
+                   "kuro_walk_01.png",
+                   "kuro_walk_02.png",
+                   "kuro_walk_03.png",
+                   "kuro_walk_04.png",
+                   "kuro_walk_05.png",
+                   "kuro_walk_06.png"
+               ]
+}

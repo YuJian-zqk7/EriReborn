@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.ExtensionPageView"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             x:DataType="vm:ExtensionPageViewModel">
+  <!-- 按钮钉在顶部、正文自己滚动：正文动辄几万字，把按钮排在正文下面意味着
+       永远翻不到页——本页因此在 PageFillsViewport 名单里，整页占满视口。 -->
+  <Grid RowDefinitions="Auto,*,Auto" Margin="0,0,0,12">
+    <Border Classes="card" Grid.Row="0">
+      <StackPanel Spacing="8">
+        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+        <ItemsControl ItemsSource="{Binding Actions}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" Spacing="8" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:ExtensionActionViewModel">
+              <Button Content="{Binding Label}"
+                      Command="{Binding InvokeCommand}"
+                      Classes.primary="{Binding IsPrimary}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </Border>
+
+    <Border Classes="card" Grid.Row="1" Margin="0,6,0,0">
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <TextBlock Text="{Binding Body}" TextWrapping="Wrap" Classes="muted" Margin="0,0,4,0" />
+      </ScrollViewer>
+    </Border>
+  </Grid>
+</UserControl>

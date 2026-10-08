@@ -1,0 +1,4148 @@
+{
+  "source": "E:\\harness\\EriReborn_Assets",
+  "count": 462,
+  "items": [
+    {
+      "id": "skin_eri_windows_background_decoration",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_background_decoration.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_badge_row",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_badge_row.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_btn_icon",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_btn_icon.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_btn_primary",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_btn_primary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_btn_secondary",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_btn_secondary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_card",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_card.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_command_bar",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_command_bar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_empty_state",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_empty_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_loading_state",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_loading_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_logo_mark",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_logo_mark.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_sidebar",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_sidebar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_windows_window_header",
+      "category": "skinElement",
+      "file": "skins/eri_windows/elements/skin_window_header.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_background_decoration",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_background_decoration.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_badge_row",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_badge_row.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_btn_icon",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_btn_icon.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_btn_primary",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_btn_primary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_btn_secondary",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_btn_secondary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_card",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_card.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_command_bar",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_command_bar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_empty_state",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_empty_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_loading_state",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_loading_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_logo_mark",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_logo_mark.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_sidebar",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_sidebar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_eri_android_window_header",
+      "category": "skinElement",
+      "file": "skins/eri_android/elements/skin_window_header.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_background_decoration",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_background_decoration.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_badge_row",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_badge_row.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_btn_icon",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_btn_icon.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_btn_primary",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_btn_primary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_btn_secondary",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_btn_secondary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_card",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_card.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_command_bar",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_command_bar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_empty_state",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_empty_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_loading_state",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_loading_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_logo_mark",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_logo_mark.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_sidebar",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_sidebar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_windows_window_header",
+      "category": "skinElement",
+      "file": "skins/tech_windows/elements/skin_window_header.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_background_decoration",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_background_decoration.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_badge_row",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_badge_row.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_btn_icon",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_btn_icon.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_btn_primary",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_btn_primary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_btn_secondary",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_btn_secondary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_card",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_card.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_command_bar",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_command_bar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_empty_state",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_empty_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_loading_state",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_loading_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_logo_mark",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_logo_mark.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_sidebar",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_sidebar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_tech_android_window_header",
+      "category": "skinElement",
+      "file": "skins/tech_android/elements/skin_window_header.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_background_decoration",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_background_decoration.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_badge_row",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_badge_row.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_btn_icon",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_btn_icon.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_btn_primary",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_btn_primary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_btn_secondary",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_btn_secondary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_card",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_card.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_command_bar",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_command_bar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_empty_state",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_empty_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_loading_state",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_loading_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_logo_mark",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_logo_mark.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_sidebar",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_sidebar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_win11_window_header",
+      "category": "skinElement",
+      "file": "skins/win11/elements/skin_window_header.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_background_decoration",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_background_decoration.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_badge_row",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_badge_row.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_btn_icon",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_btn_icon.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_btn_primary",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_btn_primary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_btn_secondary",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_btn_secondary.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_card",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_card.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_command_bar",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_command_bar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_empty_state",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_empty_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_loading_state",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_loading_state.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_logo_mark",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_logo_mark.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_sidebar",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_sidebar.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "skin_android_style_window_header",
+      "category": "skinElement",
+      "file": "skins/android_style/elements/skin_window_header.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_angry",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_angry.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_empty_box",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_empty_box.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_error_dizzy",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_error_dizzy.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_happy",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_happy.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_lie_belly",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_lie_belly.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_peek",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_peek.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_running",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_running.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_sit",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_sit.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_sit_tail",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_sit_tail.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_sleep",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_sleep.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_surprised",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_surprised.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_warning",
+      "category": "04_Kuro_Cat",
+      "file": "library/kuro/kuro_warning.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "icon_ai",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_ai.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_cloud",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_cloud.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_detect",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_detect.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_download",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_download.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_driver",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_driver.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_error",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_error.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_extension",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_extension.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_info",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_info.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_install",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_install.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_loading",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_loading.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_network",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_network.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_plugin",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_plugin.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_runtime",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_runtime.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_search",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_search.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_security",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_security.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_settings",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_settings.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_skin",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_skin.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_success",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_success.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_tutorial",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_tutorial.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_unknown",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_unknown.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_unsupported",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_unsupported.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_update",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_update.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_upload",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_upload.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "icon_warning",
+      "category": "06_State_Icons",
+      "file": "library/icons/icon_warning.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "empty_nothing_to_detect",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_nothing_to_detect.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_no_blog",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_no_blog.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_no_cloud",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_no_cloud.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_no_download",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_no_download.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_no_env_issue",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_no_env_issue.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_no_extension",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_no_extension.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_no_plugin",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_no_plugin.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_no_search_result",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_no_search_result.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_no_software",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_no_software.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_no_tutorial_result",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_no_tutorial_result.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_no_update",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_no_update.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "empty_queue",
+      "category": "24_Empty_States",
+      "file": "library/empty/empty_queue.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_ai_api",
+      "category": "25_Error_States",
+      "file": "library/error/error_ai_api.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_authentication",
+      "category": "25_Error_States",
+      "file": "library/error/error_authentication.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_detection",
+      "category": "25_Error_States",
+      "file": "library/error/error_detection.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_download",
+      "category": "25_Error_States",
+      "file": "library/error/error_download.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_extension",
+      "category": "25_Error_States",
+      "file": "library/error/error_extension.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_installation",
+      "category": "25_Error_States",
+      "file": "library/error/error_installation.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_network",
+      "category": "25_Error_States",
+      "file": "library/error/error_network.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_permission",
+      "category": "25_Error_States",
+      "file": "library/error/error_permission.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_plugin",
+      "category": "25_Error_States",
+      "file": "library/error/error_plugin.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_provider",
+      "category": "25_Error_States",
+      "file": "library/error/error_provider.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_update",
+      "category": "25_Error_States",
+      "file": "library/error/error_update.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "error_verification",
+      "category": "25_Error_States",
+      "file": "library/error/error_verification.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "cursor_arrow",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_arrow.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_busy",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_busy.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_cross",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_cross.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_hand_grab",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_hand_grab.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_hand_point",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_hand_point.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_move",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_move.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_no",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_no.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_resize_diag",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_resize_diag.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_resize_h",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_resize_h.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_resize_v",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_resize_v.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_text",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_text.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cursor_wait",
+      "category": "23_Cursors",
+      "file": "library/cursors/cursor_wait.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "brand_app_icon_square",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/brand_app_icon_square.png",
+      "canvas": {
+        "width": 384,
+        "height": 512
+      }
+    },
+    {
+      "id": "brand_logo_horizontal",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/brand_logo_horizontal.png",
+      "canvas": {
+        "width": 640,
+        "height": 512
+      }
+    },
+    {
+      "id": "brand_symbol_monochrome",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/brand_symbol_monochrome.png",
+      "canvas": {
+        "width": 640,
+        "height": 512
+      }
+    },
+    {
+      "id": "brand_symbol_small",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/brand_symbol_small.png",
+      "canvas": {
+        "width": 384,
+        "height": 512
+      }
+    },
+    {
+      "id": "mkt_badge_developer",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/marketplace/mkt_badge_developer.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "mkt_badge_official_catalog",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/marketplace/mkt_badge_official_catalog.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "mkt_icon_app_small",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/marketplace/mkt_icon_app_small.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "mkt_icon_extension",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/marketplace/mkt_icon_extension.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "mkt_icon_installer",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/marketplace/mkt_icon_installer.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "mkt_icon_plugin",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/marketplace/mkt_icon_plugin.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "mkt_logo_horizontal",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/marketplace/mkt_logo_horizontal.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "mkt_symbol",
+      "category": "22_Logo_Branding",
+      "file": "library/brand/marketplace/mkt_symbol.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "eri_character_chibi_fullbody_v1",
+      "category": "01_Eri_Character",
+      "file": "library/eri/character/eri_character_chibi_fullbody_v1.png",
+      "canvas": {
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "id": "eri_character_fullbody_v1",
+      "category": "01_Eri_Character",
+      "file": "library/eri/character/eri_character_fullbody_v1.png",
+      "canvas": {
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "id": "eri_character_halfbody_v1",
+      "category": "01_Eri_Character",
+      "file": "library/eri/character/eri_character_halfbody_v1.png",
+      "canvas": {
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "id": "eri_character_turnaround_v1",
+      "category": "01_Eri_Character",
+      "file": "library/eri/character/eri_character_turnaround_v1.png",
+      "canvas": {
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "id": "eri_loading_thinking",
+      "category": "05_Eri_Loading",
+      "file": "library/eri/loading/eri_loading_thinking.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "eri_loading_waiting",
+      "category": "05_Eri_Loading",
+      "file": "library/eri/loading/eri_loading_waiting.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "eri_loading_wait_scene_v1",
+      "category": "05_Eri_Loading",
+      "file": "library/eri/loading/eri_loading_wait_scene_v1.png",
+      "canvas": {
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "id": "eri_loading_working",
+      "category": "05_Eri_Loading",
+      "file": "library/eri/loading/eri_loading_working.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "kuro_loading_chase",
+      "category": "05_Eri_Loading",
+      "file": "library/eri/loading/kuro_loading_chase.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "kuro_loading_walk",
+      "category": "05_Eri_Loading",
+      "file": "library/eri/loading/kuro_loading_walk.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "kuro_loading_watch",
+      "category": "05_Eri_Loading",
+      "file": "library/eri/loading/kuro_loading_watch.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "eri_face_angry",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_angry.png",
+      "canvas": {
+        "width": 257,
+        "height": 252
+      }
+    },
+    {
+      "id": "eri_face_annoyed",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_annoyed.png",
+      "canvas": {
+        "width": 255,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_face_confused",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_confused.png",
+      "canvas": {
+        "width": 255,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_face_happy",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_happy.png",
+      "canvas": {
+        "width": 255,
+        "height": 258
+      }
+    },
+    {
+      "id": "eri_face_neutral",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_neutral.png",
+      "canvas": {
+        "width": 255,
+        "height": 258
+      }
+    },
+    {
+      "id": "eri_face_pleading",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_pleading.png",
+      "canvas": {
+        "width": 255,
+        "height": 252
+      }
+    },
+    {
+      "id": "eri_face_sad",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_sad.png",
+      "canvas": {
+        "width": 257,
+        "height": 252
+      }
+    },
+    {
+      "id": "eri_face_serious",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_serious.png",
+      "canvas": {
+        "width": 255,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_face_shy",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_shy.png",
+      "canvas": {
+        "width": 255,
+        "height": 252
+      }
+    },
+    {
+      "id": "eri_face_sleepy",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_sleepy.png",
+      "canvas": {
+        "width": 255,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_face_smug",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_smug.png",
+      "canvas": {
+        "width": 257,
+        "height": 258
+      }
+    },
+    {
+      "id": "eri_face_speechless",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_speechless.png",
+      "canvas": {
+        "width": 257,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_face_surprised",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_surprised.png",
+      "canvas": {
+        "width": 257,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_face_thinking",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_thinking.png",
+      "canvas": {
+        "width": 257,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_face_tsundere",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_tsundere.png",
+      "canvas": {
+        "width": 257,
+        "height": 258
+      }
+    },
+    {
+      "id": "eri_face_worried",
+      "category": "02_Eri_Expressions/base",
+      "file": "library/eri/face/eri_face_worried.png",
+      "canvas": {
+        "width": 257,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_state_detecting",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_detecting.png",
+      "canvas": {
+        "width": 256,
+        "height": 252
+      }
+    },
+    {
+      "id": "eri_state_detect_done",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_detect_done.png",
+      "canvas": {
+        "width": 253,
+        "height": 252
+      }
+    },
+    {
+      "id": "eri_state_downloading",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_downloading.png",
+      "canvas": {
+        "width": 257,
+        "height": 254
+      }
+    },
+    {
+      "id": "eri_state_download_done",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_download_done.png",
+      "canvas": {
+        "width": 256,
+        "height": 254
+      }
+    },
+    {
+      "id": "eri_state_empty",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_empty.png",
+      "canvas": {
+        "width": 253,
+        "height": 261
+      }
+    },
+    {
+      "id": "eri_state_installing",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_installing.png",
+      "canvas": {
+        "width": 253,
+        "height": 254
+      }
+    },
+    {
+      "id": "eri_state_install_failed",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_install_failed.png",
+      "canvas": {
+        "width": 257,
+        "height": 252
+      }
+    },
+    {
+      "id": "eri_state_install_success",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_install_success.png",
+      "canvas": {
+        "width": 258,
+        "height": 254
+      }
+    },
+    {
+      "id": "eri_state_login_required",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_login_required.png",
+      "canvas": {
+        "width": 257,
+        "height": 261
+      }
+    },
+    {
+      "id": "eri_state_network_error",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_network_error.png",
+      "canvas": {
+        "width": 253,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_state_permission_error",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_permission_error.png",
+      "canvas": {
+        "width": 258,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_state_unknown",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_unknown.png",
+      "canvas": {
+        "width": 258,
+        "height": 261
+      }
+    },
+    {
+      "id": "eri_state_update_failed",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_update_failed.png",
+      "canvas": {
+        "width": 256,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_state_update_success",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_update_success.png",
+      "canvas": {
+        "width": 257,
+        "height": 257
+      }
+    },
+    {
+      "id": "eri_state_updating",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_updating.png",
+      "canvas": {
+        "width": 258,
+        "height": 252
+      }
+    },
+    {
+      "id": "eri_state_waiting_user",
+      "category": "02_Eri_Expressions/state",
+      "file": "library/eri/state/eri_state_waiting_user.png",
+      "canvas": {
+        "width": 256,
+        "height": 261
+      }
+    },
+    {
+      "id": "dl_frame_01",
+      "category": "26_Sprites",
+      "file": "library/sprites/download/dl_frame_01.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dl_frame_02",
+      "category": "26_Sprites",
+      "file": "library/sprites/download/dl_frame_02.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dl_frame_03",
+      "category": "26_Sprites",
+      "file": "library/sprites/download/dl_frame_03.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dl_frame_04",
+      "category": "26_Sprites",
+      "file": "library/sprites/download/dl_frame_04.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dl_frame_05",
+      "category": "26_Sprites",
+      "file": "library/sprites/download/dl_frame_05.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dl_frame_06",
+      "category": "26_Sprites",
+      "file": "library/sprites/download/dl_frame_06.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "download_meta",
+      "category": "26_Sprites",
+      "file": "library/sprites/download/download_meta.json"
+    },
+    {
+      "id": "download_sheet",
+      "category": "26_Sprites",
+      "file": "library/sprites/download/download_sheet.png",
+      "canvas": {
+        "width": 1536,
+        "height": 256
+      }
+    },
+    {
+      "id": "eri_blink_01",
+      "category": "26_Sprites",
+      "file": "library/sprites/eri_blink/eri_blink_01.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "eri_blink_02",
+      "category": "26_Sprites",
+      "file": "library/sprites/eri_blink/eri_blink_02.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "eri_blink_03",
+      "category": "26_Sprites",
+      "file": "library/sprites/eri_blink/eri_blink_03.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "eri_blink_04",
+      "category": "26_Sprites",
+      "file": "library/sprites/eri_blink/eri_blink_04.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "eri_blink_meta",
+      "category": "26_Sprites",
+      "file": "library/sprites/eri_blink/eri_blink_meta.json"
+    },
+    {
+      "id": "eri_blink_sheet",
+      "category": "26_Sprites",
+      "file": "library/sprites/eri_blink/eri_blink_sheet.png",
+      "canvas": {
+        "width": 2048,
+        "height": 512
+      }
+    },
+    {
+      "id": "kuro_walk_01",
+      "category": "26_Sprites",
+      "file": "library/sprites/kuro_walk/kuro_walk_01.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_walk_02",
+      "category": "26_Sprites",
+      "file": "library/sprites/kuro_walk/kuro_walk_02.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_walk_03",
+      "category": "26_Sprites",
+      "file": "library/sprites/kuro_walk/kuro_walk_03.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_walk_04",
+      "category": "26_Sprites",
+      "file": "library/sprites/kuro_walk/kuro_walk_04.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_walk_05",
+      "category": "26_Sprites",
+      "file": "library/sprites/kuro_walk/kuro_walk_05.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_walk_06",
+      "category": "26_Sprites",
+      "file": "library/sprites/kuro_walk/kuro_walk_06.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "kuro_walk_meta",
+      "category": "26_Sprites",
+      "file": "library/sprites/kuro_walk/kuro_walk_meta.json"
+    },
+    {
+      "id": "kuro_walk_sheet",
+      "category": "26_Sprites",
+      "file": "library/sprites/kuro_walk/kuro_walk_sheet.png",
+      "canvas": {
+        "width": 2304,
+        "height": 384
+      }
+    },
+    {
+      "id": "spinner_01",
+      "category": "26_Sprites",
+      "file": "library/sprites/spinner/spinner_01.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "spinner_02",
+      "category": "26_Sprites",
+      "file": "library/sprites/spinner/spinner_02.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "spinner_03",
+      "category": "26_Sprites",
+      "file": "library/sprites/spinner/spinner_03.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "spinner_04",
+      "category": "26_Sprites",
+      "file": "library/sprites/spinner/spinner_04.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "spinner_05",
+      "category": "26_Sprites",
+      "file": "library/sprites/spinner/spinner_05.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "spinner_06",
+      "category": "26_Sprites",
+      "file": "library/sprites/spinner/spinner_06.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "spinner_07",
+      "category": "26_Sprites",
+      "file": "library/sprites/spinner/spinner_07.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "spinner_08",
+      "category": "26_Sprites",
+      "file": "library/sprites/spinner/spinner_08.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "spinner_meta",
+      "category": "26_Sprites",
+      "file": "library/sprites/spinner/spinner_meta.json"
+    },
+    {
+      "id": "spinner_sheet",
+      "category": "26_Sprites",
+      "file": "library/sprites/spinner/spinner_sheet.png",
+      "canvas": {
+        "width": 2048,
+        "height": 256
+      }
+    },
+    {
+      "id": "eri_sticker_done",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_done.png",
+      "canvas": {
+        "width": 252,
+        "height": 203
+      }
+    },
+    {
+      "id": "eri_sticker_dont_look",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_dont_look.png",
+      "canvas": {
+        "width": 252,
+        "height": 210
+      }
+    },
+    {
+      "id": "eri_sticker_eh",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_eh.png",
+      "canvas": {
+        "width": 252,
+        "height": 201
+      }
+    },
+    {
+      "id": "eri_sticker_failed",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_failed.png",
+      "canvas": {
+        "width": 261,
+        "height": 188
+      }
+    },
+    {
+      "id": "eri_sticker_found_problem",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_found_problem.png",
+      "canvas": {
+        "width": 252,
+        "height": 222
+      }
+    },
+    {
+      "id": "eri_sticker_hmph",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_hmph.png",
+      "canvas": {
+        "width": 252,
+        "height": 210
+      }
+    },
+    {
+      "id": "eri_sticker_honestly",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_honestly.png",
+      "canvas": {
+        "width": 259,
+        "height": 203
+      }
+    },
+    {
+      "id": "eri_sticker_hurry_up",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_hurry_up.png",
+      "canvas": {
+        "width": 259,
+        "height": 201
+      }
+    },
+    {
+      "id": "eri_sticker_leave_it_to_eri",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_leave_it_to_eri.png",
+      "canvas": {
+        "width": 261,
+        "height": 203
+      }
+    },
+    {
+      "id": "eri_sticker_like_you",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_like_you.png",
+      "canvas": {
+        "width": 261,
+        "height": 210
+      }
+    },
+    {
+      "id": "eri_sticker_not_eris_fault",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_not_eris_fault.png",
+      "canvas": {
+        "width": 252,
+        "height": 188
+      }
+    },
+    {
+      "id": "eri_sticker_not_lazy",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_not_lazy.png",
+      "canvas": {
+        "width": 252,
+        "height": 188
+      }
+    },
+    {
+      "id": "eri_sticker_not_true",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_not_true.png",
+      "canvas": {
+        "width": 259,
+        "height": 210
+      }
+    },
+    {
+      "id": "eri_sticker_okay",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_okay.png",
+      "canvas": {
+        "width": 252,
+        "height": 222
+      }
+    },
+    {
+      "id": "eri_sticker_oniichan",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_oniichan.png",
+      "canvas": {
+        "width": 252,
+        "height": 201
+      }
+    },
+    {
+      "id": "eri_sticker_wait_a_bit",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_wait_a_bit.png",
+      "canvas": {
+        "width": 261,
+        "height": 201
+      }
+    },
+    {
+      "id": "eri_sticker_wait_more",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_wait_more.png",
+      "canvas": {
+        "width": 261,
+        "height": 222
+      }
+    },
+    {
+      "id": "eri_sticker_whats_that",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_whats_that.png",
+      "canvas": {
+        "width": 252,
+        "height": 203
+      }
+    },
+    {
+      "id": "eri_sticker_whimper",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_whimper.png",
+      "canvas": {
+        "width": 259,
+        "height": 188
+      }
+    },
+    {
+      "id": "eri_sticker_working_hard",
+      "category": "03_Eri_Stickers",
+      "file": "library/stickers/eri_sticker_working_hard.png",
+      "canvas": {
+        "width": 259,
+        "height": 222
+      }
+    },
+    {
+      "id": "btn_danger_disabled",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_danger_disabled.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_danger_focused",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_danger_focused.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_danger_hover",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_danger_hover.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_danger_normal",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_danger_normal.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_danger_pressed",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_danger_pressed.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_ghost_disabled",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_ghost_disabled.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_ghost_focused",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_ghost_focused.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_ghost_hover",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_ghost_hover.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_ghost_normal",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_ghost_normal.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_ghost_pressed",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_ghost_pressed.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_icon_disabled",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_icon_disabled.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_icon_focused",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_icon_focused.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_icon_hover",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_icon_hover.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_icon_normal",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_icon_normal.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_icon_pressed",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_icon_pressed.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_primary_disabled",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_primary_disabled.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_primary_focused",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_primary_focused.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_primary_hover",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_primary_hover.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_primary_normal",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_primary_normal.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_primary_pressed",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_primary_pressed.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_secondary_disabled",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_secondary_disabled.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_secondary_focused",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_secondary_focused.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_secondary_hover",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_secondary_hover.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_secondary_normal",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_secondary_normal.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_secondary_pressed",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_secondary_pressed.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_success_disabled",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_success_disabled.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_success_focused",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_success_focused.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_success_hover",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_success_hover.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_success_normal",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_success_normal.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "btn_success_pressed",
+      "category": "07_UI_Controls",
+      "file": "library/controls/buttons/btn_success_pressed.png",
+      "canvas": {
+        "width": 384,
+        "height": 160
+      }
+    },
+    {
+      "id": "nine_button",
+      "category": "07_UI_Controls",
+      "file": "library/controls/nineslice/nine_button.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "nine_card",
+      "category": "07_UI_Controls",
+      "file": "library/controls/nineslice/nine_card.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "nine_dialog",
+      "category": "07_UI_Controls",
+      "file": "library/controls/nineslice/nine_dialog.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "nine_panel",
+      "category": "07_UI_Controls",
+      "file": "library/controls/nineslice/nine_panel.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "nine_toast",
+      "category": "07_UI_Controls",
+      "file": "library/controls/nineslice/nine_toast.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "nine_tooltip",
+      "category": "07_UI_Controls",
+      "file": "library/controls/nineslice/nine_tooltip.png",
+      "canvas": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    {
+      "id": "ctrl_progress_circular",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_progress_circular.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_progress_circular_indeterminate",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_progress_circular_indeterminate.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_progress_linear",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_progress_linear.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_progress_linear_indeterminate",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_progress_linear_indeterminate.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_progress_linear_ring",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_progress_linear_ring.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_slider_disabled",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_slider_disabled.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_slider_hover",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_slider_hover.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_slider_normal",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_slider_normal.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_slider_pressed",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_slider_pressed.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_slider_ticks_tooltip",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_slider_ticks_tooltip.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_slider_vertical",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_slider_vertical.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "ctrl_status_bars",
+      "category": "07_UI_Controls",
+      "file": "library/controls/slider_progress/ctrl_status_bars.png",
+      "canvas": {
+        "width": 384,
+        "height": 256
+      }
+    },
+    {
+      "id": "widget_accordion",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_accordion.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_breadcrumb",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_breadcrumb.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_checkbox_checked",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_checkbox_checked.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_checkbox_indeterminate",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_checkbox_indeterminate.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_checkbox_unchecked",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_checkbox_unchecked.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_dropdown_closed",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_dropdown_closed.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_dropdown_open",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_dropdown_open.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_nav_item_active",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_nav_item_active.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_radio_group",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_radio_group.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_scrollbar",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_scrollbar.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_search_field",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_search_field.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_stepper",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_stepper.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_tabs",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_tabs.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_toggle_off",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_toggle_off.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_toggle_on",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_toggle_on.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "widget_tooltip",
+      "category": "07_UI_Controls",
+      "file": "library/controls/widgets/widget_tooltip.png",
+      "canvas": {
+        "width": 512,
+        "height": 320
+      }
+    },
+    {
+      "id": "win_back",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_back.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_close",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_close.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_forward",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_forward.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_help",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_help.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_maximize",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_maximize.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_menu",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_menu.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_minimize",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_minimize.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_more",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_more.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_refresh",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_refresh.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_restore",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_restore.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_search",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_search.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "win_settings",
+      "category": "07_UI_Controls",
+      "file": "library/controls/window/win_settings.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cloud_123_badge",
+      "category": "08_Cloud_Providers",
+      "file": "library/cloud/cloud_123_badge.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cloud_123_line",
+      "category": "08_Cloud_Providers",
+      "file": "library/cloud/cloud_123_line.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cloud_baidu_badge",
+      "category": "08_Cloud_Providers",
+      "file": "library/cloud/cloud_baidu_badge.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cloud_baidu_line",
+      "category": "08_Cloud_Providers",
+      "file": "library/cloud/cloud_baidu_line.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cloud_lanzou_badge",
+      "category": "08_Cloud_Providers",
+      "file": "library/cloud/cloud_lanzou_badge.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cloud_lanzou_line",
+      "category": "08_Cloud_Providers",
+      "file": "library/cloud/cloud_lanzou_line.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cloud_quark_badge",
+      "category": "08_Cloud_Providers",
+      "file": "library/cloud/cloud_quark_badge.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cloud_quark_line",
+      "category": "08_Cloud_Providers",
+      "file": "library/cloud/cloud_quark_line.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cloud_xunlei_badge",
+      "category": "08_Cloud_Providers",
+      "file": "library/cloud/cloud_xunlei_badge.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "cloud_xunlei_line",
+      "category": "08_Cloud_Providers",
+      "file": "library/cloud/cloud_xunlei_line.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "extension_gear",
+      "category": "09_Plugin_Extension",
+      "file": "library/plugin/extension_gear.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "extension_module_pair",
+      "category": "09_Plugin_Extension",
+      "file": "library/plugin/extension_module_pair.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "extension_plug",
+      "category": "09_Plugin_Extension",
+      "file": "library/plugin/extension_plug.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "extension_spark",
+      "category": "09_Plugin_Extension",
+      "file": "library/plugin/extension_spark.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "extension_tool",
+      "category": "09_Plugin_Extension",
+      "file": "library/plugin/extension_tool.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "plugin_archive_download",
+      "category": "09_Plugin_Extension",
+      "file": "library/plugin/plugin_archive_download.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "plugin_cloud_box",
+      "category": "09_Plugin_Extension",
+      "file": "library/plugin/plugin_cloud_box.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "plugin_link_chain",
+      "category": "09_Plugin_Extension",
+      "file": "library/plugin/plugin_link_chain.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "plugin_package_cloud",
+      "category": "09_Plugin_Extension",
+      "file": "library/plugin/plugin_package_cloud.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "plugin_shelf_link",
+      "category": "09_Plugin_Extension",
+      "file": "library/plugin/plugin_shelf_link.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlacc_aria2",
+      "category": "10_Download_Accelerator",
+      "file": "library/dlacc/dlacc_aria2.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlacc_browser_assisted",
+      "category": "10_Download_Accelerator",
+      "file": "library/dlacc/dlacc_browser_assisted.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlacc_cdn",
+      "category": "10_Download_Accelerator",
+      "file": "library/dlacc/dlacc_cdn.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlacc_master",
+      "category": "10_Download_Accelerator",
+      "file": "library/dlacc/dlacc_master.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlacc_multi_connection",
+      "category": "10_Download_Accelerator",
+      "file": "library/dlacc/dlacc_multi_connection.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlacc_range",
+      "category": "10_Download_Accelerator",
+      "file": "library/dlacc/dlacc_range.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlacc_resume",
+      "category": "10_Download_Accelerator",
+      "file": "library/dlacc/dlacc_resume.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlacc_retry",
+      "category": "10_Download_Accelerator",
+      "file": "library/dlacc/dlacc_retry.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlacc_route",
+      "category": "10_Download_Accelerator",
+      "file": "library/dlacc/dlacc_route.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlacc_speed_boost",
+      "category": "10_Download_Accelerator",
+      "file": "library/dlacc/dlacc_speed_boost.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "swcat_browser",
+      "category": "11_Software",
+      "file": "library/software/categories/swcat_browser.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "swcat_devtools",
+      "category": "11_Software",
+      "file": "library/software/categories/swcat_devtools.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "swcat_driver",
+      "category": "11_Software",
+      "file": "library/software/categories/swcat_driver.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "swcat_media",
+      "category": "11_Software",
+      "file": "library/software/categories/swcat_media.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "swcat_productivity",
+      "category": "11_Software",
+      "file": "library/software/categories/swcat_productivity.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "swcat_runtime",
+      "category": "11_Software",
+      "file": "library/software/categories/swcat_runtime.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "dlrow_completed",
+      "category": "11_Software",
+      "file": "library/software/download_rows/dlrow_completed.png",
+      "canvas": {
+        "width": 1024,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlrow_downloading",
+      "category": "11_Software",
+      "file": "library/software/download_rows/dlrow_downloading.png",
+      "canvas": {
+        "width": 1024,
+        "height": 256
+      }
+    },
+    {
+      "id": "dlrow_paused",
+      "category": "11_Software",
+      "file": "library/software/download_rows/dlrow_paused.png",
+      "canvas": {
+        "width": 1024,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_badge_danger",
+      "category": "11_Software",
+      "file": "library/software/sw_badge_danger.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_badge_downloading",
+      "category": "11_Software",
+      "file": "library/software/sw_badge_downloading.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_badge_empty_alt",
+      "category": "11_Software",
+      "file": "library/software/sw_badge_empty_alt.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_badge_empty_primary",
+      "category": "11_Software",
+      "file": "library/software/sw_badge_empty_primary.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_badge_installed",
+      "category": "11_Software",
+      "file": "library/software/sw_badge_installed.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_badge_updating",
+      "category": "11_Software",
+      "file": "library/software/sw_badge_updating.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_chip_broken",
+      "category": "11_Software",
+      "file": "library/software/sw_chip_broken.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_chip_missing",
+      "category": "11_Software",
+      "file": "library/software/sw_chip_missing.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_chip_unknown",
+      "category": "11_Software",
+      "file": "library/software/sw_chip_unknown.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_chip_unsupported",
+      "category": "11_Software",
+      "file": "library/software/sw_chip_unsupported.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_icon_container_app",
+      "category": "11_Software",
+      "file": "library/software/sw_icon_container_app.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "sw_icon_container_empty",
+      "category": "11_Software",
+      "file": "library/software/sw_icon_container_empty.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "env_audio",
+      "category": "12_Environment",
+      "file": "library/environment/drivers/env_audio.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_bluetooth",
+      "category": "12_Environment",
+      "file": "library/environment/drivers/env_bluetooth.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_gpu",
+      "category": "12_Environment",
+      "file": "library/environment/drivers/env_gpu.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_network",
+      "category": "12_Environment",
+      "file": "library/environment/drivers/env_network.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_printer",
+      "category": "12_Environment",
+      "file": "library/environment/drivers/env_printer.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_usb",
+      "category": "12_Environment",
+      "file": "library/environment/drivers/env_usb.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_dotnet",
+      "category": "12_Environment",
+      "file": "library/environment/runtime/env_dotnet.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_java",
+      "category": "12_Environment",
+      "file": "library/environment/runtime/env_java.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_node",
+      "category": "12_Environment",
+      "file": "library/environment/runtime/env_node.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_python",
+      "category": "12_Environment",
+      "file": "library/environment/runtime/env_python.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_vcpp",
+      "category": "12_Environment",
+      "file": "library/environment/runtime/env_vcpp.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "env_webview2",
+      "category": "12_Environment",
+      "file": "library/environment/runtime/env_webview2.png",
+      "canvas": {
+        "width": 384,
+        "height": 384
+      }
+    },
+    {
+      "id": "sec_catalog_browse",
+      "category": "13_Security",
+      "file": "library/security/sec_catalog_browse.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_catalog_trusted",
+      "category": "13_Security",
+      "file": "library/security/sec_catalog_trusted.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_catalog_untrusted",
+      "category": "13_Security",
+      "file": "library/security/sec_catalog_untrusted.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_quarantined",
+      "category": "13_Security",
+      "file": "library/security/sec_quarantined.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_read_only",
+      "category": "13_Security",
+      "file": "library/security/sec_read_only.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_signature_error",
+      "category": "13_Security",
+      "file": "library/security/sec_signature_error.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_signature_invalid",
+      "category": "13_Security",
+      "file": "library/security/sec_signature_invalid.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_signature_valid",
+      "category": "13_Security",
+      "file": "library/security/sec_signature_valid.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_trusted",
+      "category": "13_Security",
+      "file": "library/security/sec_trusted.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_untrusted",
+      "category": "13_Security",
+      "file": "library/security/sec_untrusted.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_verified",
+      "category": "13_Security",
+      "file": "library/security/sec_verified.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "sec_warning",
+      "category": "13_Security",
+      "file": "library/security/sec_warning.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tutorial_about",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_about.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_ai_api",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_ai_api.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_backup_restore",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_backup_restore.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_blog",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_blog.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_cloud",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_cloud.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_download_accelerator",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_download_accelerator.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_drivers",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_drivers.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_environment",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_environment.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_extension",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_extension.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_logs",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_logs.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_marketplace",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_marketplace.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_persona",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_persona.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_plugin",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_plugin.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_quick_start",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_quick_start.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_runtime",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_runtime.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_search",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_search.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_security",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_security.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_settings",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_settings.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_skin",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_skin.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_software",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_software.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_troubleshooting",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_troubleshooting.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_update",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_update.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_welcome",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_welcome.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tutorial_workshop",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/chapters/tutorial_workshop.png",
+      "canvas": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "tut_arrow_curved",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_arrow_curved.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_arrow_straight",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_arrow_straight.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_btn_finish",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_btn_finish.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_btn_help",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_btn_help.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_btn_next",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_btn_next.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_btn_prev",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_btn_prev.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_click_ripple",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_click_ripple.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_hand_pointer",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_hand_pointer.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_highlight_box",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_highlight_box.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_skip_line",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_skip_line.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_spotlight_banner",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_spotlight_banner.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_spotlight_circle",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_spotlight_circle.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_spotlight_rect",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_spotlight_rect.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_step_badge",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_step_badge.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_step_stack",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_step_stack.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "tut_tooltip",
+      "category": "14_Tutorial",
+      "file": "library/tutorial/widgets/tut_tooltip.png",
+      "canvas": {
+        "width": 320,
+        "height": 320
+      }
+    },
+    {
+      "id": "ws_align",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_align.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_asset_browser",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_asset_browser.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_delete",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_delete.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_duplicate",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_duplicate.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_export",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_export.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_extension_creator",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_extension_creator.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_import",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_import.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_layer",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_layer.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_logo",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_logo.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_move",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_move.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_persona_editor",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_persona_editor.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_plugin_creator",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_plugin_creator.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_preview",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_preview.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_reset",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_reset.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_resize",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_resize.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_save",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_save.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_skin_editor",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_skin_editor.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_ui_layout_editor",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_ui_layout_editor.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_visibility_off",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_visibility_off.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "id": "ws_visibility_on",
+      "category": "15_Creative_Workshop",
+      "file": "library/workshop/ws_visibility_on.png",
+      "canvas": {
+        "width": 256,
+        "height": 256
+      }
+    }
+  ]
+}

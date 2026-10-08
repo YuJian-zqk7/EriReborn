@@ -1,0 +1,58 @@
+{
+    "id": "eri_android",
+    "name": "Eri · Android",
+    "persona": "Eri",
+    "colors": {
+        "accent": "#7C7BF0",
+        "background": "#F7F8FF",
+        "surface": "#FFFFFF",
+        "surfaceAlt": "#EEEDFF",
+        "foreground": "#2B2B3A",
+        "muted": "#6E6E85",
+        "border": "#DDDCF0"
+    },
+    "metrics": {
+        "cornerRadius": "22",
+        "density": "comfortable"
+    },
+    "fontFamily": "Microsoft YaHei UI, Microsoft YaHei, Segoe UI",
+    "assetManifestFile": "../../asset_manifest.json",
+    "theme": "light",
+    "typography": {
+        "fontSizeLarge": "20",
+        "fontSizeSmall": "13",
+        "fontWeight": "500",
+        "fontSize": "15"
+    },
+    "controls": {
+        "listRowHeight": "56",
+        "buttonHeight": "48",
+        "touchTarget": "true",
+        "inputHeight": "48"
+    },
+    "navigation": {
+        "position": "bottom",
+        "mode": "bottomTabs",
+        "itemHeight": "56"
+    },
+    "window": {
+        "minwidth": "360",
+        "minheight": "640",
+        "chrome": "borderless"
+    },
+    "layout": "mobile",
+    "assets": {
+        "sheets": "eri_android_*",
+        "character": "eri_android_character",
+        "logo": "skin_eri_android_logo_mark",
+        "emptyState": "v2_eri_sticker_idle",
+        "loadingState": "v2_eri_sticker_loading"
+    },
+    "cursors": {
+        "default": "asset:v2_eri2_cursor_arrow",
+        "busy": "asset:v2_eri2_cursor_busy",
+        "link": "asset:v2_eri2_cursor_hand",
+        "resizeHorizontal": "asset:v2_eri2_cursor_resize_h",
+        "text": "asset:v2_eri2_cursor_text"
+    }
+}

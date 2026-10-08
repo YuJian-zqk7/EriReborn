@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>EriReborn.Core.Tests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EriReborn.Core\EriReborn.Core.csproj" />
+    <ProjectReference Include="..\..\src\EriReborn.Platform.Abstractions\EriReborn.Platform.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\EriReborn.Cloud\EriReborn.Cloud.csproj" />
+    <ProjectReference Include="..\..\src\EriReborn.Engine\EriReborn.Engine.csproj" />
+    <ProjectReference Include="..\..\src\EriReborn.Skin\EriReborn.Skin.csproj" />
+    <ProjectReference Include="..\..\src\EriReborn.Asset\EriReborn.Asset.csproj" />
+    <ProjectReference Include="..\..\src\EriReborn.Extension\EriReborn.Extension.csproj" />
+    <ProjectReference Include="..\..\src\EriReborn.Layout\EriReborn.Layout.csproj" />
+    <ProjectReference Include="..\..\src\EriReborn.App.Shared\EriReborn.App.Shared.csproj" />
+    <!-- Copied into the test output so the marketplace test can package a real extension. -->
+    <ProjectReference Include="..\..\samples\EriReborn.SampleExtension\EriReborn.SampleExtension.csproj" />
+  </ItemGroup>
+</Project>

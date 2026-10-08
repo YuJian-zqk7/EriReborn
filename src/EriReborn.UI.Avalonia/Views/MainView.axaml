@@ -1,0 +1,195 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.MainView"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             x:DataType="vm:MainViewModel"
+             x:Name="ShellRoot">
+  <Grid RowDefinitions="Auto,*,Auto">
+    <!-- Desktop top bar. The reference launcher keeps brand, page title and actions on one
+         bar above the body, rather than floating them at the top of the scrolling content. -->
+    <Border Grid.Row="0" IsVisible="{Binding !IsMobile}" Background="{DynamicResource SkinSurface}"
+            BorderBrush="{DynamicResource SkinBorder}" BorderThickness="0,0,0,1" Padding="14,7">
+      <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+        <controls:AssetImage Grid.Column="0" AssetId="brand_logo_horizontal" Height="44" VerticalAlignment="Center"
+                             controls:SkinElement.Id="shell.brand_logo"
+                             controls:SkinElement.AssetId="brand_logo_horizontal" />
+        <!-- Two levels, like the reference launcher: the page name, then one line saying what
+             the page is about. A single title line leaves the reader to infer the rest. -->
+        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+          <TextBlock Text="{Binding CurrentPageTitle}" Classes="pageTitle" />
+          <TextBlock Text="{Binding CurrentPageSubtitle}" Classes="muted" FontSize="12"
+                     TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+        <!-- The page's own actions live on the bar, and a page may contribute several; the
+             one marked Primary is drawn as the main button. -->
+        <ItemsControl Grid.Column="2" ItemsSource="{Binding PageActions}" VerticalAlignment="Center"
+                      HorizontalAlignment="Right" Margin="0,0,12,0">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <!-- The bar is 40px tall and the material's button art is a whole illustration:
+                   squeezed in here it turns to mud, so the bar keeps plain labels and the art
+                   goes where there is room for it. -->
+              <Button Content="{Binding Title}" Command="{Binding Command}"
+                      Classes.primary="{Binding Primary}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ComboBox Grid.Column="3" ItemsSource="{Binding Skins}" SelectedItem="{Binding ActiveSkin}"
+                  Width="180" VerticalAlignment="Center">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+      </Grid>
+    </Border>
+
+    <!-- Mobile top bar: real mobile layout, not a shrunk desktop one (spec 8/42) -->
+    <Border Grid.Row="0" IsVisible="{Binding IsMobile}" Background="{DynamicResource SkinSurface}" Padding="12,8">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock Grid.Column="0" Text="{Binding CurrentPageTitle}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" />
+        <ComboBox Grid.Column="1" ItemsSource="{Binding Skins}" SelectedItem="{Binding ActiveSkin}" Width="150">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+      </Grid>
+    </Border>
+
+    <DockPanel Grid.Row="1">
+      <!-- Sidebar; a collapsed DockPanel child frees its space entirely.
+           Whether it is used at all comes from the skin's navigation position. -->
+      <!-- 216 like the reference launcher: the wider the rail, the less room the content has. -->
+      <Border DockPanel.Dock="Left" Width="216" IsVisible="{Binding !IsBottomNav}"
+              Background="{DynamicResource SkinSurfaceAlt}" Padding="8"
+              BorderBrush="{DynamicResource SkinBorder}" BorderThickness="0,0,1,0">
+        <DockPanel>
+          <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="6,4,0,8">
+            <controls:AssetImage AssetId="brand_symbol_small" Width="30" Height="30" VerticalAlignment="Center" />
+            <controls:UiText Key="nav.sidebar" Classes="muted" VerticalAlignment="Center" />
+          </StackPanel>
+          <!-- The rail's width is owned by a scroll viewer around the tree, not by the tree itself.
+               HorizontalAlignment="Left" stays on the TreeView so a long page name is measured at its
+               own length and can be scrolled to instead of being squeezed, but the viewer outside it
+               is pinned to the rail. Left to size itself the tree grew past the rail and drew its rows
+               out over the content beside it — the misalignment this fixes — while a stretched tree
+               measured its widest entry at the rail's width and so had nothing left to scroll to. -->
+          <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <TreeView Classes="nav" ItemsSource="{Binding NavigationItems}"
+                      SelectedItem="{Binding SelectedNavigationItem}"
+                      Background="Transparent"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+              <TreeView.ItemTemplate>
+                <TreeDataTemplate ItemsSource="{Binding Children}">
+                  <StackPanel Orientation="Horizontal" Spacing="8" Margin="2,3">
+                    <controls:AssetImage AssetId="{Binding IconId}" Width="20" Height="20" VerticalAlignment="Center"
+                                         controls:SkinElement.Id="{Binding SkinIconElementId}"
+                                         controls:SkinElement.Kind="Icon"
+                                         controls:SkinElement.AssetId="{Binding IconId}"
+                                         controls:SkinElement.DisplayName="{Binding Title}" />
+                    <TextBlock Text="{Binding Title}" VerticalAlignment="Center"
+                               controls:SkinElement.Id="{Binding SkinTextElementId}"
+                               controls:SkinElement.Kind="Text"
+                               controls:SkinElement.TextKey="{Binding TextKey}"
+                               controls:SkinElement.DisplayName="{Binding Title}" />
+                  </StackPanel>
+                </TreeDataTemplate>
+              </TreeView.ItemTemplate>
+            </TreeView>
+          </ScrollViewer>
+        </DockPanel>
+      </Border>
+
+      <!-- The content area scrolls sideways too, for the same reason the rail does: wide
+           content stays reachable instead of being clipped. The bar is on demand: a page
+           that lays itself out to fill the viewport (see PageFillsViewport) owns its own
+           pane scrollbars, so a bar stretched across the whole shell would be a second,
+           empty one. The extra bottom padding is breathing room: content flush against the
+           window edge reads as clipped even when it is not. -->
+        <ScrollViewer x:Name="PageScroller" Padding="18,18,18,26" HorizontalScrollBarVisibility="Auto">
+        <!-- The host's height is set from code for pages that scroll their own panes; see
+             ApplyPageHostHeight. Every other page leaves it Auto and scrolls as before. -->
+        <Panel x:Name="PageHost">
+          <ContentControl Content="{Binding CurrentPage}" />
+        </Panel>
+      </ScrollViewer>
+    </DockPanel>
+
+    <!-- Bottom navigation, when the skin asks for it (spec 8/118) -->
+    <Border Grid.Row="2" IsVisible="{Binding IsBottomNav}" Background="{DynamicResource SkinSurface}" Padding="4">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <ItemsControl ItemsSource="{Binding BottomNavigationItems}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" Spacing="4" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <!-- Height comes from the skin's button metric, not from here. -->
+              <Button Content="{Binding Title}" MinWidth="96" Padding="12,10"
+                      Command="{Binding $parent[UserControl].((vm:MainViewModel)DataContext).NavigateCommand}"
+                      CommandParameter="{Binding}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+    </Border>
+
+    <!-- The shell's question, drawn over everything. Shape follows the reference launcher:
+         title, body, an optional "do not remind me" choice, then a right-aligned action row. -->
+    <Border Grid.Row="0" Grid.RowSpan="3" IsVisible="{Binding PromptOpen}" Background="#66000000">
+      <!-- No frame art: the dialog is a plain skin card. The picture-frame attempt kept either a
+           transparent ring or an overhanging white edge, so the card stands on its own. -->
+      <Border Width="580" VerticalAlignment="Center" HorizontalAlignment="Center"
+              Background="{DynamicResource SkinSurface}"
+              BorderBrush="{DynamicResource SkinBorder}" BorderThickness="1"
+              CornerRadius="{DynamicResource SkinCornerRadius}" Padding="26,22">
+          <StackPanel Spacing="12">
+          <TextBlock Text="{Binding PromptStep}" Classes="muted" FontSize="12"
+                     IsVisible="{Binding PromptStep, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+          <TextBlock Text="{Binding PromptTitle}" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" />
+          <TextBlock Text="{Binding PromptBody}" Classes="muted" FontSize="13" LineHeight="22" TextWrapping="Wrap" />
+          <CheckBox Content="{Binding PromptDontRemind}" IsChecked="{Binding PromptDontRemindChecked}"
+                    IsVisible="{Binding PromptDontRemind, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+          <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right">
+            <Button Command="{Binding PromptTertiaryAction}"
+                    Classes.art="{Binding #tertiaryArt.HasArt}"
+                    IsVisible="{Binding PromptTertiaryText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+              <Panel>
+                <TextBlock Text="{Binding PromptTertiaryText}" IsVisible="{Binding !#tertiaryArt.HasArt}" />
+                <controls:AssetImage x:Name="tertiaryArt" ActionKey="{Binding PromptTertiaryKey}" Height="48" Stretch="Uniform" />
+              </Panel>
+            </Button>
+            <Button Command="{Binding PromptSecondaryAction}"
+                    Classes.art="{Binding #secondaryArt.HasArt}">
+              <Panel>
+                <TextBlock Text="{Binding PromptSecondaryText}" IsVisible="{Binding !#secondaryArt.HasArt}" />
+                <controls:AssetImage x:Name="secondaryArt" ActionKey="{Binding PromptSecondaryKey}" Height="48" Stretch="Uniform" />
+              </Panel>
+            </Button>
+            <Button Command="{Binding PromptPrimaryAction}" Classes="primary"
+                    Classes.art="{Binding #primaryArt.HasArt}">
+              <Panel>
+                <TextBlock Text="{Binding PromptPrimaryText}" IsVisible="{Binding !#primaryArt.HasArt}" />
+                <controls:AssetImage x:Name="primaryArt" ActionKey="{Binding PromptPrimaryKey}" Height="48" Stretch="Uniform" />
+              </Panel>
+            </Button>
+          </StackPanel>
+          </StackPanel>
+      </Border>
+    </Border>
+  </Grid>
+</UserControl>

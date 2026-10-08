@@ -1,0 +1,695 @@
+{
+    "//":  "Each entry breaks one property the tests claim to protect. A mutation the suite does not catch is an unguarded property, not a curiosity.",
+    "//defensive":  "Marked defensive means the change is expected to survive: the property is held by another guard, or is unreachable through the public API. Recorded rather than deleted, because deleting it would lose the reason.",
+    "//filter":  "A filter of * means the whole suite: the honest filter when the question is whether any test at all covers the code.",
+    "mutations":  [
+                      {
+                          "name":  "signature verification always succeeds",
+                          "file":  "src/EriReborn.Extension/Signing/PackageSignature.cs",
+                          "old":  "return ecdsa.VerifyData(payload, signature, HashAlgorithmName.SHA256);",
+                          "new":  "return true;",
+                          "filter":  "PackageSignatureTests"
+                      },
+                      {
+                          "name":  "plugin replacement allows a partial result",
+                          "file":  "src/EriReborn.Engine/Plugins/PluginRegistry.cs",
+                          "old":  "if (rejected.Count \u003e 0)",
+                          "new":  "if (rejected.Count \u003e 1000000)",
+                          "filter":  "PluginRegistryAtomicityTests"
+                      },
+                      {
+                          "name":  "safe area is not sanitised",
+                          "file":  "src/EriReborn.Platform.Abstractions/SafeAreaInsets.cs",
+                          "old":  "=\u003e double.IsNaN(value) ? 0 : Math.Clamp(value, 0, MaxPlausible);",
+                          "new":  "=\u003e value;",
+                          "filter":  "SafeAreaTests"
+                      },
+                      {
+                          "name":  "safe area cap off by one",
+                          "file":  "src/EriReborn.Platform.Abstractions/SafeAreaInsets.cs",
+                          "old":  "Math.Clamp(value, 0, MaxPlausible)",
+                          "new":  "Math.Clamp(value, 0, MaxPlausible + 1)",
+                          "filter":  "SafeAreaTests"
+                      },
+                      {
+                          "name":  "navigation keeps no history",
+                          "file":  "src/EriReborn.App.Shared/Services/NavigationService.cs",
+                          "old":  "_history.Add(CurrentKey);",
+                          "new":  "// _history.Add(CurrentKey);",
+                          "filter":  "NavigationHistoryTests"
+                      },
+                      {
+                          "name":  "history bound off by one",
+                          "file":  "src/EriReborn.App.Shared/Services/NavigationService.cs",
+                          "old":  "if (_history.Count \u003e MaxHistory)",
+                          "new":  "if (_history.Count \u003e= MaxHistory)",
+                          "filter":  "NavigationHistoryTests"
+                      },
+                      {
+                          "name":  "back without an empty guard",
+                          "file":  "src/EriReborn.App.Shared/Services/NavigationService.cs",
+                          "old":  "if (_history.Count == 0)",
+                          "new":  "if (false)",
+                          "filter":  "NavigationHistoryTests"
+                      },
+                      {
+                          "name":  "cache ignores a missing file",
+                          "file":  "src/EriReborn.Core/Net/RemoteIndexCache.cs",
+                          "old":  "if (!File.Exists(cacheFile))",
+                          "new":  "if (false)",
+                          "filter":  "RemoteIndexCacheTests"
+                      },
+                      {
+                          "name":  "IsComplete is always true",
+                          "file":  "src/EriReborn.Engine/Plugins/PluginRegistry.cs",
+                          "old":  "public bool IsComplete =\u003e Rejected.Count == 0;",
+                          "new":  "public bool IsComplete =\u003e true;",
+                          "filter":  "PluginRegistryAtomicityTests"
+                      },
+                      {
+                          "name":  "AI proposals are not checked against the catalog",
+                          "file":  "src/EriReborn.Engine/Ai/AiActionPlan.cs",
+                          "old":  "if (!knownIds.Contains(target))",
+                          "new":  "if (knownIds.Count \u003c 0)",
+                          "filter":  "AiActionPlanTests"
+                      },
+                      {
+                          "name":  "colour mix blends the red channel backwards",
+                          "file":  "src/EriReborn.Skin/ColorMath.cs",
+                          "old":  "Blend(from.R, to.R, t),",
+                          "new":  "Blend(to.R, from.R, t),",
+                          "filter":  "ColorMathTests"
+                      },
+                      {
+                          "name":  "an unreadable colour is invented instead of passed through",
+                          "file":  "src/EriReborn.Skin/ColorMath.cs",
+                          "old":  "// the skin author\u0027s mistake behind a value they never wrote.\n            return value;",
+                          "new":  "// the skin author\u0027s mistake behind a value they never wrote.\n            return toward;",
+                          "filter":  "ColorMathTests"
+                      },
+                      {
+                          "name":  "hex output loses its alpha channel",
+                          "file":  "src/EriReborn.Skin/ColorMath.cs",
+                          "old":  "=\u003e $\"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}\";",
+                          "new":  "=\u003e $\"#{color.R:X2}{color.G:X2}{color.B:X2}\";",
+                          "filter":  "ColorMathTests"
+                      },
+                      {
+                          "name":  "the shorthand expands by rotating digits",
+                          "file":  "src/EriReborn.Skin/ColorMath.cs",
+                          "old":  "text = string.Concat(text.Select(c =\u003e new string(c, 2)));",
+                          "new":  "text = text + text;",
+                          "filter":  "ColorMathTests"
+                      },
+                      {
+                          "name":  "android is not recognised as the mobile platform",
+                          "file":  "src/EriReborn.Engine/Download/SegmentPolicy.cs",
+                          "old":  "string.Equals(platformId, \"android\", StringComparison.OrdinalIgnoreCase)",
+                          "new":  "string.Equals(platformId, \"android-x\", StringComparison.OrdinalIgnoreCase)",
+                          "filter":  "SegmentedDownloadTests"
+                      },
+                      {
+                          "name":  "errno 9019 is no longer an auth problem",
+                          "file":  "src/EriReborn.Cloud/Providers/ProviderBaidu.cs",
+                          "old":  "9019 =\u003e CloudErrorKind.AuthRequired",
+                          "new":  "9019 =\u003e CloudErrorKind.NotFound",
+                          "filter":  "BaiduShareTests"
+                      },
+                      {
+                          "name":  "errno 105 is no longer not-found",
+                          "file":  "src/EriReborn.Cloud/Providers/ProviderBaidu.cs",
+                          "old":  "105 or 112 or 118 =\u003e CloudErrorKind.NotFound",
+                          "new":  "112 or 118 =\u003e CloudErrorKind.NotFound",
+                          "filter":  "BaiduShareTests"
+                      },
+                      {
+                          "name":  "cache trusts bytes that do not match the hash",
+                          "file":  "src/EriReborn.Engine/Download/DownloadCache.cs",
+                          "old":  "if (string.Equals(actual, key.Sha256, StringComparison.OrdinalIgnoreCase))",
+                          "new":  "if (true)",
+                          "filter":  "*"
+                      },
+                      {
+                          "name":  "cache keeps a corrupt entry instead of removing it",
+                          "file":  "src/EriReborn.Engine/Download/DownloadCache.cs",
+                          "old":  "            File.Delete(path);\n            return false;",
+                          "new":  "            return false;",
+                          "filter":  "*"
+                      },
+                      {
+                          "name":  "the cache key stops covering the expected hash",
+                          "file":  "src/EriReborn.Engine/Download/DownloadCache.cs",
+                          "old":  "sb.Append(\"sha=\").Append(Sha256 ?? \"-\");",
+                          "new":  "// sb.Append(\"sha=\").Append(Sha256 ?? \"-\");",
+                          "filter":  "*"
+                      },
+                      {
+                          "name":  "storing a file onto itself is allowed",
+                          "file":  "src/EriReborn.Engine/Download/DownloadCache.cs",
+                          "old":  "if (string.Equals(Path.GetFullPath(sourceFile), Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase))",
+                          "new":  "if (false)",
+                          "filter":  "*"
+                      },
+                      {
+                          "name":  "a server error is treated as a stale link",
+                          "file":  "src/EriReborn.Engine/Download/LinkExpiryPolicy.cs",
+                          "old":  "return statusCode is 401 or 403 or 404 or 410;",
+                          "new":  "return statusCode is 401 or 403 or 404 or 410 or 500;",
+                          "filter":  "LinkRefreshTests"
+                      },
+                      {
+                          "name":  "a cancelled download is treated as a stale link",
+                          "file":  "src/EriReborn.Engine/Download/LinkExpiryPolicy.cs",
+                          "old":  "            or DownloadState.Cancelled\n",
+                          "new":  "",
+                          "filter":  "LinkRefreshTests"
+                      },
+                      {
+                          "name":  "the concurrency limit is off by one",
+                          "file":  "src/EriReborn.Core/Jobs/JobManager.cs",
+                          "old":  "if (_running \u003e= _maxConcurrent || _queue.Count == 0)",
+                          "new":  "if (_running \u003e _maxConcurrent || _queue.Count == 0)",
+                          "filter":  "JobManagerTests"
+                      },
+                      {
+                          "name":  "a finished job never frees its slot",
+                          "file":  "src/EriReborn.Core/Jobs/JobManager.cs",
+                          "old":  "                _running--;",
+                          "new":  "                _running -= 0;",
+                          "filter":  "JobManagerTests"
+                      },
+                      {
+                          "name":  "colour blend drops its range clamp",
+                          "file":  "src/EriReborn.Skin/ColorMath.cs",
+                          "old":  "=\u003e (byte)Math.Clamp(Math.Round(from + ((to - from) * t), MidpointRounding.AwayFromZero), 0, 255);",
+                          "new":  "=\u003e (byte)Math.Round(from + ((to - from) * t), MidpointRounding.AwayFromZero);",
+                          "filter":  "ColorMathTests",
+                          "defensive":  true,
+                          "//":  "Expected to survive. Mix clamps the amount to 0..1 first, so this clamp is never the gate that holds. The two clamps together are the property; see the combined mutation."
+                      },
+                      {
+                          "name":  "colour amount clamp widened",
+                          "file":  "src/EriReborn.Skin/ColorMath.cs",
+                          "old":  "var t = Math.Clamp(amount, 0, 1);",
+                          "new":  "var t = Math.Clamp(amount, 0, 2);",
+                          "filter":  "ColorMathTests",
+                          "defensive":  true,
+                          "//":  "Expected to survive, for the same reason in reverse: the blend still clamps to 0..255, so a wide amount cannot wrap."
+                      },
+                      {
+                          "name":  "colour clamps removed together (the actual guard)",
+                          "file":  "src/EriReborn.Skin/ColorMath.cs",
+                          "old":  "var t = Math.Clamp(amount, 0, 1);",
+                          "new":  "var t = amount;",
+                          "alsoOld":  "=\u003e (byte)Math.Clamp(Math.Round(from + ((to - from) * t), MidpointRounding.AwayFromZero), 0, 255);",
+                          "alsoNew":  "=\u003e (byte)Math.Round(from + ((to - from) * t), MidpointRounding.AwayFromZero);",
+                          "filter":  "ColorMathTests",
+                          "//":  "With neither clamp an amount above one over-blends and the byte cast wraps, so the suite must notice."
+                      },
+                      {
+                          "name":  "cache trusts an entry that carries no hash",
+                          "file":  "src/EriReborn.Engine/Download/DownloadCache.cs",
+                          "old":  "if (string.IsNullOrWhiteSpace(key.Sha256))",
+                          "new":  "if (false)",
+                          "filter":  "*",
+                          "//":  "Once marked defensive, and that label was wrong. This harness used to build and run only the Core suite, so it could not see the Windows suite covering this too. Removing the flag is the honest fix: the property is guarded, by a test in the other suite. A defensive label is only as trustworthy as the harness\u0027s scope."
+                      },
+                      {
+                          "name":  "the hash comparison accepts a blank expected hash",
+                          "file":  "src/EriReborn.Engine/Download/DownloadCache.cs",
+                          "old":  "if (string.Equals(actual, key.Sha256, StringComparison.OrdinalIgnoreCase))",
+                          "new":  "if (string.IsNullOrEmpty(key.Sha256) || string.Equals(actual, key.Sha256, StringComparison.OrdinalIgnoreCase))",
+                          "filter":  "DownloadCacheTests",
+                          "defensive":  true,
+                          "//":  "Expected to survive for the same reason in the other direction: the fast path returns before this line whenever the expected hash is blank."
+                      },
+                      {
+                          "name":  "cache accepts a blank hash in both places (the actual guard)",
+                          "file":  "src/EriReborn.Engine/Download/DownloadCache.cs",
+                          "old":  "if (string.IsNullOrWhiteSpace(key.Sha256))",
+                          "new":  "if (false)",
+                          "alsoOld":  "if (string.Equals(actual, key.Sha256, StringComparison.OrdinalIgnoreCase))",
+                          "alsoNew":  "if (string.IsNullOrEmpty(key.Sha256) || string.Equals(actual, key.Sha256, StringComparison.OrdinalIgnoreCase))",
+                          "filter":  "DownloadCacheTests",
+                          "//":  "With neither guard an entry whose key declares no usable hash is served straight off the disk. The suite must notice."
+                      },
+                      {
+                          "name":  "category lookup is case-insensitive",
+                          "file":  "src/EriReborn.Core/Catalog/CategoryTaxonomy.cs",
+                          "old":  "=\u003e Official.FirstOrDefault(c =\u003e string.Equals(c.Id, id, StringComparison.Ordinal));",
+                          "new":  "=\u003e Official.FirstOrDefault(c =\u003e string.Equals(c.Id, id, StringComparison.OrdinalIgnoreCase));",
+                          "filter":  "CategoryTaxonomyTests"
+                      },
+                      {
+                          "name":  "every id is considered known",
+                          "file":  "src/EriReborn.Core/Catalog/CategoryTaxonomy.cs",
+                          "old":  "public static bool IsKnownOfficialId(string id) =\u003e Find(id) is not null;",
+                          "new":  "public static bool IsKnownOfficialId(string id) =\u003e true;",
+                          "filter":  "CategoryTaxonomyTests"
+                      },
+                      {
+                          "name":  "every category id validates",
+                          "file":  "src/EriReborn.Core/Catalog/CategoryTaxonomy.cs",
+                          "old":  "return IsKnownOfficialId(id!)",
+                          "new":  "return true",
+                          "filter":  "CategoryTaxonomyTests"
+                      },
+                      {
+                          "name":  "a legacy target points outside the tree",
+                          "file":  "src/EriReborn.Core/Catalog/CategoryTaxonomy.cs",
+                          "old":  "[\"游戏\"] = \"Games\",",
+                          "new":  "[\"游戏\"] = \"Games_X\",",
+                          "filter":  "CategoryTaxonomyTests"
+                      },
+                      {
+                          "name":  "an already-official legacy id is discarded",
+                          "file":  "src/EriReborn.Core/Catalog/CategoryTaxonomy.cs",
+                          "old":  "return DirectoryNameValidator.ValidateName(legacy).IsValid ? legacy : null;",
+                          "new":  "return null;",
+                          "filter":  "CategoryTaxonomyTests"
+                      },
+                      {
+                          "name":  "a sheet without a file is registered anyway",
+                          "file":  "src/EriReborn.Asset/AssetManifest.cs",
+                          "old":  "var file = Str(entry, \"file\");",
+                          "new":  "var file = Str(entry, \"file\") ?? \"forced.png\";",
+                          "filter":  "AssetManifestParserTests"
+                      },
+                      {
+                          "name":  "a zero-frame sprite is accepted",
+                          "file":  "src/EriReborn.Asset/AssetManifest.cs",
+                          "old":  "|| frameCount \u003c= 0)",
+                          "new":  "|| frameCount \u003c 0)",
+                          "filter":  "AssetManifestParserTests"
+                      },
+                      {
+                          "name":  "a single-frame strip counts as animated",
+                          "file":  "src/EriReborn.Asset/AssetManifest.cs",
+                          "old":  "public bool IsAnimated =\u003e Sprite is { FrameCount: \u003e 1 };",
+                          "new":  "public bool IsAnimated =\u003e Sprite is not null;",
+                          "filter":  "AssetManifestParserTests"
+                      },
+                      {
+                          "name":  "a document that is not an object is not guarded",
+                          "file":  "src/EriReborn.Asset/AssetManifest.cs",
+                          "old":  "if (document.RootElement.ValueKind != JsonValueKind.Object)",
+                          "new":  "if (false)",
+                          "filter":  "AssetManifestParserTests"
+                      },
+                      {
+                          "name":  "a duplicate id is registered twice",
+                          "file":  "src/EriReborn.Asset/AssetManager.cs",
+                          "old":  "if (byId.ContainsKey(sheet.Id))",
+                          "new":  "if (false)",
+                          "filter":  "AssetManifestParserTests"
+                      },
+                      {
+                          "name":  "the legacy sliced key wins over the current one",
+                          "file":  "src/EriReborn.Asset/AssetManifest.cs",
+                          "old":  "Str(entry, \"slicedDir\") ?? Str(entry, \"sliced\")",
+                          "new":  "Str(entry, \"sliced\") ?? Str(entry, \"slicedDir\")",
+                          "filter":  "AssetManifestParserTests"
+                      },
+                      {
+                          "name":  "the declared frame rate is ignored",
+                          "file":  "src/EriReborn.Asset/AssetManifest.cs",
+                          "old":  "parsedFps \u003e 0",
+                          "new":  "parsedFps \u003e 1000",
+                          "filter":  "AssetManifestParserTests"
+                      },
+                      {
+                          "name":  "a strip does not loop unless it says so",
+                          "file":  "src/EriReborn.Asset/AssetManifest.cs",
+                          "old":  "l.ValueKind != JsonValueKind.False",
+                          "new":  "l.ValueKind == JsonValueKind.False",
+                          "filter":  "AssetManifestParserTests"
+                      },
+                      {
+                          "name":  "a failed install reload empties the registry anyway",
+                          "file":  "src/EriReborn.Engine/Software/InstallationRegistry.cs",
+                          "old":  "                log.Error(\"installations.load\", \"Install records could not be read; keeping what was already loaded.\", ex);\n                return;",
+                          "new":  "                log.Error(\"installations.load\", \"Install records could not be read; keeping what was already loaded.\", ex);\n                _records.Clear();\n                return;",
+                          "filter":  "StateStoreReloadTests"
+                      },
+                      {
+                          "name":  "a failed hint reload empties the store anyway",
+                          "file":  "src/EriReborn.Engine/Software/DetectionHintStore.cs",
+                          "old":  "                log.Error(\"hints.load\", \"Detection hints could not be read; keeping what was already loaded.\", ex);\n                return;",
+                          "new":  "                log.Error(\"hints.load\", \"Detection hints could not be read; keeping what was already loaded.\", ex);\n                _hints.Clear();\n                return;",
+                          "filter":  "StateStoreReloadTests"
+                      },
+                      {
+                          "name":  "the plugin store clears before it reads",
+                          "file":  "src/EriReborn.Engine/Plugins/PluginInstallationStore.cs",
+                          "old":  "            if (!File.Exists(_filePath))\n            {\n                _installed.Clear();\n                return;\n            }",
+                          "new":  "_installed.Clear();\n\n            if (!File.Exists(_filePath))\n            {\n                return;\n            }",
+                          "filter":  "StateStoreReloadTests"
+                      },
+                      {
+                          "name":  "a failed key reload drops every trusted key",
+                          "file":  "src/EriReborn.Extension/Signing/TrustedKeyStore.cs",
+                          "old":  "log.Error(\"trust.keys\", \"Trust store could not be read; no key will be trusted.\", ex);\n            _keys.Clear();",
+                          "new":  "log.Error(\"trust.keys\", \"Trust store could not be read; no key will be trusted.\", ex);",
+                          "filter":  "StateStoreReloadTests"
+                      },
+                      {
+                          "name":  "an install record is reported stored even when the write failed",
+                          "file":  "src/EriReborn.Engine/Software/InstallationRegistry.cs",
+                          "old":  "_records[record.SoftwareId] = record;\n            if (Save())",
+                          "new":  "_records[record.SoftwareId] = record;\n            if (true)",
+                          "filter":  "StateStoreWriteFailureTests"
+                      },
+                      {
+                          "name":  "a hint is reported stored even when the write failed",
+                          "file":  "src/EriReborn.Engine/Software/DetectionHintStore.cs",
+                          "old":  "_hints[softwareId] = hint with { AddedAt = DateTimeOffset.Now };\n            if (Save())",
+                          "new":  "_hints[softwareId] = hint with { AddedAt = DateTimeOffset.Now };\n            if (true)",
+                          "filter":  "StateStoreWriteFailureTests"
+                      },
+                      {
+                          "name":  "a batch is reported applied even when the write failed",
+                          "file":  "src/EriReborn.Engine/Software/DetectionHintStore.cs",
+                          "old":  "            if (Save())\n            {\n                return applied;\n            }",
+                          "new":  "            if (true)\n            {\n                return applied;\n            }",
+                          "filter":  "StateStoreWriteFailureTests"
+                      },
+                      {
+                          "name":  "a plugin record is reported stored even when the write failed",
+                          "file":  "src/EriReborn.Engine/Plugins/PluginInstallationStore.cs",
+                          "old":  "_installed.Add(record);\n\n            if (Save())",
+                          "new":  "_installed.Add(record);\n\n            if (true)",
+                          "filter":  "StateStoreWriteFailureTests"
+                      },
+                      {
+                          "name":  "the hint view hands out the live dictionary",
+                          "file":  "src/EriReborn.Engine/Software/DetectionHintStore.cs",
+                          "old":  "return new Dictionary\u003cstring, DetectionHint\u003e(_hints, StringComparer.Ordinal);",
+                          "new":  "return _hints;",
+                          "filter":  "StateStoreConcurrencyTests"
+                      },
+                      {
+                          "name":  "the install record view hands out the live collection",
+                          "file":  "src/EriReborn.Engine/Software/InstallationRegistry.cs",
+                          "old":  "return _records.Values.ToList();",
+                          "new":  "return _records.Values;",
+                          "filter":  "StateStoreConcurrencyTests"
+                      },
+                      {
+                          "name":  "the plugin view hands out the live list",
+                          "file":  "src/EriReborn.Engine/Plugins/PluginInstallationStore.cs",
+                          "old":  "                return _installed.ToList();",
+                          "new":  "                return _installed;",
+                          "filter":  "StateStoreConcurrencyTests"
+                      },
+                      {
+                          "name":  "the plugin registry hands out its live imported list",
+                          "file":  "src/EriReborn.Engine/Plugins/PluginRegistry.cs",
+                          "old":  "                return _imported.ToList();",
+                          "new":  "                return _imported;",
+                          "filter":  "PluginRegistryAtomicityTests"
+                      },
+                      {
+                          "name":  "a completed-with-restart install is filed as a failure",
+                          "file":  "src/EriReborn.Platform.Windows/WindowsSoftwareInstaller.cs",
+                          "old":  "internal static bool IsMsiexecSuccess(int code) =\u003e code is 0 or 1641 or 3010;",
+                          "new":  "internal static bool IsMsiexecSuccess(int code) =\u003e code is 0 or 3010;",
+                          "filter":  "MsiexecExitCodeTests",
+                          "//":  "This is the bug the audit found: the table described 1641 as a completed install while the caller filed it under InstallerFailed."
+                      },
+                      {
+                          "name":  "a leaf module reaches sideways into another leaf",
+                          "file":  "src/EriReborn.Skin/EriReborn.Skin.csproj",
+                          "old":  "\u003c/Project\u003e",
+                          "new":  "  \u003cItemGroup\u003e\u003cProjectReference Include=\"..\\EriReborn.Asset\\EriReborn.Asset.csproj\" /\u003e\u003c/ItemGroup\u003e\n\u003c/Project\u003e",
+                          "filter":  "ArchitectureInvariantTests",
+                          "//":  "A sideways reference, not an upward one. Pointing Core at a layer above it cannot build at all: every layer above Core references Core, so the reference is a cycle and the compiler refuses it. The invariant \u0027Core references nothing\u0027 is therefore held by the build as well as by this test. An acyclic violation - one leaf referencing another - is possible, which is why the probe uses that."
+                      },
+                      {
+                          "name":  "one platform registers four providers and the other five",
+                          "file":  "src/EriReborn.Desktop/EriReborn.Desktop.csproj",
+                          "old":  "\u003cProjectReference Include=\"..\\Extensions\\EriReborn.Ext.Cloud.Xunlei\\EriReborn.Ext.Cloud.Xunlei.csproj\" ReferenceOutputAssembly=\"false\" Private=\"false\" /\u003e",
+                          "new":  "",
+                          "alsoOld":  "\u003cContent Include=\"..\\Extensions\\EriReborn.Ext.Cloud.Xunlei\\bin\\$(Configuration)\\net8.0\\erireborn_cloud_xunlei.zip\" Link=\"assets\\extensions\\erireborn_cloud_xunlei.zip\" CopyToOutputDirectory=\"PreserveNewest\" CopyToPublishDirectory=\"PreserveNewest\" /\u003e",
+                          "alsoNew":  "",
+                          "filter":  "ArchitectureInvariantTests",
+                          "//":  "The providers ship as extension packages now, so the packages a platform assembles are what says which platforms it gets. Both the reference and the copied package are dropped: the invariant reads the package names, so removing only one of the two would leave the count unchanged and prove nothing."
+                      },
+                      {
+                          "name":  "Basic silently becomes the same as Silent",
+                          "file":  "src/EriReborn.Platform.Windows/WindowsSoftwareInstaller.cs",
+                          "old":  "InstallerUiMode.Basic =\u003e new[] { \"/qb\" },",
+                          "new":  "InstallerUiMode.Basic =\u003e new[] { \"/qn\" },",
+                          "filter":  "MsiexecExitCodeTests"
+                      },
+                      {
+                          "name":  "a TODO reappears in the source",
+                          "file":  "src/EriReborn.Core/Net/RetryPolicy.cs",
+                          "old":  "namespace EriReborn.Core.Net;",
+                          "new":  "// TODO: revisit\nnamespace EriReborn.Core.Net;",
+                          "filter":  "ArchitectureInvariantTests"
+                      },
+                      {
+                          "name":  "the resume bug returns: a whole body is appended to a partial file",
+                          "file":  "src/EriReborn.Engine/Download/HttpDownloader.cs",
+                          "old":  "HttpStatusCode.OK =\u003e RangeDecision.RestartRequired,",
+                          "new":  "HttpStatusCode.OK =\u003e RangeDecision.ResumeAccepted,",
+                          "filter":  "RangeDecisionTests",
+                          "//":  "This is the bug the decision exists to prevent: the server ignored the range header, so the body starts at zero, and appending it produces a file with its beginning written twice."
+                      },
+                      {
+                          "name":  "elevation is demanded for every package, not just MSIs",
+                          "file":  "src/EriReborn.Platform.Windows/WindowsSoftwareInstaller.cs",
+                          "old":  "=\u003e !isElevated \u0026\u0026 string.Equals(extension, \".msi\", StringComparison.OrdinalIgnoreCase);",
+                          "new":  "=\u003e !isElevated;",
+                          "filter":  "MsiexecExitCodeTests"
+                      },
+                      {
+                          "name":  "an install is called done on the installer\u0027s word alone",
+                          "file":  "src/EriReborn.Engine/Software/SoftwareEngine.cs",
+                          "old":  "if (verified.Outcome != DetectionOutcome.Detected)",
+                          "new":  "if (false)",
+                          "filter":  "DetectionAndInstallSemanticsTests",
+                          "//":  "The fake success the specification forbids: the installer said it worked, and nothing checked. Every install would report success regardless of what the machine actually looks like."
+                      },
+                      {
+                          "name":  "a declared detector is no longer consulted",
+                          "file":  "src/EriReborn.Engine/Software/SoftwareEngine.cs",
+                          "old":  "if (software.Detector is not null \u0026\u0026 !software.Detector.IsNone)",
+                          "new":  "if (false)",
+                          "filter":  "DetectionAndInstallSemanticsTests",
+                          "//":  "With this, every entry falls through to the path and record checks, so a detector that says NotDetected is never heard."
+                      },
+                      {
+                          "name":  "the extension context can no longer be unloaded",
+                          "file":  "src/EriReborn.Extension/IsolatedExtensionLoader.cs",
+                          "old":  ": base(name, isCollectible: true)",
+                          "new":  ": base(name, isCollectible: false)",
+                          "filter":  "ExtensionLoadContextTests",
+                          "//":  "An extension that cannot be unloaded keeps its files locked, so it cannot be updated or removed without restarting the app."
+                      },
+                      {
+                          "name":  "a missing extension assembly is reported as loaded",
+                          "file":  "src/EriReborn.Extension/IsolatedExtensionLoader.cs",
+                          "old":  "return new ExtensionStatus(manifest, ExtensionLoadState.AssemblyMissing, $\"Assembly not found: {assemblyPath}\");",
+                          "new":  "return new ExtensionStatus(manifest, ExtensionLoadState.Loaded, $\"Assembly not found: {assemblyPath}\");",
+                          "filter":  "ExtensionLoadContextTests"
+                      },
+                      {
+                          "name":  "the PnP class filter stops filtering",
+                          "file":  "src/EriReborn.Platform.Windows/WindowsRegistryDetector.cs",
+                          "old":  "var classFilter = string.IsNullOrWhiteSpace(spec.SecondaryParam) ? null : spec.SecondaryParam.Trim();",
+                          "new":  "var classFilter = (string?)null;",
+                          "suite":  "smoke",
+                          "smokeArgs":  [
+                                            "--pnp"
+                                        ],
+                          "//":  "Guarded by the smoke suite, not a unit test: the registry this reads is the real one. The smoke check now asserts discriminating power, so a filter that matches everything fails it. This entry is also the proof that the smoke layer is mutation-covered at all."
+                      },
+                      {
+                          "name":  "an unsigned package is allowed to claim the official trust level",
+                          "file":  "src/EriReborn.Extension/Signing/PackageSignature.cs",
+                          "old":  "public const SoftwareTrust UnsignedTrust = SoftwareTrust.Community;",
+                          "new":  "public const SoftwareTrust UnsignedTrust = SoftwareTrust.Official;",
+                          "suite":  "smoke",
+                          "smokeArgs":  [
+                                            "--signature"
+                                        ],
+                          "//":  "The trust ceiling of a package nobody signed. Raising it lets an unsigned package present itself as official, which is the one thing the signature layer exists to prevent."
+                      },
+                      {
+                          "name":  "the engine selector stops selecting",
+                          "file":  "src/EriReborn.Engine/Download/IDownloadEngine.cs",
+                          "old":  "var engine = _engines.FirstOrDefault(candidate =\u003e candidate.CanHandle(route));",
+                          "new":  "var engine = _engines.FirstOrDefault(candidate =\u003e false);",
+                          "suite":  "smoke",
+                          "smokeArgs":  [
+                                            "--aria2"
+                                        ],
+                          "//":  "A selector that never selects is still \u0027no engine can handle this route\u0027 with extra steps, and the aria2 smoke check asserts a specific engine is chosen."
+                      },
+                      {
+                          "name":  "a modified signed binary is reported as valid",
+                          "file":  "src/EriReborn.Platform.Windows/AuthenticodeVerifier.cs",
+                          "old":  "            const string text = \"安装包的签名与文件内容不匹配，签名后已被修改。\";\n            return new AuthenticodeResult(AuthenticodeTrust.InvalidSignature, text, signer, issuer);",
+                          "new":  "            const string text = \"安装包的签名与文件内容不匹配，签名后已被修改。\";\n            return new AuthenticodeResult(AuthenticodeTrust.Valid, text, signer, issuer);",
+                          "suite":  "smoke",
+                          "smokeArgs":  [
+                                            "--authenticode"
+                                        ],
+                          "//":  "The digest mismatch is the whole point of verifying a binary: code that reports the modification and then calls the file Valid has said the right thing and done the wrong one."
+                      },
+                      {
+                          "name":  "a tampered catalog still grants official authority",
+                          "file":  "src/EriReborn.Core/Catalog/CatalogVerifier.cs",
+                          "old":  "        new(CatalogSignatureState.Invalid, message);",
+                          "new":  "        new(CatalogSignatureState.Verified, message);",
+                          "suite":  "smoke",
+                          "smokeArgs":  [
+                                            "--catalog"
+                                        ],
+                          "//":  "Only a verified signature confers official authority. Making tampering produce Verified would let edited catalog data drive unattended installs."
+                      },
+                      {
+                          "name":  "the MSIX detector never matches a package",
+                          "file":  "src/EriReborn.Platform.Windows/WindowsRegistryDetector.cs",
+                          "old":  "            var matches = regex.IsMatch(package.Name)\n                || (package.DisplayName is not null \u0026\u0026 regex.IsMatch(package.DisplayName));",
+                          "new":  "            var matches = false;",
+                          "suite":  "smoke",
+                          "smokeArgs":  [
+                                            "--msix"
+                                        ],
+                          "//":  "A detector that never detects reports every installed Store app as missing, which is the difference between Unknown and Missing that the whole product is built around."
+                      },
+                      {
+                          "name":  "the detection suggester proposes nothing",
+                          "file":  "src/EriReborn.Engine/Software/DetectionSuggester.cs",
+                          "old":  "        var pool = installed",
+                          "new":  "        if (true) { return Array.Empty\u003cDetectionSuggestion\u003e(); }\n        var pool = installed",
+                          "suite":  "smoke",
+                          "smokeArgs":  [
+                                            "--suggest"
+                                        ],
+                          "//":  "The suggester is how an entry with no detector becomes decidable. Returning nothing leaves the catalog permanently undecided and reports no reason."
+                      },
+                      {
+                          "name":  "a source that needs a sign-in is reported as ready",
+                          "file":  "src/EriReborn.Engine/Software/SourceAvailabilityService.cs",
+                          "old":  "_ =\u003e (SourceReadiness.NeedsSignIn, $\"先登录 {provider.DisplayName} 才能取。\"),",
+                          "new":  "_ =\u003e (SourceReadiness.Ready, $\"先登录 {provider.DisplayName} 才能取。\"),",
+                          "filter":  "SourceAvailabilityTests",
+                          "//":  "A share that cannot be fetched without a sign-in must not look like one that can. Calling it Ready hands the installer a source it cannot use and tells the person nothing."
+                      },
+                      {
+                          "name":  "the automatic choice stops being a choice and takes the first listed source",
+                          "file":  "src/EriReborn.Engine/Software/SourceAvailabilityService.cs",
+                          "old":  ".OrderBy(ReadinessRank)\n            .ThenBy(candidate =\u003e candidate.Verifiable ? 0 : 1)\n            .ThenBy(candidate =\u003e CapabilityRank(candidate.Capability))\n            .FirstOrDefault();",
+                          "new":  ".FirstOrDefault();",
+                          "filter":  "SourceAvailabilityTests",
+                          "//":  "This is the bug that actually shipped: choosing Sources.FirstOrDefault() is declaration order wearing a decision\u0027s clothes."
+                      },
+                      {
+                          "name":  "picking stops caring whether the download can be checked",
+                          "file":  "src/EriReborn.Engine/Software/SourceAvailabilityService.cs",
+                          "old":  ".ThenBy(candidate =\u003e candidate.Verifiable ? 0 : 1)",
+                          "new":  ".ThenBy(candidate =\u003e 0)",
+                          "filter":  "SourceAvailabilityTests",
+                          "//":  "Between two sources that both work, the one whose bytes can be checked afterwards is the one to install."
+                      },
+                      {
+                          "name":  "picking starts depending on which platform it is",
+                          "file":  "src/EriReborn.Engine/Software/SourceAvailabilityService.cs",
+                          "old":  ".ThenBy(candidate =\u003e CapabilityRank(candidate.Capability))\n            .FirstOrDefault();",
+                          "new":  ".ThenBy(candidate =\u003e candidate.PlatformName)\n            .FirstOrDefault();",
+                          "filter":  "SourceAvailabilityTests",
+                          "//":  "Sorting by the platform name makes the winner a platform rather than a source. All five are peers (30/31), so the name must never enter the comparison."
+                      },
+                      {
+                          "name":  "picking prefers a shakier way of obtaining the file",
+                          "file":  "src/EriReborn.Engine/Software/SourceAvailabilityService.cs",
+                          "old":  "CloudImplementationKind.OfficialApi =\u003e 0,\n        CloudImplementationKind.HtmlParsing =\u003e 1,",
+                          "new":  "CloudImplementationKind.OfficialApi =\u003e 1,\n        CloudImplementationKind.HtmlParsing =\u003e 0,",
+                          "filter":  "SourceAvailabilityTests",
+                          "//":  "Parsing a web page is what a platform does when it has no interface to call. Preferring it over an official API chooses the method that breaks first."
+                      },
+                      {
+                          "name":  "a share source with no link is reported as usable",
+                          "file":  "src/EriReborn.Engine/Software/SourceAvailabilityService.cs",
+                          "old":  "SourceReadiness.Incomplete,\n                \"这条来源没有写分享链接。\",",
+                          "new":  "SourceReadiness.Ready,\n                \"这条来源没有写分享链接。\",",
+                          "filter":  "SourceAvailabilityTests",
+                          "//":  "A share source is identified by its link. Without one there is nothing to fetch, and saying otherwise sends the installer after an empty address."
+                      },
+                      {
+                          "name":  "reading a share stops using the platform the source names",
+                          "file":  "src/EriReborn.App.Shared/ViewModels/CloudViewModel.cs",
+                          "old":  "var provider = _host.CloudProviders.Resolve(source);",
+                          "new":  "var provider = _host.CloudProviders.InDisplayOrder().FirstOrDefault();",
+                          "filter":  "SourcesPageTests",
+                          "//":  "The platform is carried by the source. Falling back to whichever platform is listed first is the same guess by convenience that a domain-name lookup used to be."
+                      },
+                      {
+                          "name":  "an id-only locator is ignored again",
+                          "file":  "src/EriReborn.Engine/Download/CloudShareResolver.cs",
+                          "old":  "&& (locator.NeedsFolderWalk || !string.IsNullOrWhiteSpace(locator.ProviderItemId))",
+                          "new":  "&& locator.NeedsFolderWalk",
+                          "filter":  "ResourceLocatorCompatibilityTests",
+                          "//":  "An item named by the platform's own id has no folders to walk, so requiring a walk drops the id and falls back to a file-name match that may find nothing or the wrong item."
+                      },
+                      {
+                          "name":  "a download that could not be resolved is reported as done",
+                          "file":  "src/EriReborn.Engine/Download/DownloadJobService.cs",
+                          "old":  "throw new InvalidOperationException(DescribeFailure(outcome));",
+                          "new":  "return;",
+                          "filter":  "DownloadJobTests",
+                          "//":  "A resolver that failed has to fail the job. Returning quietly completes it, and the task list then shows success for a download that never happened."
+                      },
+                      {
+                          "name":  "the skin that was switched on is forgotten",
+                          "file":  "src/EriReborn.App.Shared/Services/UserConfigService.cs",
+                          "old":  "var updated = Current with { SkinId = skinId };",
+                          "new":  "var updated = Current;",
+                          "filter":  "SkinElementEditorTests",
+                          "//":  "Persisting the chosen skin is what makes 启用 mean anything across a restart; without it the platform default comes back."
+                      },
+                      {
+                          "name":  "the override layer stops re-reading the file",
+                          "file":  "src/EriReborn.App.Shared/Services/SkinOverrideStore.cs",
+                          "old":  "    public void Reload()\n    {\n        _overrides.Clear();",
+                          "new":  "    public void Reload()\n    {",
+                          "filter":  "SkinOverrideTests",
+                          "//":  "Without the clear the layer keeps what it read at startup, so an override written through another instance — including a deletion — never shows up in the live skin list."
+                      },
+                      {
+                          "name":  "picking a share item stops writing the location",
+                          "file":  "src/EriReborn.App.Shared/ViewModels/PluginBuilderViewModel.cs",
+                          "old":  "        DraftLocatorPath = string.Join(\n            \"/\",\n            _trail.Skip(1).Select(crumb => crumb.Name).Append(file.Name));",
+                          "new":  "        DraftLocatorPath = string.Empty;",
+                          "filter":  "WorkshopPluginBuilderTests",
+                          "//":  "The whole point of picking from the share tree is that the path is generated for the author. Clearing it turns the click into a no-op that still reports success."
+                      },
+                      {
+                          "name":  "one save button stops writing colours",
+                          "file":  "src/EriReborn.App.Shared/ViewModels/WorkshopViewModel.cs",
+                          "old":  "var colours = WriteColourOverrides(manifest.Id);",
+                          "new":  "var colours = 0;",
+                          "filter":  "SkinElementEditorTests",
+                          "//":  "The single 保存 has to write both halves. Dropping the colours leaves the user's colour edits on screen but not on disk, and reports success."
+                      },
+                      {
+                          "name":  "a blank text row is written as an edit",
+                          "file":  "src/EriReborn.App.Shared/ViewModels/WorkshopViewModel.cs",
+                          "old":  "            if (wanted.Length == 0)",
+                          "new":  "            if (wanted.Length < 0)",
+                          "filter":  "SkinElementEditorTests",
+                          "//":  "A blank row means 'keep the base's wording'. Treating it as an edit makes 保存 report writes that never happened and rewrite the file for nothing."
+                      },
+                      {
+                          "name":  "the navigation rail stops carrying its word key",
+                          "file":  "src/EriReborn.App.Shared/ViewModels/MainViewModel.cs",
+                          "old":  "NavigationItems.Add(new NavigationItem(\"cloud\", Word(\"nav.cloud\")) { Order = 1, TextKey = \"nav.cloud\" });",
+                          "new":  "NavigationItems.Add(new NavigationItem(\"cloud\", Word(\"nav.cloud\")) { Order = 1 });",
+                          "filter":  "SkinElementEditorTests",
+                          "//":  "Without the key the editor cannot offer the rail entry's own word for editing: the preview's sidebar items become unselectable-as-text."
+                      }
+                  ]
+}

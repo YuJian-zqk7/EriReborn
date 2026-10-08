@@ -1,0 +1,11 @@
+{
+  "id": "erireborn_reader",
+  "name": "阅读器",
+  "version": "2.3.0",
+  "author": "EriReborn",
+  "description": "全功能电子书阅读器（独立窗口）：书架、章节目录、全文搜索、进度记忆、书签、划线标注、字号行距与主题设置，网页级正文排版，支持 txt 与 epub。",
+  "assembly": "EriReborn.Ext.Reader.dll",
+  "trust": "official",
+  "permissions": ["ui.contribute", "filesystem.read", "settings.read", "settings.write"],
+  "categories": ["reader"]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "erireborn_download_aria2",
+  "name": "Aria2 下载加速",
+  "version": "1.0.0",
+  "author": "EriReborn",
+  "description": "为软件安装/更新提供 aria2 多线程下载加速。需本机已安装 aria2c；未安装时自动回落到内置下载器，无任何副作用。",
+  "assembly": "EriReborn.Ext.Download.Aria2.dll",
+  "trust": "official",
+  "permissions": ["downloader.contribute", "process.run"],
+  "categories": ["downloader"]
+}

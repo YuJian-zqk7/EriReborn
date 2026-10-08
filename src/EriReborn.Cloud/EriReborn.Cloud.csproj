@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>EriReborn.Cloud</RootNamespace>
+    <AssemblyName>EriReborn.Cloud</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="EriReborn.Core.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EriReborn.Core\EriReborn.Core.csproj" />
+    <ProjectReference Include="..\EriReborn.Platform.Abstractions\EriReborn.Platform.Abstractions.csproj" />
+  </ItemGroup>
+</Project>

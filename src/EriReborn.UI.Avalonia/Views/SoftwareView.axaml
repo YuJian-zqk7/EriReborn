@@ -1,0 +1,444 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.SoftwareView"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             x:DataType="vm:SoftwareViewModel">
+  <UserControl.Resources>
+    <controls:CategoryIconConverter x:Key="CategoryIcon" />
+    <controls:HexToBrushConverter x:Key="HexToBrush" />
+  </UserControl.Resources>
+
+  <!-- 重做布局：Grid RowDefinitions="Auto,Auto,*,Auto"
+       顶部固定（标题 + 工具栏）永远可见——按钮（搜索/检测/安装）不再被任何动态卡片挡住。
+       主区（*）撑满剩余高度，内部「动态卡片堆 + 列表/树」用 Auto+* 二分：
+       动态卡片堆用 ScrollViewer 限制高度，超出由滚动解决，列表至少有剩余空间。
+       高级 Expander 移到底部 Row=Auto，展开时其内容也用 ScrollViewer 限制高度。
+       两个「能自己滚」的辅助区高度上限都不是写死的：MaxHeight 绑定所在容器的实时
+       高度（AdaptiveMaxHeightConverter），空间紧张（矮窗口 / 卡片堆与 Expander 同时
+       展开）时辅助区先收缩内滚，把高度让给列表，列表不会被挤成 0。
+       整个 UserControl 高度等于 shell 给的 available，不再撑高外层 PageScroller。 -->
+  <Grid x:Name="RootGrid" RowDefinitions="Auto,Auto,*,Auto">
+
+    <!-- Row 0：标题 + 一句说明 -->
+    <Border Grid.Row="0" Classes="card" Margin="0,0,0,10">
+      <StackPanel Spacing="4">
+        <!-- 这两行字以前写死在页面里：皮肤改不掉它们，在编辑器里点上去也选不中——
+             点选只认「画皮肤文字的 UiText」和「画皮肤图片的 AssetImage」，普通 TextBlock 两者都不是。 -->
+        <controls:UiText Key="software.heading" FontSize="18" FontWeight="SemiBold"
+                         controls:SkinElement.Id="software.heading" />
+        <controls:UiText Key="software.hint" Classes="muted" TextWrapping="Wrap"
+                         controls:SkinElement.Id="software.hint" />
+      </StackPanel>
+    </Border>
+
+    <!-- Row 1：紧凑工具栏——永远可见，按钮不被挡住。
+         视图切换 + 搜索 + 检测 + 安装 都在这一行，WrapPanel 让窗口窄时按钮换行而不是被切掉。 -->
+    <Border Grid.Row="1" Classes="card" Margin="0,0,0,10" Padding="10">
+      <StackPanel Spacing="6">
+        <!-- 列表 / 插件资源树 两种视图切换。官方目录只在列表视图；树视图按插件原本的
+             group/文件夹层级浏览插件资源（AC-12）。切换不改任何过滤与安装逻辑。 -->
+        <Grid ColumnDefinitions="Auto,Auto,*">
+          <Button Grid.Column="0" Content="列表视图" Command="{Binding ShowListViewCommand}"
+                  Classes="primary" Padding="10,3" IsEnabled="{Binding IsTreeView}" />
+          <Button Grid.Column="1" Content="插件资源树" Command="{Binding ShowTreeViewCommand}"
+                  Padding="10,3" Margin="8,0,0,0" IsEnabled="{Binding !IsTreeView}" />
+          <TextBlock Grid.Column="2" Classes="muted" FontSize="11" VerticalAlignment="Center"
+                     Margin="10,0,0,0" TextTrimming="CharacterEllipsis"
+                     Text="树视图只按插件原本的分组与文件夹浏览插件资源；官方目录与分类过滤请用列表视图。" />
+        </Grid>
+        <!-- 会换行的一排：窗口窄时按钮落到下一行，而不是被右边缘切掉。 -->
+        <WrapPanel Orientation="Horizontal">
+          <TextBox Text="{Binding SearchText}" Watermark="搜索名称 / ID / 目录名" MinWidth="160" Width="220"
+                   Margin="0,0,8,6"
+                   controls:SkinElement.Id="software.search" />
+          <Button Command="{Binding DetectSelectedCommand}" Margin="0,0,8,6"
+                  ToolTip.Tip="重新检测选中的这一条：到底装没装、装的什么版本。"
+                  controls:SkinElement.Id="software.detect_button">
+            <controls:UiText Key="software.detect_selected" />
+          </Button>
+          <Button Command="{Binding DetectVisibleCommand}" IsEnabled="{Binding !IsBusy}" Margin="0,0,8,6"
+                  ToolTip.Tip="把当前列表里的每一条都重新检测一遍。"
+                  controls:SkinElement.Id="software.scan_button">
+            <controls:UiText Key="software.detect_visible" />
+          </Button>
+          <Button Command="{Binding PrepareInstallCommand}" Classes="primary" Padding="10,4" Margin="0,0,8,6"
+                  ToolTip.Tip="先给出安装计划：装到哪、用什么方式、有几个来源。确认后才会真的动手。"
+                  Classes.art="{Binding #installArt.HasArt}"
+                  controls:SkinElement.Id="software.install_button"
+                  controls:SkinElement.Kind="Button"
+                  controls:SkinElement.TextKey="software.prepare">
+            <Panel>
+              <!-- The art carries its own wording, so the label steps aside only
+                   when a picture actually resolved. -->
+              <controls:UiText Key="software.prepare" IsVisible="{Binding !#installArt.HasArt}" />
+              <controls:AssetImage x:Name="installArt" ActionKey="install"
+                                   Height="44" Stretch="Uniform" />
+            </Panel>
+          </Button>
+        </WrapPanel>
+      </StackPanel>
+    </Border>
+
+    <!-- Row 2：主区——左目录 + 右内容（动态卡片堆 + 列表/树）。
+         这一行是 * 撑满剩余高度，所有「撑大页面」的内容都被收进内部 ScrollViewer。 -->
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,14,*">
+
+      <!-- 左目录：固定宽，自己滚动。 -->
+      <Border Grid.Column="0" Classes="card" Padding="10" MinWidth="170" MaxWidth="260">
+        <DockPanel>
+          <controls:UiText DockPanel.Dock="Top" Key="software.categories" FontWeight="SemiBold" Margin="0,0,0,6"
+                           controls:SkinElement.Id="software.categories" />
+          <ListBox ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </DockPanel>
+      </Border>
+
+      <!-- 右内容：动态卡片堆（Auto + 内部 ScrollViewer）+ 列表/树（* 撑满剩余）。
+           卡片堆高度上限跟着 RightPane 实时高度走（参数：给列表保留 140=保底130+
+           间距10；最高 320；最矮不低于 56）。常见大窗口下上限就是 320；矮窗口或
+           Expander 展开时主区变小，卡片堆自动收缩内滚，列表始终拿得到保底高度。 -->
+      <Grid x:Name="RightPane" Grid.Column="2" RowDefinitions="Auto,*">
+
+        <!-- Row 0：动态卡片堆——所有按需出现的卡片（警告/摘要/安装位置/安装计划/批量计划/安装结果）。
+             用 ScrollViewer + 自适应 MaxHeight 限制总高度，超出由滚动解决。 -->
+        <ScrollViewer Grid.Row="0" Margin="0,0,0,10"
+                      MaxHeight="{Binding Bounds.Height, ElementName=RightPane,
+                                          Converter={x:Static controls:AdaptiveMaxHeightConverter.Instance},
+                                          ConverterParameter='140,320,56'}"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+          <StackPanel Spacing="10">
+
+            <!-- Prominent on purpose: without official authority the catalog may be
+                 read but must not be trusted or installed from. -->
+            <!-- 按「有内容」判定，而不是「不是 null」：空字符串不是 null，于是画出一条只有图标、
+                 没有文字的横幅，看着就像文字没显示出来。 -->
+            <Border Classes="warningBanner"
+                    IsVisible="{Binding CatalogIntegrityWarning, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+              <Grid ColumnDefinitions="Auto,*">
+                <controls:AssetImage Grid.Column="0" AssetId="icon_warning" Width="22" Height="22"
+                                     Margin="0,0,8,0" VerticalAlignment="Top"
+                                     controls:SkinElement.Id="software.warning_icon" />
+                <TextBlock Grid.Column="1" Text="{Binding CatalogIntegrityWarning}" TextWrapping="Wrap" />
+              </Grid>
+            </Border>
+
+            <!-- 摘要 + 已加载条数 -->
+            <TextBlock Text="{Binding Summary}" Classes="muted" />
+            <TextBlock Text="{Binding DetectionSummary}" Classes="muted" TextWrapping="Wrap" />
+
+            <!-- 安装到哪里：选中的那一刻就写清楚，而不是等点了「准备安装」才说。
+                 路径对不同安装方式含义完全不同——压缩包真的解压进这个文件夹，安装器则
+                 根本不看它——所以标题与说明按安装方式切换，路径/空间/更改按钮只在它们
+                 真的能决定落点时出现，避免让用户以为自己选了一个安装器随后忽略的位置。 -->
+            <Border Classes="card" Padding="10"
+                    IsVisible="{Binding SelectedLocationSpecific}">
+              <StackPanel Spacing="4">
+                <TextBlock Text="{Binding SelectedTargetHeading}" FontWeight="SemiBold" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding SelectedTargetMeaning}" Classes="muted" FontSize="12" TextWrapping="Wrap"
+                           IsVisible="{Binding SelectedTargetMeaning, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                <TextBlock Text="{Binding SelectedTargetDirectory, Converter={x:Static controls:BreakableTextConverter.Instance}}"
+                           TextWrapping="Wrap" FontSize="13" />
+                <TextBlock Text="{Binding SelectedTargetFacts}" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+                <WrapPanel Orientation="Horizontal">
+                  <Button Content="更改安装位置…" Margin="0,4,8,0" Click="OnBrowseInstallPathClick"
+                          IsVisible="{Binding CanChangeInstallPath}"
+                          ToolTip.Tip="为这一个软件挑选文件夹；只对解压/绿色软件有效。" />
+                  <Button Content="恢复默认位置" Margin="0,4,8,0"
+                          Command="{Binding ClearInstallPathOverrideCommand}"
+                          IsVisible="{Binding HasPathOverride}"
+                          ToolTip.Tip="丢掉这一条自己的目录，改回按设置页的安装根目录推导" />
+                </WrapPanel>
+                <TextBlock Text="{Binding PathOverrideStatus}" Classes="muted" FontSize="11" TextWrapping="Wrap"
+                           IsVisible="{Binding PathOverrideStatus, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+              </StackPanel>
+            </Border>
+
+            <!-- 安装计划必须先看见：里面写着「装到哪」「怎么装」「几个来源」。
+                 它原来被收在默认折叠的「高级」里，于是点「安装 / 准备」也看不到目标目录。 -->
+            <!-- Anything that changes the system is previewed and confirmed first (spec 60) -->
+            <Border Classes="card" Padding="10"
+                    IsVisible="{Binding HasInstallPlan}">
+              <StackPanel Spacing="4">
+                <controls:UiText Key="software.plan_title" FontWeight="SemiBold"
+                                 controls:SkinElement.Id="software.plan_title" />
+                <Border Classes="divider" />
+                <!-- 绝对路径没有断点，Wrap 对它无效，会把整列撑宽：先插零宽断点再换行。
+                     安装器/winget/脚本类条目的目标目录并不被使用，这三行同样隐藏，改由
+                     上面那句按安装方式给出的说明回答「装到哪里」。 -->
+                <StackPanel Spacing="4" IsVisible="{Binding SelectedLocationSpecific}">
+                  <TextBlock Classes="muted" Text="将安装到" />
+                  <TextBlock Text="{Binding InstallPlan.TargetDirectory, Converter={x:Static controls:BreakableTextConverter.Instance}}"
+                             TextWrapping="Wrap" />
+                  <!-- 可用空间 / 是否覆盖 / 预计大小：每一条要么是真实读数，要么明确写「未知」。 -->
+                  <TextBlock Text="{Binding InstallPlanFacts}" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+                </StackPanel>
+                <TextBlock Text="{Binding SelectedTargetMeaning}" Classes="muted" FontSize="12" TextWrapping="Wrap"
+                           IsVisible="{Binding SelectedTargetMeaning, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                <TextBlock Classes="muted">
+                  <Run Text="安装方式：" />
+                  <Run Text="{Binding InstallPlan.Mode}" />
+                  <Run Text="   信任等级：" />
+                  <Run Text="{Binding InstallPlan.Trust}" />
+                  <Run Text="   可用来源数：" />
+                  <Run Text="{Binding InstallPlan.SourceCount}" />
+                </TextBlock>
+                <Border Classes="divider" />
+                <StackPanel Classes="dialogFooter">
+                  <TextBlock Text="{Binding InstallProgress}" Classes="muted" VerticalAlignment="Center" />
+                  <Button Command="{Binding CancelInstallCommand}">
+                    <controls:UiText Key="common.cancel" />
+                  </Button>
+                  <Button Command="{Binding ConfirmInstallCommand}" Classes="primary"
+                          IsEnabled="{Binding !InstallRunning}">
+                    <controls:UiText Key="install.run" />
+                  </Button>
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <!-- A batch is a bigger commitment than one item: planned first, then confirmed. -->
+            <Border Classes="card" Padding="10"
+                    IsVisible="{Binding HasBatchPlan}">
+              <StackPanel Spacing="4">
+                <controls:UiText Key="software.batch_title" FontWeight="SemiBold"
+                                 controls:SkinElement.Id="software.batch_title" />
+                <Border Classes="divider" />
+                <TextBlock Text="{Binding BatchSummary}" Classes="muted" TextWrapping="Wrap" />
+                <ItemsControl ItemsSource="{Binding BatchPlan}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!-- Same shape as the single-item plan: body first, then a hairline, then the
+                     decision, with the primary action rightmost. -->
+                <Border Classes="divider" />
+                <StackPanel Classes="dialogFooter">
+                  <TextBlock Text="{Binding BatchProgress}" Classes="muted" VerticalAlignment="Center" />
+                  <Button Command="{Binding CancelBatchInstallCommand}">
+                    <controls:UiText Key="common.cancel" />
+                  </Button>
+                  <Button Command="{Binding ConfirmBatchInstallCommand}" Classes="primary"
+                          IsEnabled="{Binding !BatchRunning}">
+                    <controls:UiText Key="install.runBatch" />
+                  </Button>
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <!-- 安装结果摘要 -->
+            <TextBlock Text="{Binding InstallSummary}" Classes="muted" TextWrapping="Wrap"
+                       IsVisible="{Binding InstallSummary, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- Row 1：列表 / 树视图，二选一。撑满剩余高度，自己内部滚动，行数再多也不撑高页面。 -->
+        <Grid Grid.Row="1" RowDefinitions="*">
+
+          <!-- 列表视图：独占剩余高度、自己滚动，行数再多页面也不再变长。 -->
+          <ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"
+                   IsVisible="{Binding !IsTreeView}"
+                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <!-- The reference launcher's row shape: identity on the left (state icon, name,
+                     tier pill, category), state on the right as a solid pill with white text,
+                     and the secondary line small and muted. -->
+                <Grid ColumnDefinitions="*,Auto" Margin="0,3">
+                  <StackPanel Grid.Column="0" Spacing="2">
+                    <!-- 名称是唯一可伸缩的一列：长名字以省略号收尾，而不是把右边的状态挤出屏幕。 -->
+                    <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                      <controls:AssetImage Grid.Column="0" AssetId="{Binding StatusIconId}" Width="20" Height="20"
+                                           VerticalAlignment="Center"
+                                           controls:SkinElement.Id="software.status_icon"
+                                           controls:SkinElement.Kind="Icon"
+                                           controls:SkinElement.AssetId="{Binding StatusIconId}" />
+                      <TextBlock Grid.Column="1" Text="{Binding Name}" FontWeight="SemiBold" Margin="8,0"
+                                 VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                      <Border Grid.Column="2" CornerRadius="3" Padding="6,1" VerticalAlignment="Center"
+                              Background="{Binding TierColor, Converter={StaticResource HexToBrush}}">
+                        <TextBlock Text="{Binding Tier}" FontSize="11" Foreground="White" />
+                      </Border>
+                      <TextBlock Grid.Column="3" Text="{Binding CategoryId}" FontSize="11" Classes="muted"
+                                 Margin="8,0,0,0" VerticalAlignment="Center" />
+                    </Grid>
+                    <TextBlock Text="{Binding Description}" FontSize="11" Classes="muted" TextWrapping="Wrap"
+                               MaxLines="2" IsVisible="{Binding HasDescription}" />
+                    <TextBlock Text="{Binding StatusDetail}" FontSize="11" Classes="muted" TextTrimming="CharacterEllipsis" />
+                  </StackPanel>
+                  <StackPanel Grid.Column="1" MinWidth="96" VerticalAlignment="Center">
+                    <Border CornerRadius="3" Padding="8,2" HorizontalAlignment="Right"
+                            Background="{Binding StatusColor, Converter={StaticResource HexToBrush}}">
+                      <TextBlock Text="{Binding StatusText}" FontSize="11" FontWeight="SemiBold" Foreground="White" />
+                    </Border>
+                    <!-- 这一行曾经直接打印来源 record 的 ToString（完整 URL + 定位路径），把整页
+                         撑到横向溢出；摘要已改短，这里再用省略号兜底，任何长文本都不再撑宽行。 -->
+                    <TextBlock Text="{Binding SourceSummary}" FontSize="10" HorizontalAlignment="Right"
+                               Classes="muted" Margin="0,4,0,0" MaxWidth="220"
+                               TextTrimming="CharacterEllipsis" />
+                  </StackPanel>
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+
+          <!-- 插件资源树视图：占满剩余高度，内部滚动。 -->
+          <ScrollViewer Grid.Row="0" IsVisible="{Binding IsTreeView}"
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Disabled">
+            <Panel>
+              <TreeView ItemsSource="{Binding PluginTreeRoots}"
+                        SelectedItem="{Binding SelectedTreeNode, Mode=TwoWay}"
+                        Background="Transparent">
+                <TreeView.Styles>
+                  <Style Selector="TreeViewItem" x:DataType="vm:SoftwareTreeNodeVm">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                  </Style>
+                </TreeView.Styles>
+                <TreeView.ItemTemplate>
+                  <TreeDataTemplate x:DataType="vm:SoftwareTreeNodeVm" ItemsSource="{Binding Children}">
+                    <Grid ColumnDefinitions="24,56,*,Auto" MinHeight="30" Margin="0,1">
+                      <!-- 展开/折叠按钮放最前面，不依赖 TreeView 内置箭头 -->
+                      <Button Grid.Column="0" Content="▶" Padding="2,1" FontSize="10"
+                              IsVisible="{Binding HasChildren}"
+                              Click="OnTreeNodeToggleClick"
+                              ToolTip.Tip="展开/折叠" />
+                      <Border Grid.Column="1" Classes="chip" VerticalAlignment="Center" Margin="0,0,8,0"
+                              Padding="6,2" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding KindText}" FontSize="10" />
+                      </Border>
+                      <TextBlock Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center"
+                                 FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                      <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <TextBlock Text="加载中…" FontSize="10" Classes="muted" IsVisible="{Binding IsLoading}" />
+                        <TextBlock Text="{Binding LoadError}" FontSize="10" Classes="muted"
+                                   IsVisible="{Binding IsLoadFailed}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Text="{Binding Item.StatusText}" FontSize="10" Classes="muted"
+                                   IsVisible="{Binding HasStatus}" />
+                        <Button Content="下载" Padding="8,1" FontSize="11"
+                                IsVisible="{Binding IsInstallable}" Click="OnTreeNodePrepareClick"
+                                ToolTip.Tip="下载此文件或文件夹整包" />
+                      </StackPanel>
+                    </Grid>
+                  </TreeDataTemplate>
+                </TreeView.ItemTemplate>
+              </TreeView>
+              <Border Classes="card" IsVisible="{Binding !HasPluginTree}" Padding="12">
+                <TextBlock Classes="muted" TextWrapping="Wrap"
+                           Text="还没有导入任何插件资源。到「插件」页导入资源插件后，这里会按插件原本的分组与文件夹显示可下载内容。" />
+              </Border>
+            </Panel>
+          </ScrollViewer>
+
+        </Grid>
+
+      </Grid>
+
+    </Grid>
+
+    <!-- Row 3：高级 Expander——移到底部，不在主操作路径上。
+         展开时内容 ScrollViewer 的高度上限跟着 RootGrid 实时高度走（参数：350=
+         标题/工具栏 + Expander 头 + 主区保底 130；最高 240；最矮 90）。大窗口
+         展开仍是 240；矮窗口展开时内容收缩内滚，主区不会被整段挤没。 -->
+    <Expander Grid.Row="3" Margin="0,10,0,0"
+              Header="高级：检测方式（一般不用动）" IsExpanded="False">
+      <ScrollViewer VerticalScrollBarVisibility="Auto"
+                    MaxHeight="{Binding Bounds.Height, ElementName=RootGrid,
+                                        Converter={x:Static controls:AdaptiveMaxHeightConverter.Instance},
+                                        ConverterParameter='350,240,90'}"
+                    HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Spacing="8">
+
+          <!-- Turn the many undecidable entries into decidable ones from real evidence. -->
+          <Border Classes="card">
+            <StackPanel Spacing="4">
+              <controls:UiText Key="software.undeclared_title" FontWeight="SemiBold"
+                               controls:SkinElement.Id="software.undeclared_title" />
+              <!-- 六个按钮加一个下拉，一行放不下就连行折下去，而不是把最后两个切掉。 -->
+              <WrapPanel Orientation="Horizontal">
+                <Button Command="{Binding SuggestDetectionsCommand}" Classes="primary" Margin="0,0,8,6"
+                        controls:SkinElement.Id="software.suggest_button">
+                  <controls:UiText Key="software.suggest" />
+                </Button>
+                <ComboBox ItemsSource="{Binding SuggestionFilters}"
+                          SelectedItem="{Binding SelectedSuggestionFilter}"
+                          MinWidth="150" MaxWidth="200" Margin="0,0,8,6" />
+                <Button Command="{Binding SelectAllSuggestionsCommand}" Margin="0,0,8,6"
+                        controls:SkinElement.Id="software.select_all_button">
+                  <controls:UiText Key="software.select_all" />
+                </Button>
+                <Button Command="{Binding SelectNoSuggestionsCommand}" Margin="0,0,8,6"
+                        controls:SkinElement.Id="software.select_none_button">
+                  <controls:UiText Key="software.select_none" />
+                </Button>
+                <Button Command="{Binding ApplySelectedSuggestionsCommand}" Classes="primary" Margin="0,0,8,6"
+                        controls:SkinElement.Id="software.apply_button">
+                  <controls:UiText Key="software.apply_selected" />
+                </Button>
+                <Button Command="{Binding ClearSuggestionsCommand}" Margin="0,0,8,6"
+                        controls:SkinElement.Id="software.clear_list_button">
+                  <controls:UiText Key="software.clear_list" />
+                </Button>
+              </WrapPanel>
+              <TextBlock Text="{Binding SuggestionSummary}" TextWrapping="Wrap" Classes="muted" />
+
+              <!-- Every suggestion is listed before anything is written. The weakest
+                   evidence (「包含」) arrives unticked on purpose. -->
+              <ItemsControl ItemsSource="{Binding Suggestions}" MaxHeight="260">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Border Padding="4,3">
+                      <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                        <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected}" />
+                        <TextBlock Grid.Column="1" Text="{Binding SoftwareName}" TextWrapping="NoWrap"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="{Binding InstalledName}" Classes="muted"
+                                   Margin="8,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="3" Text="{Binding ConfidenceText}" VerticalAlignment="Center" />
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </Border>
+
+          <!-- Entries whose manifest declares no detector can be made decidable here. -->
+          <Border Classes="card">
+            <StackPanel Spacing="4">
+              <controls:UiText Key="software.detect_paths_title" FontWeight="SemiBold"
+                               controls:SkinElement.Id="software.detect_paths_title" />
+              <!-- 两个输入框原来写死 300 + 360：窗口一窄就把整列撑宽、页面横向溢出。
+                   星号列让它们跟着可用宽度走，按钮排后面。 -->
+              <Grid ColumnDefinitions="*,8,*,Auto,Auto">
+                <TextBox Grid.Column="0" Text="{Binding HintArpPattern}" Watermark="ARP 名称，例如 ^Git version" />
+                <TextBox Grid.Column="2" Text="{Binding HintPath}" Watermark="或检测路径，例如 C:\Program Files\Git\bin\git.exe" />
+                <Button Grid.Column="3" Command="{Binding SaveHintCommand}" Classes="primary" Margin="8,0,0,0"
+                        controls:SkinElement.Id="software.save_hint_button">
+                  <controls:UiText Key="software.save_and_detect" />
+                </Button>
+                <Button Grid.Column="4" Command="{Binding ClearHintCommand}" Margin="8,0,0,0"
+                        controls:SkinElement.Id="software.clear_hint_button">
+                  <controls:UiText Key="software.clear_hint" />
+                </Button>
+              </Grid>
+              <TextBlock Text="{Binding HintStatus}" TextWrapping="Wrap" Classes="muted" />
+            </StackPanel>
+          </Border>
+
+        </StackPanel>
+      </ScrollViewer>
+    </Expander>
+
+  </Grid>
+</UserControl>

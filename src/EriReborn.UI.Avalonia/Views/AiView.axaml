@@ -1,0 +1,148 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.AiView"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             x:DataType="vm:AiViewModel">
+  <!-- 这一页自己滚动（页头由外壳钉住），和其它页保持同一套版式。 -->
+  <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+  <StackPanel Spacing="6">
+    <!-- The analysis is prose about facts gathered elsewhere, so it sits in its own
+         card and says what it is. The facts themselves are shown by the scan
+         pages; nothing here replaces them. -->
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <TextBlock Text="环境分析（AI 辅助）" FontWeight="SemiBold" />
+        <TextBlock Classes="muted" TextWrapping="Wrap"
+                   Text="收集本机的系统与检测事实后交给模型分析。模型无法修改这台电脑，也不会收到机器名或用户名；事实清单会先收集并显示数量。" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Content="分析本机环境" Command="{Binding AnalyzeEnvironmentCommand}" Classes="primary"
+                  IsEnabled="{Binding !IsAnalyzing}" />
+          <TextBlock Text="{Binding AnalysisStatus}" Classes="muted" VerticalAlignment="Center" TextWrapping="Wrap" />
+        </StackPanel>
+        <!-- Same banner shape as the software page: state icon first, then the message. -->
+    <Border Classes="warningBanner" IsVisible="{Binding AnalysisText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+          <TextBlock Text="以下内容由 AI 生成，仅供参考，不是本程序的事实判定。" TextWrapping="Wrap" />
+        </Border>
+        <TextBox Text="{Binding AnalysisText}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"
+                 MinHeight="160" IsVisible="{Binding AnalysisText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+      </StackPanel>
+    </Border>
+
+    <!-- The model proposes; nothing runs until the user ticks items and confirms.
+         Every item states exactly what will change, and refusals are shown too. -->
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <TextBlock Text="变更建议（需确认后执行）" FontWeight="SemiBold" />
+        <Border Classes="divider" />
+        <TextBlock Classes="muted" TextWrapping="Wrap"
+                   Text="模型只能从两种动作里提议：安装某个目录条目，或为某个条目记录检测方式。它无法提议命令、路径或注册表操作。勾选后点击「执行勾选项」才会真正执行。" />
+        <TextBlock Text="{Binding PlanStatus}" Classes="muted" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding PlanRejections}" Classes="warning" TextWrapping="Wrap"
+                   IsVisible="{Binding PlanRejections, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+        <ItemsControl ItemsSource="{Binding ProposedActions}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type vm:AiActionItemViewModel}">
+              <Border Classes="chip" Margin="0,0,0,4">
+                <StackPanel Spacing="2">
+                  <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding Effect}" />
+                  <TextBlock Text="{Binding Reason}" Classes="muted" TextWrapping="Wrap" Margin="24,0,0,0" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- Actions last, primary on the right: the reader sees what will happen
+             before the buttons, not after them. -->
+        <Border Classes="divider" />
+        <StackPanel Classes="dialogFooter">
+          <Button Content="请求变更建议" Command="{Binding ProposeChangesCommand}" IsEnabled="{Binding !IsPlanning}" />
+          <Button Content="全部放弃" Command="{Binding DiscardChangesCommand}" IsEnabled="{Binding HasPlan}" />
+          <Button Content="执行勾选项" Command="{Binding ConfirmChangesCommand}" Classes="primary"
+                  IsEnabled="{Binding HasPlan}" />
+        </StackPanel>
+      </StackPanel>
+    </Border>
+
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <TextBlock Text="服务商配置" FontWeight="SemiBold" />
+        <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" Width="260">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding DisplayName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <!-- What this service can really do, said by the provider itself. A name in a drop-down is not
+             support, and this line is where the difference is visible instead of being discovered later
+             as a request that could never have worked. -->
+        <TextBlock Text="{Binding ProviderNote}" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+        <TextBox Text="{Binding BaseUrl}" Watermark="Base URL" />
+        <TextBox Text="{Binding Model}" Watermark="Model" />
+        <TextBox Text="{Binding ApiKey}" Watermark="API Key（仅写入安全凭据存储）" PasswordChar="•" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Content="保存配置" Command="{Binding SaveSettingsCommand}" Classes="primary" />
+          <Button Content="保存 Key" Command="{Binding SaveKeyCommand}" />
+          <Button Content="读取 Key" Command="{Binding LoadKeyCommand}" />
+          <Button Content="测试连接" Command="{Binding TestConnectionCommand}" />
+        </StackPanel>
+        <TextBlock Text="{Binding TestResult}" TextWrapping="Wrap" />
+
+        <!-- A reachable endpoint is not a usable model, so the mismatch is shown
+             rather than discovered later at request time. -->
+        <TextBlock Text="{Binding ModelWarning}" Classes="warning" TextWrapping="Wrap"
+                   IsVisible="{Binding ModelWarning, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
+        <!-- 探测到的模型不再是只读标签：点一下就填进上面的 Model 框，省去手抄出错。 -->
+        <TextBlock Text="点某个模型即填入上面的 Model 框。" Classes="muted" FontSize="11" />
+        <ItemsControl ItemsSource="{Binding AvailableModels}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Button Classes="chip" Margin="0,0,6,6"
+                      Content="{Binding}"
+                      Command="{Binding $parent[UserControl].((vm:AiViewModel)DataContext).UseModelCommand}"
+                      CommandParameter="{Binding}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Text="{Binding CredentialStoreStatus}" Classes="muted" TextWrapping="Wrap" />
+        <TextBlock Text="本页面只负责 AI 接入配置，不是聊天客户端。" Classes="muted" />
+      </StackPanel>
+    </Border>
+
+    <!-- 这个构建能请模型做什么。清单来自能力注册表，所以它不会和代码里真正存在的能力不一致；
+         每一项都写清它做什么、以及它做不到什么。 -->
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <TextBlock Text="AI 能力（Capabilities）" FontWeight="SemiBold" />
+        <TextBlock Text="{Binding CapabilitySummary}" Classes="muted" TextWrapping="Wrap" />
+        <Border Classes="divider" />
+        <ItemsControl ItemsSource="{Binding Capabilities}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:AiCapabilityPreset">
+              <Border Classes="chip" Margin="0,0,0,6">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                  <TextBlock Text="{Binding Description}" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                   Text="能力与具体服务商无关：换一家模型（DeepSeek / Qwen / Ollama…）不需要改这里的任何一项。" />
+      </StackPanel>
+    </Border>
+  </StackPanel>
+  </ScrollViewer>
+
+</UserControl>

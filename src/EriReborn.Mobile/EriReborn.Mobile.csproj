@@ -1,0 +1,79 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>24.0</SupportedOSPlatformVersion>
+    <RootNamespace>EriReborn.Mobile</RootNamespace>
+    <AssemblyName>EriReborn.Mobile</AssemblyName>
+    <ApplicationId>com.erireborn.app</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>3.0.0</ApplicationDisplayVersion>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidUseIntermediateOutputPath>true</AndroidUseIntermediateOutputPath>
+    <!--
+      The APK must be self-contained. With Fast Deployment (the Debug default)
+      the managed assemblies are pushed separately by the IDE, so a manually
+      installed APK aborts with "No assemblies found ... Exiting".
+    -->
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Android" Version="11.0.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EriReborn.App.Shared\EriReborn.App.Shared.csproj" />
+    <ProjectReference Include="..\EriReborn.UI.Avalonia\EriReborn.UI.Avalonia.csproj" />
+    <ProjectReference Include="..\EriReborn.Platform.Android\EriReborn.Platform.Android.csproj" />
+
+    <!-- Official extensions: built first, then shipped as Android assets next to the
+         app's own assets tree. As on Windows only the extension assembly and its
+         manifest travel; the EriReborn.* SDK resolves from the app. -->
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Cloud.Pan123\EriReborn.Ext.Cloud.Pan123.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Cloud.Baidu\EriReborn.Ext.Cloud.Baidu.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Cloud.Quark\EriReborn.Ext.Cloud.Quark.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Cloud.Lanzou\EriReborn.Ext.Cloud.Lanzou.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Cloud.Xunlei\EriReborn.Ext.Cloud.Xunlei.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Download.Aria2\EriReborn.Ext.Download.Aria2.csproj" ReferenceOutputAssembly="false" Private="false" />
+  </ItemGroup>
+
+  <!-- Bundled data is packaged as Android assets and extracted on first run. -->
+  <ItemGroup>
+    <AndroidAsset Include="..\..\assets\asset_manifest.json" Link="assets\asset_manifest.json" />
+    <!-- Includes catalog.sig: without it the app cannot verify official data. -->
+  <AndroidAsset Include="..\..\assets\catalog\*" Link="assets\catalog\%(Filename)%(Extension)" />
+    <AndroidAsset Include="..\..\assets\brand\*.png" Link="assets\brand\%(Filename)%(Extension)" />
+    <!-- 收款码是 jpg：和桌面端一样必须随包，否则设置页的赞助入口没有图可显示。 -->
+    <AndroidAsset Include="..\..\assets\brand\*.jpg" Link="assets\brand\%(Filename)%(Extension)" />
+    <AndroidAsset Include="..\..\assets\personas\*.json" Link="assets\personas\%(Filename)%(Extension)" />
+    <!-- The tutorial ships with the app; it must work offline. -->
+    <AndroidAsset Include="..\..\assets\tutorial\*.json" Link="assets\tutorial\%(Filename)%(Extension)" />
+    <AndroidAsset Include="..\..\assets\trust\*.json" Link="assets\trust\%(Filename)%(Extension)" />
+    <AndroidAsset Include="..\..\assets\skins\**\*.json" Link="assets\skins\%(RecursiveDir)%(Filename)%(Extension)" />
+    <AndroidAsset Include="..\..\assets\skins\**\*.png" Link="assets\skins\%(RecursiveDir)%(Filename)%(Extension)" />
+    <!-- The UI asset library. Without it Android would ship the skins but none of
+         their elements: no logo mark, no empty state, no kuro companion. -->
+    <AndroidAsset Include="..\..\assets\library\**\*.png" Link="assets\library\%(RecursiveDir)%(Filename)%(Extension)" />
+    <AndroidAsset Include="..\..\assets\library\**\*.json" Link="assets\library\%(RecursiveDir)%(Filename)%(Extension)" />
+    <AndroidAsset Include="..\..\assets\library\**\*.cur" Link="assets\library\%(RecursiveDir)%(Filename)%(Extension)" />
+
+    <!-- Official extensions, shipped as assets under assets/extensions/<id>/ so the
+         ordinary extension scan finds them on Android exactly as it does on Windows. -->
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Cloud.Pan123\bin\$(Configuration)\net8.0\EriReborn.Ext.Cloud.Pan123.dll" Link="assets\extensions\erireborn_cloud_123pan\EriReborn.Ext.Cloud.Pan123.dll" />
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Cloud.Pan123\manifest.json" Link="assets\extensions\erireborn_cloud_123pan\manifest.json" />
+
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Cloud.Baidu\bin\$(Configuration)\net8.0\EriReborn.Ext.Cloud.Baidu.dll" Link="assets\extensions\erireborn_cloud_baidu\EriReborn.Ext.Cloud.Baidu.dll" />
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Cloud.Baidu\manifest.json" Link="assets\extensions\erireborn_cloud_baidu\manifest.json" />
+
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Cloud.Quark\bin\$(Configuration)\net8.0\EriReborn.Ext.Cloud.Quark.dll" Link="assets\extensions\erireborn_cloud_quark\EriReborn.Ext.Cloud.Quark.dll" />
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Cloud.Quark\manifest.json" Link="assets\extensions\erireborn_cloud_quark\manifest.json" />
+
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Cloud.Lanzou\bin\$(Configuration)\net8.0\EriReborn.Ext.Cloud.Lanzou.dll" Link="assets\extensions\erireborn_cloud_lanzou\EriReborn.Ext.Cloud.Lanzou.dll" />
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Cloud.Lanzou\manifest.json" Link="assets\extensions\erireborn_cloud_lanzou\manifest.json" />
+
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Cloud.Xunlei\bin\$(Configuration)\net8.0\EriReborn.Ext.Cloud.Xunlei.dll" Link="assets\extensions\erireborn_cloud_xunlei\EriReborn.Ext.Cloud.Xunlei.dll" />
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Cloud.Xunlei\manifest.json" Link="assets\extensions\erireborn_cloud_xunlei\manifest.json" />
+
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Download.Aria2\bin\$(Configuration)\net8.0\EriReborn.Ext.Download.Aria2.dll" Link="assets\extensions\erireborn_download_aria2\EriReborn.Ext.Download.Aria2.dll" />
+    <AndroidAsset Include="..\Extensions\EriReborn.Ext.Download.Aria2\manifest.json" Link="assets\extensions\erireborn_download_aria2\manifest.json" />
+  </ItemGroup>
+</Project>

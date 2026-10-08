@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>EriReborn.UI.Avalonia</RootNamespace>
+    <AssemblyName>EriReborn.UI.Avalonia</AssemblyName>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <!-- Bindings are resolved at run time by default, so a misspelled name is
+         simply a dead control with no error. Compiling them turns that whole
+         class of bug into a build failure. -->
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EriReborn.App.Shared\EriReborn.App.Shared.csproj" />
+    <ProjectReference Include="..\EriReborn.Layout\EriReborn.Layout.csproj" />
+  </ItemGroup>
+</Project>

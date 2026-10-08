@@ -1,0 +1,206 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="EriReborn.UI.Avalonia.Views.ReaderWindow"
+        xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+        xmlns:er="using:EriReborn.Extension.Reader"
+        x:DataType="vm:ReaderWindowViewModel"
+        Title="阅读器"
+        Width="1200" Height="800"
+        MinWidth="720" MinHeight="480"
+        WindowStartupLocation="CenterOwner">
+
+  <Grid RowDefinitions="40,Auto,*,Auto">
+
+    <!-- 标题栏：无边框窗口自带，拖动与关闭都在这里 -->
+    <Border x:Name="TitleBar" Grid.Row="0" PointerPressed="OnTitleBarPointerPressed">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock x:Name="TitleText" Text="阅读器" FontWeight="SemiBold" VerticalAlignment="Center" Margin="14,0,0,0" />
+        <Button Grid.Column="1" Width="46" Height="38" Background="Transparent" BorderThickness="0"
+                Click="OnCloseClick" Content="✕" FontSize="14" />
+      </Grid>
+    </Border>
+
+    <!-- 工具栏 -->
+    <Border x:Name="ToolbarBar" Grid.Row="1" Padding="8,4">
+      <StackPanel Orientation="Horizontal" Spacing="6">
+        <Button Content="打开文件" Command="{Binding OpenFileCommand}" />
+        <Button Content="书架" Command="{Binding ToggleBookshelfCommand}" />
+        <Button Content="目录" Command="{Binding ToggleTocCommand}" />
+        <Button Content="书签" Command="{Binding ToggleBookmarksPanelCommand}" />
+        <Button Content="标注" Command="{Binding ToggleHighlightsPanelCommand}" />
+        <Button Content="搜索" Command="{Binding ToggleSearchPanelCommand}" />
+        <Button Content="A-" Command="{Binding DecreaseFontCommand}" Width="36" />
+        <Button Content="A+" Command="{Binding IncreaseFontCommand}" Width="36" />
+        <Button Content="行距-" Command="{Binding DecreaseLineHeightCommand}" />
+        <Button Content="行距+" Command="{Binding IncreaseLineHeightCommand}" />
+        <Button Content="主题" Command="{Binding ToggleThemeCommand}" />
+        <Button Content="加书签" Command="{Binding AddBookmarkCommand}" />
+      </StackPanel>
+    </Border>
+
+    <!-- 主体：左侧抽屉（书架 / 目录 / 书签） + 阅读区 -->
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto">
+
+      <Border x:Name="ShelfDrawer" Grid.Column="0" Width="280" Margin="8,0,0,0" Padding="8"
+              IsVisible="{Binding ShowBookshelf}">
+        <Grid RowDefinitions="Auto,*">
+          <TextBlock Text="书架" FontWeight="SemiBold" Margin="2,0,0,6" />
+          <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Bookshelf}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="er:ReaderBookInfo">
+                  <Border Padding="6" Margin="0,2" CornerRadius="6">
+                    <Grid ColumnDefinitions="*,Auto">
+                      <Button Content="{Binding Title}" HorizontalContentAlignment="Left"
+                              HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0"
+                              Command="{Binding $parent[ItemsControl].((vm:ReaderWindowViewModel)DataContext).OpenBookCommand}"
+                              CommandParameter="{Binding Id}" />
+                      <Button Grid.Column="1" Content="✕" Background="Transparent" BorderThickness="0"
+                              Command="{Binding $parent[ItemsControl].((vm:ReaderWindowViewModel)DataContext).RemoveBookCommand}"
+                              CommandParameter="{Binding Id}" />
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </Grid>
+      </Border>
+
+      <Border x:Name="ReaderArea" Grid.Column="1" Margin="8" Padding="0" CornerRadius="8" ClipToBounds="True">
+        <Grid>
+          <!-- 正文是一整块 WebView2 原生表面，由代码后台经 BrowserSlot 注入。 -->
+          <Grid x:Name="ReaderHost" />
+          <TextBlock x:Name="ReaderFallback" IsVisible="False" TextWrapping="Wrap"
+                     VerticalAlignment="Center" HorizontalAlignment="Center" Margin="28"
+                     TextAlignment="Center"
+                     Text="此环境缺少 WebView2 内核，阅读窗口无法显示正文。" />
+        </Grid>
+      </Border>
+
+      <Grid Grid.Column="2" Margin="0,0,8,0" Width="280">
+        <Border x:Name="TocDrawer" Padding="8" IsVisible="{Binding ShowToc}">
+          <Grid RowDefinitions="Auto,*">
+            <TextBlock Text="目录" FontWeight="SemiBold" Margin="2,0,0,6" />
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+              <ItemsControl ItemsSource="{Binding Chapters}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="er:ReaderChapter">
+                    <Button HorizontalContentAlignment="Left" HorizontalAlignment="Stretch"
+                            Background="Transparent" BorderThickness="0" Padding="6,4"
+                            Content="{Binding Title}"
+                            Command="{Binding $parent[ItemsControl].((vm:ReaderWindowViewModel)DataContext).GoToChapterCommand}"
+                            CommandParameter="{Binding}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+          </Grid>
+        </Border>
+
+        <Border x:Name="BookmarksDrawer" Padding="8" IsVisible="{Binding ShowBookmarksPanel}">
+          <Grid RowDefinitions="Auto,*">
+            <TextBlock Text="书签" FontWeight="SemiBold" Margin="2,0,0,6" />
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+              <ItemsControl ItemsSource="{Binding Bookmarks}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="er:ReaderBookmark">
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,2">
+                      <Button HorizontalContentAlignment="Left" HorizontalAlignment="Stretch"
+                              Background="Transparent" BorderThickness="0" Padding="6,4"
+                              Command="{Binding $parent[ItemsControl].((vm:ReaderWindowViewModel)DataContext).GoToBookmarkCommand}"
+                              CommandParameter="{Binding}">
+                        <StackPanel>
+                          <TextBlock Text="{Binding PageIndex, StringFormat='第 {0} 页'}" FontWeight="SemiBold" />
+                          <TextBlock Text="{Binding TextQuote}" TextTrimming="CharacterEllipsis" MaxHeight="32" />
+                        </StackPanel>
+                      </Button>
+                      <Button Grid.Column="1" Content="✕" Background="Transparent" BorderThickness="0"
+                              Command="{Binding $parent[ItemsControl].((vm:ReaderWindowViewModel)DataContext).RemoveBookmarkCommand}"
+                              CommandParameter="{Binding Id}" />
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+          </Grid>
+        </Border>
+        <Border x:Name="HighlightsDrawer" Padding="8" IsVisible="{Binding ShowHighlightsPanel}">
+          <Grid RowDefinitions="Auto,*">
+            <TextBlock Text="标注" FontWeight="SemiBold" Margin="2,0,0,6" />
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+              <ItemsControl ItemsSource="{Binding Highlights}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:ReaderHighlightItem">
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,2">
+                      <Button HorizontalContentAlignment="Left" HorizontalAlignment="Stretch"
+                              Background="Transparent" BorderThickness="0" Padding="6,4"
+                              Command="{Binding $parent[ItemsControl].((vm:ReaderWindowViewModel)DataContext).GoToHighlightCommand}"
+                              CommandParameter="{Binding}">
+                        <StackPanel>
+                          <TextBlock Text="{Binding Page, StringFormat='第 {0} 页'}" FontWeight="SemiBold" />
+                          <TextBlock Text="{Binding Quote}" TextWrapping="Wrap"
+                                     TextTrimming="CharacterEllipsis" MaxHeight="64" />
+                          <TextBlock Text="{Binding Note, StringFormat='笔记：{0}'}" FontStyle="Italic"
+                                     TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxHeight="48"
+                                     IsVisible="{Binding HasNote}" />
+                        </StackPanel>
+                      </Button>
+                      <Button Grid.Column="1" Content="✕" Background="Transparent" BorderThickness="0"
+                              Command="{Binding $parent[ItemsControl].((vm:ReaderWindowViewModel)DataContext).RemoveHighlightCommand}"
+                              CommandParameter="{Binding Highlight.Id}" />
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+          </Grid>
+        </Border>
+        <Border x:Name="SearchDrawer" Padding="8" IsVisible="{Binding ShowSearchPanel}">
+          <Grid RowDefinitions="Auto,Auto,*">
+            <TextBlock Text="全文搜索" FontWeight="SemiBold" Margin="2,0,0,6" />
+            <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,6">
+              <TextBox x:Name="SearchBox" Text="{Binding SearchQuery}" Watermark="输入关键词，回车搜索" />
+              <Button Grid.Column="1" Margin="4,0,0,0" Content="搜索"
+                      Command="{Binding SearchCommand}" IsDefault="True" />
+              <Button Grid.Column="2" Margin="4,0,0,0" Content="清空"
+                      Command="{Binding ClearSearchCommand}" />
+            </Grid>
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+              <ItemsControl ItemsSource="{Binding SearchResults}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:ReaderSearchResultItem">
+                    <Button HorizontalContentAlignment="Left" HorizontalAlignment="Stretch"
+                            Background="Transparent" BorderThickness="0" Padding="6,4" Margin="0,2"
+                            Command="{Binding $parent[ItemsControl].((vm:ReaderWindowViewModel)DataContext).GoToSearchResultCommand}"
+                            CommandParameter="{Binding}">
+                      <StackPanel>
+                        <TextBlock Text="{Binding Page, StringFormat='第 {0} 页'}" FontWeight="SemiBold" Margin="0,0,0,2" />
+                        <WrapPanel>
+                          <TextBlock Text="{Binding Prefix}" TextWrapping="Wrap" />
+                          <TextBlock Text="{Binding Word}" FontWeight="Bold" TextWrapping="Wrap" />
+                          <TextBlock Text="{Binding Suffix}" TextWrapping="Wrap" />
+                        </WrapPanel>
+                      </StackPanel>
+                    </Button>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+          </Grid>
+        </Border>
+      </Grid>
+    </Grid>
+
+    <!-- 状态栏 -->
+    <Border x:Name="StatusBar" Grid.Row="3" Padding="12,6">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <TextBlock Text="{Binding ProgressText}" FontWeight="SemiBold" />
+        <TextBlock Grid.Column="1" Text="{Binding CurrentChapter}" TextAlignment="Center"
+                   TextTrimming="CharacterEllipsis" Margin="12,0" />
+        <TextBlock Grid.Column="2" Text="{Binding Status}" TextTrimming="CharacterEllipsis"
+                   MaxWidth="360" />
+      </Grid>
+    </Border>
+  </Grid>
+</Window>

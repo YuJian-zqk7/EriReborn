@@ -1,0 +1,11 @@
+{
+  "id": "erireborn_cloud_baidu",
+  "name": "百度网盘",
+  "version": "1.0.0",
+  "author": "EriReborn",
+  "description": "把百度网盘接入「来源」页。需在设置中填写你自己的 BDUSS（仅存于本机凭据库，不会上传）。",
+  "assembly": "EriReborn.Ext.Cloud.Baidu.dll",
+  "trust": "official",
+  "permissions": ["cloud.contribute", "network.http", "credentials.read"],
+  "categories": ["cloud"]
+}

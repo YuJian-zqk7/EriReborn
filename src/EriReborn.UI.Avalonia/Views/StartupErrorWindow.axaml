@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="EriReborn.UI.Avalonia.Views.StartupErrorWindow"
+        xmlns:views="using:EriReborn.UI.Avalonia.Views"
+        x:DataType="views:StartupErrorViewModel"
+        Width="720" Height="480" Title="EriReborn 启动失败"
+        Background="#1B2130">
+  <ScrollViewer Padding="20">
+    <StackPanel Spacing="10">
+      <TextBlock Text="启动阶段发生错误" FontSize="22" FontWeight="SemiBold" Foreground="#FF8A8A" />
+      <TextBlock Text="{Binding Summary}" Foreground="#E8EEF7" TextWrapping="Wrap" />
+      <TextBlock Text="{Binding KindText}" Foreground="#94A3B8" />
+      <TextBlock Text="{Binding Detail}" Foreground="#E8EEF7" TextWrapping="Wrap" />
+      <TextBlock Text="日志文件" Foreground="#94A3B8" />
+      <TextBlock Text="{Binding LogPath}" Foreground="#7FB3FF" TextWrapping="Wrap" />
+      <TextBlock Text="堆栈" Foreground="#94A3B8" />
+      <TextBox Text="{Binding StackTrace}" IsReadOnly="True" AcceptsReturn="True" Height="160"
+               FontFamily="Consolas" FontSize="11" TextWrapping="NoWrap" />
+    </StackPanel>
+  </ScrollViewer>
+</Window>

@@ -1,0 +1,58 @@
+{
+    "id": "tech_android",
+    "name": "Tech · Android",
+    "persona": "Tech",
+    "colors": {
+        "accent": "#4FD1C5",
+        "background": "#16161F",
+        "surface": "#1E1E2A",
+        "surfaceAlt": "#26263A",
+        "foreground": "#E6E6F0",
+        "muted": "#8A8AA0",
+        "border": "#33334A"
+    },
+    "metrics": {
+        "cornerRadius": "6",
+        "density": "comfortable"
+    },
+    "fontFamily": "Cascadia Mono, Microsoft YaHei UI, Segoe UI",
+    "assetManifestFile": "../../asset_manifest.json",
+    "theme": "dark",
+    "typography": {
+        "fontSizeLarge": "20",
+        "fontSizeSmall": "13",
+        "fontWeight": "500",
+        "fontSize": "15"
+    },
+    "controls": {
+        "listRowHeight": "56",
+        "buttonHeight": "48",
+        "touchTarget": "true",
+        "inputHeight": "48"
+    },
+    "navigation": {
+        "position": "bottom",
+        "mode": "bottomTabs",
+        "itemHeight": "56"
+    },
+    "window": {
+        "minwidth": "360",
+        "minheight": "640",
+        "chrome": "borderless"
+    },
+    "layout": "mobile",
+    "assets": {
+        "sheets": "tech_android_*",
+        "character": "eri_android_character",
+        "logo": "skin_tech_android_logo_mark",
+        "emptyState": "v2_tech_sticker_idle",
+        "loadingState": "v2_tech_sticker_loading"
+    },
+    "cursors": {
+        "default": "asset:v2_tech_cursor_arrow",
+        "busy": "asset:v2_tech_cursor_busy",
+        "link": "asset:v2_tech_cursor_hand",
+        "resizeHorizontal": "asset:v2_tech_cursor_resize_h",
+        "text": "asset:v2_tech_cursor_text"
+    }
+}

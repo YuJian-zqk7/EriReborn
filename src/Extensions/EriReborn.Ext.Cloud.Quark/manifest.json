@@ -1,0 +1,11 @@
+{
+  "id": "erireborn_cloud_quark",
+  "name": "夸克网盘",
+  "version": "1.0.0",
+  "author": "EriReborn",
+  "description": "把夸克网盘接入「来源」页。通过官方/公开接口解析直链，需要你的登录态。",
+  "assembly": "EriReborn.Ext.Cloud.Quark.dll",
+  "trust": "official",
+  "permissions": ["cloud.contribute", "network.http", "credentials.read"],
+  "categories": ["cloud"]
+}

@@ -1,0 +1,59 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="using:EriReborn.UI.Avalonia.Views"
+        xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+        x:Class="EriReborn.UI.Avalonia.Views.MainWindow"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             x:DataType="vm:MainViewModel"
+        Width="1200" Height="780"
+        MinWidth="960" MinHeight="620"
+        Title="EriReborn 3.0"
+        Background="{DynamicResource SkinBackground}"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="40">
+  <Grid RowDefinitions="40,*,28">
+    <!-- Custom title bar (spec 53) -->
+    <Border Grid.Row="0" Background="{DynamicResource SkinSurface}" PointerPressed="OnTitleBarPressed">
+      <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center"
+                    Margin="14,0,0,0" Spacing="8">
+          <!-- The window mark, next to the title: same art as the exe icon. -->
+          <controls:AssetImage AssetId="erireborn_launcher_icon" Width="24" Height="24" VerticalAlignment="Center" />
+          <TextBlock FontWeight="SemiBold" Text="{Binding Title}" VerticalAlignment="Center" />
+        </StackPanel>
+        <!-- 窗口按钮的图形在这里画出来，而不是取素材库的图片：win_close 和 win_minimize 画的是深色笔划
+             （采样平均 RGB 约 54,53,72），落在深色皮肤的标题栏上等于隐形；win_maximize 却是浅色的，于是
+             三个按钮看起来只剩两个，关闭就"没有"了。AssetImage 无法跟着皮肤换色，所以这里用矢量形状，
+             笔色取皮肤前景色——任何皮肤下都和标题栏有对比。 -->
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+          <Button Width="46" Height="38" Command="{Binding MinimizeCommand}" ToolTip.Tip="{Binding MinimizeTooltip}"
+                  Background="Transparent" BorderThickness="0">
+            <Path Width="12" Height="12" Stretch="Uniform" Data="M 0,0 L 12,0"
+                  Stroke="{DynamicResource SkinForeground}" StrokeThickness="1.6"
+                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Button>
+          <Button Width="46" Height="38" Command="{Binding ToggleMaximizeCommand}" ToolTip.Tip="{Binding MaximizeTooltip}"
+                  Background="Transparent" BorderThickness="0">
+            <Path Name="MaximizeGlyph" Width="12" Height="12" Stretch="Uniform"
+                  Data="M 1,1 L 11,1 L 11,11 L 1,11 Z"
+                  Stroke="{DynamicResource SkinForeground}" StrokeThickness="1.6"
+                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Button>
+          <Button Width="46" Height="38" Command="{Binding CloseCommand}" ToolTip.Tip="{Binding CloseTooltip}"
+                  Background="Transparent" BorderThickness="0">
+            <Path Width="12" Height="12" Stretch="Uniform" Data="M 0,0 L 12,12 M 12,0 L 0,12"
+                  Stroke="{DynamicResource SkinForeground}" StrokeThickness="1.6"
+                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <views:MainView Grid.Row="1" />
+
+    <Border Grid.Row="2" Background="{DynamicResource SkinSurface}">
+      <TextBlock Text="{Binding StatusBar}" Classes="muted" VerticalAlignment="Center" Margin="12,0" FontSize="11" />
+    </Border>
+  </Grid>
+</Window>

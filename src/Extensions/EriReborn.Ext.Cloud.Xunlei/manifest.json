@@ -1,0 +1,11 @@
+{
+  "id": "erireborn_cloud_xunlei",
+  "name": "迅雷网盘",
+  "version": "1.0.0",
+  "author": "EriReborn",
+  "description": "把迅雷网盘接入「来源」页。通过官方接口解析直链，需要你的登录态。",
+  "assembly": "EriReborn.Ext.Cloud.Xunlei.dll",
+  "trust": "official",
+  "permissions": ["cloud.contribute", "network.http", "credentials.read"],
+  "categories": ["cloud"]
+}

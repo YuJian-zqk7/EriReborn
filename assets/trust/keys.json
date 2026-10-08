@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "_comment": "Trusted publisher keys. Trust comes from THIS file, never from a package's own manifest. The private half of the anchor below was generated and discarded, so nothing in this repository can sign as it.",
+  "keys": [
+    {
+      "keyId": "erireborn-root-2026",
+      "algorithm": "ecdsa-p256-sha256",
+      "publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEW7Xg6GAzyrDp9lI+xkclIwC8NX4ec+bCjnJ6dql9hNJFBoEkLft8pXb5g+a/7IKmlWonJoEVrz/M/RvVCVx8XA==",
+      "trust": "Official",
+      "publisher": "EriReborn"
+    }
+  ]
+}

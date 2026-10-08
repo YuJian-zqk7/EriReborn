@@ -1,0 +1,1483 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:layout="using:EriReborn.Layout"
+             x:Class="EriReborn.UI.Avalonia.Views.WorkshopView"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             xmlns:svc="using:EriReborn.App.Shared.Services"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             x:DataType="vm:WorkshopViewModel"
+             x:Name="WorkshopRoot">
+  <UserControl.Resources>
+    <!-- 皮肤 → 它的卡片插画（skin_<id>_card）。命名规则在这个转换器里，只此一处。 -->
+    <controls:SkinPreviewConverter x:Key="SkinPreview" />
+  </UserControl.Resources>
+  <TabControl x:Name="WorkshopTabs" Margin="6">
+    <!-- ==================================================== 皮肤创建 ===== -->
+    <!-- 基于当前皮肤创建副本，再在这套副本上做可视化修改：编辑区里放的就是真实页面本身
+         （同一批 ViewModel、同一套皮肤解析），点一下元素就能替换它。
+         UI 布局编辑是另一段（更高级），两件事不混在一起。 -->
+    <TabItem Header="皮肤创建">
+      <!-- 两种状态叠在一起：列表（挑底稿、新建、启用）和编辑器（改这套皮肤）。
+           新建表单是浮在上面的一个小框，像图里那样。 -->
+      <Panel>
+      <Grid ColumnDefinitions="Auto,12,*" Margin="8" IsVisible="{Binding ShowSkinGallery}">
+        <Border Grid.Column="0" Classes="card" MinWidth="170" MaxWidth="260" IsVisible="{Binding ShowSkinGallery}">
+          <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="我的皮肤" FontWeight="SemiBold" Margin="0,0,0,6" />
+            <ListBox ItemsSource="{Binding Skins}" SelectedItem="{Binding SelectedSkin}">
+              <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:WorkshopSkinEntry">
+                  <StackPanel Spacing="2">
+                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Text="{Binding Id}" Classes="muted" FontSize="11" />
+                  </StackPanel>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </DockPanel>
+        </Border>
+
+        <Grid Grid.Column="2" ColumnDefinitions="*,12,Auto" Margin="8" IsVisible="{Binding ShowSkinGallery}">
+          <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="8">
+                  <TextBlock Classes="muted" TextWrapping="Wrap"
+                             Text="下面就是这套皮肤的真实界面——不是截图、不是空画布、也不用写 JSON。点界面上的图标、图片、文字、卡片，右边就能替换或修改，换完立刻生效。" />
+
+                  <Border Classes="card">
+                    <StackPanel Spacing="8">
+                      <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="＋ 新建皮肤" Classes="primary" Command="{Binding BeginCreateSkinCommand}" />
+                        <TextBlock Classes="muted" FontSize="11" VerticalAlignment="Center" TextWrapping="Wrap"
+                                   Text="基于下面挑中的皮肤创建一套你自己的；未修改的部分继续用它的。" />
+                      </StackPanel>
+
+                      <TextBlock Text="选择基础皮肤" FontWeight="SemiBold" />
+                      <ItemsControl ItemsSource="{Binding Skins}">
+                        <ItemsControl.ItemsPanel>
+                          <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                          </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate x:DataType="vm:WorkshopSkinEntry">
+                            <!-- 点卡片进入编辑并打开独立窗口：命令先跑（它才是决定能不能编辑的地方），
+                                 Click 在其后开窗，所以窗口一出现就是编辑器，不用再点第二次。 -->
+                            <Button Margin="0,0,10,10" Padding="6"
+                                    Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).EditSkinCommand}"
+                                    CommandParameter="{Binding}"
+                                    Click="OnEditSkinInWindowClick"
+                                    ToolTip.Tip="{Binding Id}">
+                              <StackPanel Width="132" Spacing="6">
+                                <Panel Height="84">
+                                  <Border Background="{DynamicResource SkinSurfaceAlt}"
+                                          BorderBrush="{DynamicResource SkinBorder}" BorderThickness="1"
+                                          CornerRadius="{DynamicResource SkinCornerRadiusSmall}">
+                                    <!-- 皮肤卡片插画用的是素材库的 skin_<id>_card，命名规则只在一个地方。 -->
+                                    <controls:AssetImage AssetId="{Binding Converter={StaticResource SkinPreview}}"
+                                                         Stretch="Uniform" Margin="4" />
+                                  </Border>
+                                  <Rectangle IsVisible="{Binding IsSelected}" IsHitTestVisible="False"
+                                             Stroke="#5B8DEF" StrokeThickness="2" RadiusX="4" RadiusY="4" />
+                                </Panel>
+                                <TextBlock Text="{Binding Name}" FontSize="11" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Id}" Classes="muted" FontSize="10" TextTrimming="CharacterEllipsis" />
+                              </StackPanel>
+                            </Button>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+
+                      <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="启用选中的皮肤" Command="{Binding ActivateSkinCommand}"
+                                CommandParameter="{Binding SelectedSkin}" />
+                        <Button Content="编辑选中的皮肤" Command="{Binding EditSkinCommand}"
+                                CommandParameter="{Binding SelectedSkin}"
+                                Click="OnEditSkinInWindowClick" />
+                        <Button Content="删除我自己的皮肤" Command="{Binding DeleteSkinTextCommand}" />
+                      </StackPanel>
+                    </StackPanel>
+                  </Border>
+
+                  <Border Classes="card">
+                    <StackPanel Spacing="6">
+                      <TextBlock Text="{Binding SelectedSkin.Id, StringFormat='所选 id：{0}'}" FontWeight="SemiBold" />
+                      <TextBlock Text="名称" Classes="muted" />
+                      <TextBox Text="{Binding SkinNameDraft}" />
+                      <TextBlock Text="persona（这个皮肤说话的样子）" Classes="muted" />
+                      <TextBox Text="{Binding SkinPersonaDraft}" AcceptsReturn="True" Height="150" TextWrapping="Wrap" />
+                      <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="layout：" Classes="muted" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding SelectedSkin.Layout}" VerticalAlignment="Center" />
+                      </StackPanel>
+                      <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="保存到这套皮肤" Command="{Binding SaveSkinTextCommand}" Classes="primary" />
+                        <Button Content="校验文案" Command="{Binding ValidateSkinTextCommand}" />
+                        <Button Content="导出全部文案（JSON）" Command="{Binding ExportSkinTextCommand}" />
+                      </StackPanel>
+                      <TextBlock Text="{Binding SkinVerdict}" TextWrapping="Wrap" />
+                      <TextBlock Text="{Binding SkinExportPath}" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+                    </StackPanel>
+                  </Border>
+
+
+
+                  <Expander Header="精确选择素材（下拉）" IsExpanded="False"
+                            IsVisible="{Binding SelectedSkinIsUserSkin}">
+                    <ItemsControl ItemsSource="{Binding AssetSlots}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:WorkshopAssetSlot">
+                          <Grid ColumnDefinitions="150,*,Auto,Auto" Margin="0,3">
+                            <TextBlock Grid.Column="0" Text="{Binding Title}" VerticalAlignment="Center" TextWrapping="Wrap" />
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding Choices}" SelectedItem="{Binding AssetId}"
+                                      HorizontalAlignment="Stretch" />
+                            <Button Grid.Column="2" Content="换图片…" Margin="8,0,0,0" Click="OnReplaceArtClick" />
+                            <!-- 只有用户改过的槽位才有"默认"可恢复：父皮肤那张。 -->
+                            <Button Grid.Column="3" Content="恢复默认" Margin="8,0,0,0"
+                                    IsVisible="{Binding IsOverridden}" Click="OnRestoreArtClick" />
+                          </Grid>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </Expander>
+
+                  <!-- 鼠标光标：skin.json 里的 cursors 声明以前没有任何界面能写它，编辑器现在补上。
+                       可选值只给解析器认识的那些——标准形状名，或素材库里的真实图片 id。 -->
+                  <Border Classes="card" IsVisible="{Binding SelectedSkinIsUserSkin}">
+                    <StackPanel Spacing="6">
+                      <TextBlock Text="鼠标光标" FontWeight="SemiBold" />
+                      <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                                 Text="每个角色可以指向一个标准形状（arrow / wait / appstarting / hand / no / sizeall / sizewe / sizens / corner / ibeam / cross / none），或指向素材库里的一张图（asset:…）。留空就跟随底层皮肤。改完点「保存到这套皮肤」。" />
+                      <ItemsControl ItemsSource="{Binding CursorEntries}">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate x:DataType="vm:WorkshopCursor">
+                            <Grid ColumnDefinitions="170,*" Margin="0,3">
+                              <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Title}" TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding InheritedHint}" Classes="muted" FontSize="10" TextWrapping="Wrap" />
+                              </StackPanel>
+                              <ComboBox Grid.Column="1" ItemsSource="{Binding Choices}" SelectedItem="{Binding Spec}"
+                                        HorizontalAlignment="Stretch" />
+                            </Grid>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </StackPanel>
+                  </Border>
+
+                  <Border Classes="card">
+                    <StackPanel Spacing="6">
+                      <TextBlock Text="这套皮肤是谁的" FontWeight="SemiBold" />
+                      <TextBlock Text="{Binding SelectedSkinIsUserSkin, StringFormat='我自己的皮肤：{0}'}" />
+                      <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                                 Text="界面文字、颜色、图片都在编辑器里改：点上面的「编辑选中的皮肤」。" />
+                    </StackPanel>
+                  </Border>
+
+                  <Expander Header="导出的内容" IsExpanded="False">
+                    <TextBox Text="{Binding SkinText}" AcceptsReturn="True" Height="200" TextWrapping="NoWrap"
+                             IsReadOnly="True" Classes="muted" />
+                  </Expander>
+                </StackPanel>
+              </ScrollViewer>
+
+              <!-- 列表态的右列：选中皮肤的槽位一览 + 进入编辑器的入口。 -->
+              <Border Grid.Column="2" Classes="card" MinWidth="260" MaxWidth="380">
+                <ScrollViewer>
+                  <StackPanel Spacing="8">
+                    <TextBlock Text="这套皮肤" FontWeight="SemiBold" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               Text="改图标、图片、文字、颜色都在编辑器里：点「编辑选中的皮肤」。" />
+
+                    <TextBlock Text="五个皮肤槽位" FontWeight="SemiBold" Margin="0,8,0,0" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               Text="立绘、搭档、标志、空态、加载——这五个也可以直接在这里选。" />
+                    <ItemsControl ItemsSource="{Binding AssetSlots}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:WorkshopAssetSlot">
+                          <Button Margin="0,2" Padding="4" HorizontalAlignment="Stretch"
+                                  Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).SelectSlotCommand}"
+                                  CommandParameter="{Binding}">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                              <Border Grid.Column="0" Width="28" Height="28" Margin="0,0,8,0"
+                                      Background="{DynamicResource SkinSurfaceAlt}"
+                                      BorderBrush="{DynamicResource SkinBorder}" BorderThickness="1">
+                                <Image Stretch="Uniform"
+                                       Source="{Binding PreviewFile, Converter={x:Static controls:PathToBitmapConverter.Instance}}" />
+                              </Border>
+                              <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Title}" FontSize="11" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding DefaultAssetId, StringFormat='默认：{0}'}"
+                                           Classes="muted" FontSize="10" TextTrimming="CharacterEllipsis" />
+                              </StackPanel>
+                              <TextBlock Grid.Column="2" Text="已改过" FontSize="10" Foreground="#5B8DEF"
+                                         VerticalAlignment="Center" IsVisible="{Binding IsOverridden}" />
+                            </Grid>
+                          </Button>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </StackPanel>
+                </ScrollViewer>
+              </Border>
+        </Grid>
+      </Grid>
+
+      <!-- ============================================ 编辑态：所见即所得 ===== -->
+      <!-- 编辑态是 Panel 的兄弟节点，不再落在列表态那套 230/12/* 列里。那两列在编辑态内容虽被
+           隐藏，固定像素列仍然各占 230 与 12 像素，编辑器于是只拿到「可用宽度 − 242」：窄窗口下
+           它自己要的 522 像素装不下，中间的预览被压成 0 宽、右边属性面板被裁出可视区——
+           这正是「右侧显示不全」。分开之后三种状态各自用满整个宽度。 -->
+      <Grid Margin="8" RowDefinitions="Auto,*" IsVisible="{Binding IsEditingSkin}">
+          <Border Grid.Row="0" Classes="card" Margin="0,0,0,8">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+              <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                <controls:AssetImage AssetId="{Binding SelectedSkin, Converter={StaticResource SkinPreview}}"
+                                     Width="28" Height="28" Stretch="Uniform" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding SelectedSkin.Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <TextBlock Text="· 皮肤编辑器" Classes="muted" VerticalAlignment="Center" />
+              </StackPanel>
+              <TextBlock Grid.Column="1" Text="{Binding SkinVerdict}" Classes="muted" FontSize="11"
+                         Margin="12,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+              <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                <TextBlock Text="{Binding SaveState, StringFormat='保存状态：{0}'}" Classes="muted"
+                           FontSize="11" VerticalAlignment="Center" Margin="0,0,4,0" />
+                <!-- 一个「保存」写完所有可改的东西：界面文字、Persona 台词、颜色。
+                     图片与图标是选完立刻生效（即改即存），不再需要另点保存。 -->
+                <Button Content="保存" Command="{Binding SaveAllCommand}" Classes="primary"
+                        ToolTip.Tip="把界面文字、Persona 台词和颜色一次写完；图片与图标是选完立刻生效" />
+                <Button Command="{Binding ResetSkinCommand}"
+                        ToolTip.Tip="清掉所有改动，只留底稿继承（要点两次）">
+                  <controls:UiText Key="common.reset" />
+                </Button>
+                <Button Content="✕" Command="{Binding CloseEditorCommand}" ToolTip.Tip="回到我的皮肤" />
+              </StackPanel>
+            </Grid>
+          </Border>
+
+          <Grid Grid.Row="1" ColumnDefinitions="Auto,10,*,10,Auto">
+            <!-- 工具：选择 / 图片 / 图标 / 文本 / 颜色 / 资源 / 布局
+                 下面还有一棵「页面」树：父节点点开能看到它的子项（例如「软件」下面的分类），
+                 点任何一个节点都会把对应内容放到中间的预览里。 -->
+            <Border Grid.Column="0" Classes="card" MinWidth="150" MaxWidth="210">
+              <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="4">
+                  <TextBlock Text="工具" FontWeight="SemiBold" />
+                  <!-- 「选择」是鼠标工具：不切换任何属性面板，只用来点选和查看选中的元素。 -->
+                  <Button Content="选择（鼠标）" HorizontalAlignment="Stretch"
+                          Command="{Binding SelectPaletteCommand}" CommandParameter="选择"
+                          ToolTip.Tip="只点选元素、看它是什么，不改任何东西" />
+                  <Button Content="图片" HorizontalAlignment="Stretch" Command="{Binding SelectPaletteCommand}" CommandParameter="图片" />
+                  <Button Content="图标" HorizontalAlignment="Stretch" Command="{Binding SelectPaletteCommand}" CommandParameter="图标" />
+                  <Button Content="文本" HorizontalAlignment="Stretch" Command="{Binding SelectPaletteCommand}" CommandParameter="文本" />
+                  <Button Content="颜色" HorizontalAlignment="Stretch" Command="{Binding SelectPaletteCommand}" CommandParameter="颜色" />
+                  <Button Content="资源" HorizontalAlignment="Stretch" Command="{Binding SelectPaletteCommand}" CommandParameter="资源" />
+                  <Button Content="光标" HorizontalAlignment="Stretch"
+                          Command="{Binding SelectPaletteCommand}" CommandParameter="光标"
+                          ToolTip.Tip="换鼠标指针：给每个场合（默认箭头、忙碌、可点击…）挑形状或素材图" />
+                  <Button Content="布局" HorizontalAlignment="Stretch"
+                          Command="{Binding SelectPaletteCommand}" CommandParameter="布局"
+                          ToolTip.Tip="就在这个编辑器里调控件的位置、大小和形状：中部会换成画布" />
+                  <Button Content="⧉ 独立窗口" HorizontalAlignment="Stretch" Click="OnOpenEditorWindowClick"
+                          ToolTip.Tip="把编辑器开成一个更大的窗口（编辑器太窄时用这个）" />
+                  <TextBlock Text="{Binding PaletteMode, StringFormat='当前：{0}'}" Classes="muted" FontSize="11" />
+
+                  <TextBlock Text="页面" FontWeight="SemiBold" Margin="0,8,0,0" />
+                  <TreeView x:Name="PreviewPageTree" SelectionChanged="OnPreviewPageSelected"
+                            MaxHeight="360" VerticalAlignment="Top">
+                    <TreeView.ItemTemplate>
+                      <TreeDataTemplate x:DataType="views:WorkshopPreviewPage" ItemsSource="{Binding Children}">
+                        <TextBlock Text="{Binding Name}" FontSize="12" TextTrimming="CharacterEllipsis" />
+                      </TreeDataTemplate>
+                    </TreeView.ItemTemplate>
+                  </TreeView>
+                </StackPanel>
+              </ScrollViewer>
+            </Border>
+
+            <!-- 中间：这套皮肤的真实界面。MinWidth 是必需的：预览是这一段的全部意义，
+                 窗口再窄也不允许它被压成 0 宽（放不下时由外壳的横向滚动条兜住）。 -->
+            <Border Grid.Column="2" Classes="card" MinWidth="300">
+              <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,6">
+                  <TextBlock Text="真实界面" FontWeight="SemiBold" VerticalAlignment="Center" />
+                  <TextBlock x:Name="PreviewPageLabel" Classes="muted" VerticalAlignment="Center" FontWeight="SemiBold" />
+                  <Button Content="⧉ 独立窗口" Click="OnOpenEditorWindowClick"
+                          ToolTip.Tip="把编辑器开成一个更大的窗口" />
+                  <!-- 说清"这一页上什么可以点"：不同页面可编辑的东西不一样，不写清楚用户会以为坏了。 -->
+                  <TextBlock Classes="muted" FontSize="11" VerticalAlignment="Center" TextWrapping="Wrap"
+                             Text="左边「页面」里点父节点或子节点都会换到对应内容；点预览里的元素就能改：卡片/面板=颜色，立绘/图标=图片，按钮/导航/标题=文字。选中的元素会画上蓝框。" />
+                </StackPanel>
+
+                <!-- 真实外壳：左边是真实侧栏（真实导航数据、真实图标 id、真实皮肤文字），
+                     右边是真实页面本体。用户看到的就是"当前这套皮肤本身"，不是示意图、
+                     不是空画布，也不需要懂 XAML 或 JSON。 -->
+                <Grid x:Name="PreviewFrame">
+                  <Grid ColumnDefinitions="216,*">
+                    <Border Grid.Column="0" Background="{DynamicResource SkinSurfaceAlt}"
+                            BorderBrush="{DynamicResource SkinBorder}" BorderThickness="0,0,1,0" Padding="8">
+                      <DockPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="6,4,0,8">
+                          <controls:AssetImage AssetId="brand_symbol_small" Width="30" Height="30" VerticalAlignment="Center" />
+                          <controls:UiText Key="nav.sidebar" Classes="muted" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                          <ItemsControl x:Name="PreviewNavRail">
+                            <ItemsControl.ItemsPanel>
+                              <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                              </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                              <DataTemplate x:DataType="svc:NavigationItem">
+                                <StackPanel Orientation="Horizontal" Spacing="8" Margin="2,5">
+                                  <controls:AssetImage AssetId="{Binding IconId}" Width="20" Height="20"
+                                                       VerticalAlignment="Center"
+                                                       controls:SkinElement.Id="{Binding SkinIconElementId}"
+                                                       controls:SkinElement.Kind="Icon"
+                                                       controls:SkinElement.AssetId="{Binding IconId}"
+                                                       controls:SkinElement.DisplayName="{Binding Title}" />
+                                  <TextBlock Text="{Binding Title}" VerticalAlignment="Center"
+                                             controls:SkinElement.Id="{Binding SkinTextElementId}"
+                                             controls:SkinElement.Kind="Text"
+                                             controls:SkinElement.TextKey="{Binding TextKey}"
+                                             controls:SkinElement.DisplayName="{Binding Title}" />
+                                </StackPanel>
+                              </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                          </ItemsControl>
+                        </ScrollViewer>
+                      </DockPanel>
+                    </Border>
+
+                    <!-- 真实页面本体。点选由代码里的命中测试完成：谁被点到，谁就是被编辑的那个。
+                         预览模式下点击只用来选中元素，不会真的执行按钮里的业务操作。 -->
+                    <Border Grid.Column="1" Background="{DynamicResource SkinBackground}">
+                      <ScrollViewer x:Name="PreviewScroller" Padding="4"
+                                    HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                                    ScrollChanged="OnPreviewScrollChanged">
+                        <Panel x:Name="PreviewSurface">
+                          <ContentControl x:Name="RealPreviewHost" />
+                        </Panel>
+                      </ScrollViewer>
+                    </Border>
+                  </Grid>
+
+                  <!-- 选中框画在整个外壳之上：侧栏里的导航项和页面里的元素都能被框住。 -->
+                  <Canvas x:Name="SelectionOverlay" IsHitTestVisible="False">
+                    <Border x:Name="SelectionOutline" IsVisible="False"
+                            BorderBrush="{DynamicResource SkinAccent}" BorderThickness="2"
+                            CornerRadius="2" Background="#227CB8FF" />
+                  </Canvas>
+                </Grid>
+              </DockPanel>
+            </Border>
+
+            <!-- 右列：随工具变化 -->
+            <Border Grid.Column="4" Classes="card" MinWidth="280" MaxWidth="380">
+              <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="8">
+                  <!-- 当前选中：无论用哪个工具，先说清楚「你选中了什么」。技术字段收进「高级信息」。 -->
+                  <Border Classes="chip">
+                    <StackPanel Spacing="4">
+                      <TextBlock Text="已选择" FontWeight="SemiBold" />
+                      <TextBlock Text="{Binding SelectionHint}" Classes="muted" FontSize="11" TextWrapping="Wrap"
+                                 IsVisible="{Binding SelectedElement, Converter={x:Static ObjectConverters.IsNull}}" />
+                      <StackPanel Spacing="3" IsVisible="{Binding SelectedElement, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        <TextBlock Text="{Binding SelectedElement.Title}" FontWeight="SemiBold" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding SelectedElement.TypeText, StringFormat='类型：{0}'}" Classes="muted" FontSize="11" />
+                        <TextBlock Text="{Binding SaveState, StringFormat='保存状态：{0}'}" Classes="muted" FontSize="11" />
+                        <Expander Header="高级信息（技术字段）">
+                          <StackPanel Spacing="2">
+                            <TextBlock Text="{Binding SelectedElement.ElementId, StringFormat='元素 ID：{0}'}" Classes="muted" FontSize="10" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding SelectedElement.AssetId, StringFormat='素材 ID：{0}'}" Classes="muted" FontSize="10" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding SelectedElement.TextKey, StringFormat='文字键：{0}'}" Classes="muted" FontSize="10" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding SelectedElement.ColorKey, StringFormat='颜色键：{0}'}" Classes="muted" FontSize="10" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding SelectedElement.CurrentFile}" Classes="muted" FontSize="10" TextWrapping="Wrap" />
+                          </StackPanel>
+                        </Expander>
+                      </StackPanel>
+                    </StackPanel>
+                  </Border>
+
+                  <!-- 鼠标工具：只说「这是什么」，不给改。要改就换左边对应的工具。 -->
+                  <StackPanel Spacing="6" IsVisible="{Binding ShowSelectionPanel}">
+                    <TextBlock Text="鼠标工具" FontWeight="SemiBold" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               Text="点中间真实界面上的任何元素，上面会显示它是什么；这个工具不改任何东西。" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               Text="{Binding SelectedElement.TypeText, StringFormat='当前元素类型：{0}'}" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               Text="要改图片/图标 → 点左边「图片」「图标」；改文字 → 「文本」；改颜色 → 「颜色」；改位置和大小 → 「布局」。" />
+                  </StackPanel>
+
+                  <!-- 图片 / 图标 -->
+                  <StackPanel Spacing="6" IsVisible="{Binding ShowPicturePanel}">
+                    <TextBlock Text="图片 / 图标" FontWeight="SemiBold" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               Text="在中间的真实界面上点一个图片或图标，就能换掉它。" />
+
+                    <StackPanel Spacing="6" IsVisible="{Binding SelectedElement, Converter={x:Static ObjectConverters.IsNotNull}}">
+                      <!-- 图片信息按普通人能看懂的三个词给出：名称 / 格式与尺寸 / 现在用的是哪一张。 -->
+                      <TextBlock Text="{Binding SelectedElement.CurrentFileName, StringFormat='名称：{0}'}" Classes="muted"
+                                 FontSize="11" TextWrapping="Wrap" />
+                      <TextBlock Text="{Binding SelectedElement.Info, StringFormat='格式与尺寸：{0}'}" Classes="muted"
+                                 FontSize="11" TextWrapping="Wrap" />
+                      <TextBlock Text="{Binding SelectedElement.Current, StringFormat='当前素材：{0}'}" Classes="muted"
+                                 FontSize="11" TextWrapping="Wrap" />
+                      <TextBlock Text="{Binding SelectedElement.Default, StringFormat='默认（底稿皮肤）：{0}'}" Classes="muted"
+                                 FontSize="11" TextWrapping="Wrap" />
+                      <Button Content="替换图片…" Click="OnReplaceElementClick" Classes="primary"
+                              IsVisible="{Binding SelectedElement.IsArt}" />
+                      <Button Content="恢复默认" Command="{Binding RestoreElementArtCommand}"
+                              IsVisible="{Binding SelectedElement.IsOverridden}" />
+                    </StackPanel>
+                  </StackPanel>
+
+                  <!-- 文本：界面文字（UI）与角色台词（Persona）是两套，分开成两个页签，
+                       改完都点上面的「保存」。 -->
+                  <StackPanel Spacing="6" IsVisible="{Binding ShowTextPanel}">
+                    <TabControl>
+                      <TabItem Header="UI 文本">
+                        <StackPanel Spacing="6">
+                          <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                                     Text="界面上的字：导航、按钮、标题。左边是这行字的名字，灰字是出厂那句（输入框留空就是恢复成它）。改完点上面的「保存」，界面立刻改口。" />
+                          <ScrollViewer MaxHeight="460" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding UiTextEntries}">
+                              <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:WorkshopUiText">
+                                  <Grid ColumnDefinitions="110,*,Auto" Margin="0,3">
+                                    <TextBlock Grid.Column="0" Text="{Binding Key}" FontSize="11"
+                                               VerticalAlignment="Center" TextWrapping="Wrap" />
+                                    <TextBox Grid.Column="1" Text="{Binding Value}" Watermark="{Binding Fallback}" />
+                                    <Button Grid.Column="2" Content="恢复默认" Margin="8,0,0,0"
+                                            Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).RestoreUiTextCommand}"
+                                            CommandParameter="{Binding}"
+                                            IsVisible="{Binding IsOverridden}" />
+                                  </Grid>
+                                </DataTemplate>
+                              </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                          </ScrollViewer>
+                        </StackPanel>
+                      </TabItem>
+
+                      <TabItem Header="Persona 文本">
+                        <StackPanel Spacing="6">
+                          <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                                     Text="角色怎么说话（语气、口头禅）。它和界面文字存在同一份皮肤文件、但互不覆盖：改这里不会动界面上的字。改完点上面的「保存」。" />
+                          <ScrollViewer MaxHeight="460" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding PersonaTextEntries}">
+                              <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:WorkshopUiText">
+                                  <Grid ColumnDefinitions="150,*,Auto" Margin="0,3">
+                                    <TextBlock Grid.Column="0" Text="{Binding Key}" FontSize="11"
+                                               VerticalAlignment="Center" TextWrapping="Wrap" />
+                                    <TextBox Grid.Column="1" Text="{Binding Value}" Watermark="{Binding Fallback}" />
+                                    <Button Grid.Column="2" Content="恢复默认" Margin="8,0,0,0"
+                                            Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).RestoreUiTextCommand}"
+                                            CommandParameter="{Binding}"
+                                            IsVisible="{Binding IsOverridden}" />
+                                  </Grid>
+                                </DataTemplate>
+                              </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                          </ScrollViewer>
+                        </StackPanel>
+                      </TabItem>
+                    </TabControl>
+                  </StackPanel>
+
+                  <!-- 颜色 -->
+                  <StackPanel Spacing="6" IsVisible="{Binding ShowColorPanel}">
+                    <TextBlock Text="颜色" FontWeight="SemiBold" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               Text="输入 #RRGGBB，改完点上面的「保存」。没改的继续用底稿的。" />
+                    <ItemsControl ItemsSource="{Binding ColorEntries}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:WorkshopColor">
+                          <Grid ColumnDefinitions="*,Auto,Auto" Margin="0,3">
+                            <StackPanel Grid.Column="0" Spacing="2">
+                              <TextBlock Text="{Binding Label}" FontSize="11" TextWrapping="Wrap" />
+                              <TextBlock Text="{Binding Fallback, StringFormat='默认：{0}'}" Classes="muted" FontSize="10" />
+                            </StackPanel>
+                            <Border Grid.Column="1" Width="22" Height="22" Margin="6,0"
+                                    BorderBrush="{DynamicResource SkinBorder}" BorderThickness="1"
+                                    Background="{Binding Value}" VerticalAlignment="Center" />
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
+                              <TextBox Text="{Binding Value}" Width="86" FontSize="11" />
+                              <Button Content="恢复默认" FontSize="11" IsVisible="{Binding IsOverridden}"
+                                      Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).RestoreColorCommand}"
+                                      CommandParameter="{Binding}" />
+                            </StackPanel>
+                          </Grid>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </StackPanel>
+
+                  <!-- 资源：五个皮肤槽位 -->
+                  <StackPanel Spacing="6" IsVisible="{Binding ShowAssetPanel}">
+                    <TextBlock Text="皮肤素材" FontWeight="SemiBold" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               Text="立绘、搭档、标志、空态、加载——点「换图片…」选本地图片，换完立刻生效。" />
+                    <ItemsControl ItemsSource="{Binding AssetSlots}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:WorkshopAssetSlot">
+                          <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,3">
+                            <Border Grid.Column="0" Width="34" Height="34" Margin="0,0,8,0"
+                                    Background="{DynamicResource SkinSurfaceAlt}"
+                                    BorderBrush="{DynamicResource SkinBorder}" BorderThickness="1">
+                              <Image Stretch="Uniform"
+                                     Source="{Binding PreviewFile, Converter={x:Static controls:PathToBitmapConverter.Instance}}" />
+                            </Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                              <TextBlock Text="{Binding Title}" FontSize="11" TextWrapping="Wrap" />
+                              <TextBlock Text="{Binding DefaultAssetId, StringFormat='默认：{0}'}"
+                                         Classes="muted" FontSize="10" TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="2">
+                              <Button Content="换图片…" FontSize="11" Click="OnReplaceArtClick" />
+                              <Button Content="恢复默认" FontSize="11" IsVisible="{Binding IsOverridden}"
+                                      Click="OnRestoreArtClick" />
+                            </StackPanel>
+                          </Grid>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </StackPanel>
+
+                  <!-- 光标：每个指针场合都能指定标准形状或素材库里的一张图；留空＝跟随底稿 -->
+                  <StackPanel Spacing="6" IsVisible="{Binding ShowCursorPanel}">
+                    <TextBlock Text="鼠标指针" FontWeight="SemiBold" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               Text="每个场合（默认箭头、忙碌、可点击、文本…）都能指定：一个标准形状，或素材库里的一张图。留空就是跟着底稿走。改完点上面的「保存」。" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               IsVisible="{Binding !HasCursorEntries}"
+                               Text="官方皮肤不能直接改。想换鼠标指针的话，先基于它「新建」一套自己的皮肤，再来这里改。" />
+                    <ItemsControl ItemsSource="{Binding CursorEntries}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:WorkshopCursor">
+                          <Grid ColumnDefinitions="*,132,58" Margin="0,3">
+                            <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                              <TextBlock Text="{Binding Title}" FontSize="11" TextWrapping="Wrap" />
+                              <TextBlock Text="{Binding InheritedHint}" Classes="muted" FontSize="10" />
+                            </StackPanel>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding Choices}"
+                                      SelectedItem="{Binding Spec}" HorizontalAlignment="Stretch"
+                                      MaxDropDownHeight="320" />
+                            <!-- 素材库之外：用用户自己电脑上的一张图。导入后才写进皮肤，和上面「保存」一致。 -->
+                            <Button Grid.Column="2" Content="导入…" FontSize="10" Padding="4,2"
+                                    HorizontalAlignment="Stretch"
+                                    ToolTip.Tip="用你自己电脑上的一张图片当这个指针（建议 32×32 左右的小图）"
+                                    Click="OnImportCursorArtClick" />
+                          </Grid>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </StackPanel>
+                </StackPanel>
+              </ScrollViewer>
+            </Border>
+          </Grid>
+        </Grid>
+
+      <!-- ============================================ 新建皮肤（浮层） ===== -->
+      <Border Background="#66000000" IsVisible="{Binding IsCreatingSkin}">
+          <Border Classes="card" Width="470" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Spacing="10">
+              <TextBlock Text="创建新皮肤" FontWeight="SemiBold" FontSize="15" />
+
+              <TextBlock Text="基础皮肤" Classes="muted" />
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <controls:AssetImage AssetId="{Binding CreateBaseSkin, Converter={StaticResource SkinPreview}}"
+                                     Width="46" Height="46" Stretch="Uniform" />
+                <TextBlock Text="{Binding CreateBaseSkin.Name}" VerticalAlignment="Center" />
+              </StackPanel>
+
+              <TextBlock Text="皮肤名称" Classes="muted" />
+              <Grid ColumnDefinitions="*,Auto">
+                <TextBox Grid.Column="0" Text="{Binding NewSkinName}" MaxLength="50"
+                         Watermark="例如：我的专属 Eri" />
+                <TextBlock Grid.Column="1" Text="{Binding NewSkinNameCounter}" Classes="muted" FontSize="11"
+                           VerticalAlignment="Center" Margin="8,0,0,0" />
+              </Grid>
+              <TextBlock Text="{Binding NewSkinId, StringFormat='会存成：{0}'}" Classes="muted" FontSize="11" />
+
+              <CheckBox Content="继承基础皮肤（推荐）" IsChecked="True" IsEnabled="False" />
+              <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                         Text="你的皮肤文件只记录改过的部分：没改的图标、颜色、文字继续来自基础皮肤，所以底稿更新时你也会跟着更新，官方皮肤也不会被改动。" />
+
+              <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+                <Button Command="{Binding CancelCreateSkinCommand}">
+                  <controls:UiText Key="common.cancel" />
+                </Button>
+                <Button Content="创建" Classes="primary" Command="{Binding CreateSkinCommand}" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </Border>
+
+        <!-- ===== 布局工具：皮肤编辑器里的一个状态，不再是工坊的一个页签 =====
+             点左边「工具」里的「布局」就切到这里：中部是画布（加组件、拖位置、改大小、改形状），
+             右侧是属性，下面还有同一份文档的实时预览。布局不再是一个独立页面。 -->
+        <Grid Margin="4" IsVisible="{Binding ShowLayoutTool}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <!--
+            最小值故意留得很小。原来写 220 / 300，而 730 高的窗口里两行加起来只有约 400：
+            两边都卡在最小值，分隔条于是根本拖不动 —— 拖上去撞预览的下限，拖下来撞编辑器的
+            下限。留出余量，拖拽才有地方走。
+          -->
+          <RowDefinition Height="2*" MinHeight="120" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="3*" MinHeight="110" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,6">
+          <Button Command="{Binding LayoutEditor.UndoCommand}"
+                  IsEnabled="{Binding LayoutEditor.CanUndo}" ToolTip.Tip="撤销">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="win_back" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="撤销" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LayoutEditor.RedoCommand}"
+                  IsEnabled="{Binding LayoutEditor.CanRedo}" ToolTip.Tip="重做">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="win_forward" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="重做" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LayoutEditor.SaveDocumentCommand}" Classes="primary" ToolTip.Tip="保存">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="ws_save" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="保存" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LayoutEditor.LoadDocumentCommand}" ToolTip.Tip="载入">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="ws_asset_browser" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="载入" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LayoutEditor.ExportDocumentCommand}" ToolTip.Tip="导出 JSON">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="ws_export" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="导出 JSON" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LayoutEditor.ImportDocumentCommand}" ToolTip.Tip="从 JSON 导入">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="ws_import" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="从 JSON 导入" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LayoutEditor.ResetDocumentCommand}" ToolTip.Tip="重置">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="ws_reset" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="重置" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LayoutEditor.MoveIntoContainerCommand}" ToolTip.Tip="移入容器">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="ws_move" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="移入容器" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LayoutEditor.MoveOutOfContainerCommand}" ToolTip.Tip="移出容器">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="ws_layer" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="移出容器" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LayoutEditor.DeleteSelectedCommand}" ToolTip.Tip="删除所选">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="ws_delete" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="删除所选" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LayoutEditor.ToggleSelectedVisibilityCommand}" ToolTip.Tip="显示 / 隐藏">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:AssetImage AssetId="ws_visibility_on" Width="18" Height="18" VerticalAlignment="Center" />
+              <TextBlock Text="显示 / 隐藏" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <!-- 退出：这一排里唯一能离开当前工作的地方。叉用矢量画而不是素材，素材的深色笔划落在
+               深色工具栏上会看不见——窗口的关闭键就是栽在这上面。 -->
+          <Button Click="OnExitLayoutToolClick" ToolTip.Tip="退出（关掉编辑器窗口 / 回到图片工具）">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <Path Data="M 0,0 L 12,12 M 12,0 L 0,12" Width="12" Height="12" Stretch="Uniform"
+                    Stroke="{DynamicResource SkinForeground}" StrokeThickness="1.6" VerticalAlignment="Center" />
+              <TextBlock Text="退出" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <TextBlock Text="{Binding LayoutEditor.HistorySummary}" VerticalAlignment="Center" Classes="muted" />
+        </StackPanel>
+
+        <!-- 侧栏收窄，把宽度让给画布：1080 宽的窗口里原来两块侧栏吃掉 470，画布只剩一点。 -->
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto">
+          <!-- Palette -->
+          <Border Grid.Column="0" Classes="card" MinWidth="130" MaxWidth="190">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="6">
+              <TextBlock Text="组件" FontWeight="SemiBold" />
+              <!-- 组件名用中文：palette 以前显示的是枚举名（Container / Stack / Toggle），
+                   那是接口在说话，不是界面在说话。 -->
+              <ItemsControl ItemsSource="{Binding LayoutEditor.Palette}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:LayoutPaletteItem">
+                    <Button Content="{Binding Name}" Margin="0,1"
+                            HorizontalAlignment="Stretch"
+                            ToolTip.Tip="{Binding Type}"
+                            Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).LayoutEditor.AddNodeCommand}"
+                            CommandParameter="{Binding Type}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="校验" FontWeight="SemiBold" Margin="0,8,0,0" />
+              <TextBlock Text="{Binding LayoutEditor.NodeCount, StringFormat='节点数：{0}'}" Classes="muted" />
+              <ItemsControl ItemsSource="{Binding LayoutEditor.ValidationMessages}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap" Foreground="#FF8A8A" FontSize="11" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+            </ScrollViewer>
+          </Border>
+
+          <!-- Interactive canvas. Seen as a page lying on a workbench rather than a
+               bare box: the outer surface carries a dot grid, the inner frame is the
+               page. -->
+          <ScrollViewer Grid.Column="1" Margin="6,0"
+                        HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Border Background="{DynamicResource SkinSurfaceAlt}"
+                    BorderBrush="{DynamicResource SkinBorder}" BorderThickness="1" Padding="16">
+              <Border Background="{DynamicResource SkinSurface}"
+                      BorderBrush="{DynamicResource SkinBorder}" BorderThickness="1"
+                      Width="{Binding LayoutEditor.CanvasWidth}"
+                      Height="{Binding LayoutEditor.CanvasHeight}">
+                <Panel>
+                  <ItemsControl ItemsSource="{Binding LayoutEditor.CanvasItems}">
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <Canvas />
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.Styles>
+                      <!-- The style's bindings apply to the item, not to the page, so
+                           they need the item's type to compile. -->
+                      <Style Selector="ContentPresenter" x:DataType="vm:LayoutEditorItem">
+                        <Setter Property="Canvas.Left" Value="{Binding AbsX}" />
+                        <Setter Property="Canvas.Top" Value="{Binding AbsY}" />
+                      </Style>
+                    </ItemsControl.Styles>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate DataType="{x:Type vm:LayoutEditorItem}">
+                        <Panel Width="{Binding Width}" Height="{Binding Height}"
+                               Background="Transparent"
+                               PointerEntered="OnItemPointerEntered"
+                               PointerExited="OnItemPointerExited">
+                          <!-- 编辑画布上的节点是纯色块，不是皮肤自带的九宫格贴图：贴图
+                               是给真实界面用的，摆在画布上会让节点看起来一团花，也让人分不清
+                               自己是在改布局还是在看渲染结果。真实皮肤的样子在下面的预览里。 -->
+                          <Border Width="{Binding Width}" Height="{Binding Height}"
+                                  Background="{DynamicResource SkinSurfaceAlt}"
+                                  BorderBrush="#5B8DEF" BorderThickness="1"
+                                  CornerRadius="{DynamicResource SkinCornerRadiusSmall}"
+                                  PointerPressed="OnItemPointerPressed"
+                                  PointerMoved="OnItemPointerMoved"
+                                  PointerReleased="OnItemPointerReleased">
+                            <Grid>
+                              <StackPanel Margin="4,2" Spacing="0">
+                                <TextBlock Text="{Binding Title}" FontSize="12" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Subtitle}" FontSize="10" Classes="muted" TextTrimming="CharacterEllipsis" />
+                              </StackPanel>
+                              <Border Name="ResizeGrip" Width="12" Height="12"
+                                      HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                      Background="#5B8DEF"
+                                      PointerEntered="OnGripPointerEntered"
+                                      PointerExited="OnGripPointerExited" />
+                            </Grid>
+                          </Border>
+                          <!-- Arranged by a Stack/Grid: dashed, so "it moves as a group"
+                               is visible before the pointer is pressed. -->
+                          <Rectangle IsVisible="{Binding IsManaged}" IsHitTestVisible="False"
+                                     Stroke="#9AA0A6" StrokeThickness="1" StrokeDashArray="4,3"
+                                     RadiusX="4" RadiusY="4" />
+                          <Rectangle IsVisible="{Binding IsSelected}" IsHitTestVisible="False"
+                                     Stroke="#5B8DEF" StrokeThickness="2"
+                                     RadiusX="4" RadiusY="4" />
+                        </Panel>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </Panel>
+              </Border>
+            </Border>
+          </ScrollViewer>
+
+          <!-- Properties -->
+          <Border Grid.Column="2" Classes="card" MinWidth="250" MaxWidth="340">
+            <ScrollViewer>
+              <StackPanel Spacing="6">
+                <TextBlock Text="属性" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding LayoutEditor.SelectedItem.Subtitle, StringFormat='所选：{0}'}" Classes="muted" />
+                <TextBlock Text="{Binding LayoutEditor.Status}" TextWrapping="Wrap" Classes="muted" />
+                <TextBlock Text="元素名称（文档里引用的就是它）" Classes="muted" />
+                <TextBox Text="{Binding LayoutEditor.SelectedName}" IsEnabled="{Binding LayoutEditor.HasSelection}"
+                         Watermark="例如 首页标题" />
+                <TextBlock Text="页面名称" Classes="muted" />
+                <TextBox Text="{Binding LayoutEditor.PageName}" Watermark="Home" />
+                <TextBlock Text="文本" Classes="muted" />
+                <TextBox Text="{Binding LayoutEditor.SelectedText}" IsEnabled="{Binding LayoutEditor.HasSelection}" />
+                <TextBlock Text="X / Y" Classes="muted" />
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                  <TextBox Text="{Binding LayoutEditor.SelectedX}" Width="80" IsEnabled="{Binding LayoutEditor.HasSelection}" />
+                  <TextBox Text="{Binding LayoutEditor.SelectedY}" Width="80" IsEnabled="{Binding LayoutEditor.HasSelection}" />
+                </StackPanel>
+                <TextBlock Text="宽 / 高" Classes="muted" />
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                  <TextBox Text="{Binding LayoutEditor.SelectedWidth}" Width="80" IsEnabled="{Binding LayoutEditor.HasSelection}" />
+                  <TextBox Text="{Binding LayoutEditor.SelectedHeight}" Width="80" IsEnabled="{Binding LayoutEditor.HasSelection}" />
+                </StackPanel>
+                <!-- The slider only moves the editing canvas; the button is what
+                     writes the size into the document, as one undoable step. -->
+                <TextBlock Text="页面尺寸（编辑画布）" Classes="muted" />
+                <Slider Minimum="320" Maximum="2400" Value="{Binding LayoutEditor.CanvasWidth, Mode=TwoWay}" />
+                <Slider Minimum="240" Maximum="1600" Value="{Binding LayoutEditor.CanvasHeight, Mode=TwoWay}" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <TextBlock Classes="muted" Text="{Binding LayoutEditor.CanvasWidth, StringFormat='宽 {0:0}'}" />
+                  <TextBlock Classes="muted" Text="{Binding LayoutEditor.CanvasHeight, StringFormat='高 {0:0}'}" />
+                </StackPanel>
+                <Button Content="应用尺寸到文档" Command="{Binding LayoutEditor.ApplyCanvasSizeCommand}" />
+
+                <TextBlock Text="字号 / 颜色" Classes="muted" />
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                  <TextBox Text="{Binding LayoutEditor.SelectedFontSize}" Width="80" IsEnabled="{Binding LayoutEditor.HasSelection}" />
+                  <TextBox Text="{Binding LayoutEditor.SelectedColor}" Width="80" Watermark="#RRGGBB" IsEnabled="{Binding LayoutEditor.HasSelection}" />
+                </StackPanel>
+                <CheckBox Content="可见" IsChecked="{Binding LayoutEditor.SelectedVisible}" IsEnabled="{Binding LayoutEditor.HasSelection}" />
+
+                <!-- 组件的「有什么用」：形状、点击去哪、显示哪张图。
+                     以前组件加进去只是色块，这一块就是让它们真的有内容。 -->
+                <TextBlock Text="形状" Classes="muted" />
+                <ComboBox ItemsSource="{Binding LayoutEditor.ShapeChoices}"
+                          SelectedItem="{Binding LayoutEditor.SelectedShapeChoice}"
+                          IsEnabled="{Binding LayoutEditor.HasSelection}"
+                          HorizontalAlignment="Stretch">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:LayoutShapeChoice">
+                      <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="点击后打开（超链接）" Classes="muted" />
+                <TextBox Text="{Binding LayoutEditor.SelectedLink}" IsEnabled="{Binding LayoutEditor.HasSelection}"
+                         Watermark="留空就是普通元素" />
+                <TextBlock Text="图片文件" Classes="muted" />
+                <TextBox Text="{Binding LayoutEditor.SelectedImageSource}" IsEnabled="{Binding LayoutEditor.HasSelection}"
+                         Watermark="点右边按钮选一张" />
+                <Button Content="选图片…" Click="OnPickLayoutImageClick"
+                        IsEnabled="{Binding LayoutEditor.HasSelection}" />
+
+                <TextBlock Text="文档 JSON（导出会写在这里；粘一份进来再点上面的「从 JSON 导入」）"
+                           Classes="muted" Margin="0,8,0,0" TextWrapping="Wrap" />
+                <TextBox Text="{Binding LayoutEditor.DocumentText}" AcceptsReturn="True" Height="140"
+                         TextWrapping="Wrap"
+                         Watermark="点「导出 JSON」把当前文档写到这里；把一份文档粘进来，再点「从 JSON 导入」。" />
+              </StackPanel>
+            </ScrollViewer>
+          </Border>
+        </Grid>
+
+        <!-- 分隔条：上下拖动调整编辑器与预览的高度。 -->
+        <GridSplitter Grid.Row="2" Height="8" HorizontalAlignment="Stretch"
+                      Background="{DynamicResource SkinBorder}" ResizeDirection="Rows"
+                      ToolTip.Tip="上下拖动调整预览高度" />
+
+        <!-- Live preview rendered from the same schema document -->
+        <Border Grid.Row="3" Classes="card" Margin="0,4,0,0">
+          <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="实时预览（同一份 Schema 渲染，非截图）" FontWeight="SemiBold" />
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+              <ContentControl Name="PreviewHost" />
+            </ScrollViewer>
+          </DockPanel>
+        </Border>
+        </Grid>
+      </Panel>
+    </TabItem>
+
+    <!-- ==================================================== C. 插件创建 ===== -->
+    <TabItem Header="插件创建">
+      <TabControl Margin="8">
+        <TabItem Header="资源树与表单">
+          <Grid ColumnDefinitions="*,12,Auto" Margin="8">
+        <Grid Grid.Column="0" RowDefinitions="Auto,Auto,*">
+          <!-- 插件信息限高并可滚动：它原来是无上限的 Auto 行，字段一多、窗口一矮，
+               就会把下面的资源列表挤到 0 高；现在列表始终拿得到空间。 -->
+          <Border Grid.Row="0" Classes="card" MaxHeight="200">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="6">
+              <TextBlock Text="插件信息" FontWeight="SemiBold" />
+              <Grid ColumnDefinitions="*,12,*">
+                <StackPanel Grid.Column="0" Spacing="4">
+                  <TextBlock Text="插件名称" Classes="muted" />
+                  <TextBox Text="{Binding PluginBuilder.PluginName}" />
+                  <TextBlock Text="作者" Classes="muted" />
+                  <TextBox Text="{Binding PluginBuilder.PluginAuthor}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Spacing="4">
+                  <TextBlock Text="插件 id（英文；文件名就是它）" Classes="muted" />
+                  <TextBox Text="{Binding PluginBuilder.PluginId}" />
+                  <TextBlock Text="版本" Classes="muted" />
+                  <TextBox Text="{Binding PluginBuilder.PluginVersion}" />
+                </StackPanel>
+              </Grid>
+              <TextBlock Text="{Binding PluginBuilder.PluginIdVerdict}" Classes="muted" TextWrapping="Wrap" />
+              <TextBlock Text="说明" Classes="muted" />
+              <!-- 会换行、且限定最大宽度：单行 TextBox 的期望宽度等于整行文字宽度，
+                   而这一页在横向滚动的宿主里按无限宽度测量 —— 于是这段说明会把整页撑宽，
+                   把右半边挤出屏幕。限宽之后，说明自己换行，页面宽度也就不再失控。 -->
+              <TextBox Text="{Binding PluginBuilder.PluginDescription}"
+                       TextWrapping="Wrap" AcceptsReturn="True" Height="76"
+                       MinWidth="240" MaxWidth="480" />
+            </StackPanel>
+            </ScrollViewer>
+          </Border>
+
+          <StackPanel Grid.Row="1" Margin="0,12,0,6" Spacing="4">
+            <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+              <TextBlock Grid.Column="0" Text="资源树" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,10,0" />
+              <TextBlock Grid.Column="1"
+                         Text="{Binding PluginBuilder.Resources.Count, StringFormat='共 {0} 条可下载资源'}"
+                         Classes="muted" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+              <TextBox Grid.Column="2" x:Name="NewGroupNameBox" MinWidth="150" VerticalAlignment="Center"
+                       Margin="10,0,0,0"
+                       Watermark="新分组名（可空）" />
+              <Button Grid.Column="3" Content="添加分组" VerticalAlignment="Center" Margin="6,0,0,0"
+                      Command="{Binding PluginBuilder.AddGroupCommand}"
+                      CommandParameter="{Binding #NewGroupNameBox.Text}"
+                      ToolTip.Tip="添加一个纯组织分组（不对应云盘资源、不可下载）。新节点进选中节点之下，未选中时进根层。" />
+            </Grid>
+            <TextBlock
+                       Text="{Binding PluginBuilder.SelectedNode.Name, TargetNullValue='插入位置：根层（未选中节点；在右侧表单添加的资源会进根层）', StringFormat='插入位置：{0}（右侧表单添加的资源会进它下面）'}"
+                       Classes="muted" FontSize="11" TextWrapping="Wrap" />
+          </StackPanel>
+
+          <Border Grid.Row="2" Classes="card">
+            <!-- 真节点树：分组/文件夹/文件三类可辨；选中节点即右侧表单「添加」与「添加分组」的落点。
+                 文件夹与文件都可以是可下载资源，展开文件夹还能继续往里面挂子资源。 -->
+            <TreeView ItemsSource="{Binding PluginBuilder.Nodes}"
+                      SelectedItem="{Binding PluginBuilder.SelectedNode, Mode=TwoWay}"
+                      Background="Transparent">
+              <TreeView.ItemTemplate>
+                <TreeDataTemplate x:DataType="vm:PluginNodeDraft" ItemsSource="{Binding Children}">
+                  <Grid ColumnDefinitions="56,*,Auto,Auto" MinHeight="32" Margin="0,1">
+                    <Border Grid.Column="0" Classes="chip" VerticalAlignment="Center" Margin="0,0,8,0"
+                            Padding="6,2" HorizontalAlignment="Left">
+                      <TextBlock Text="{Binding KindText}" FontSize="10" />
+                    </Border>
+                    <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
+                      <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                      <TextBlock Text="{Binding Summary}" Classes="muted" FontSize="11"
+                                 TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                    <Button Grid.Column="2" Content="编辑" Margin="4,0,0,0" VerticalAlignment="Center"
+                            IsVisible="{Binding CanEdit}"
+                            Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).PluginBuilder.EditResourceCommand}"
+                            CommandParameter="{Binding Resource}"
+                            ToolTip.Tip="把这个资源读进右边的表单改，改完写回原节点（含其子节点）" />
+                    <Button Grid.Column="3" Content="移除" Margin="4,0,0,0" VerticalAlignment="Center"
+                            Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).PluginBuilder.RemoveTreeNodeCommand}"
+                            CommandParameter="{Binding}"
+                            ToolTip.Tip="从树中移除该节点；分组或文件夹含子节点时会要求确认" />
+                  </Grid>
+                </TreeDataTemplate>
+              </TreeView.ItemTemplate>
+            </TreeView>
+          </Border>
+        </Grid>
+
+        <!-- 横向滚动关掉：Auto 会让这个 ScrollViewer 用无限宽度测量内容，于是里面的长输入框
+             （分享链接、下载直链）会把表单撑得比这一列还宽，出现一条只属于这一列的内侧横向滚动条，
+             字段也会被推到看不见的位置。这一列该做的是让内容适配自己的宽度。 -->
+        <ScrollViewer Grid.Column="2" MinWidth="320" MaxWidth="440" VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+          <StackPanel Spacing="8">
+            <!-- AI 多轮对话建插件已移到本页「AI 对话建插件」标签：左对话、右实时草稿树。 -->
+
+            <!-- 说明书：不写这一段，用户面对一堆字段，不知道自己在造什么、造出来干什么。 -->
+            <Border Classes="card">
+              <StackPanel Spacing="4">
+                <TextBlock Text="这是做什么的" FontWeight="SemiBold" />
+                <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                           Text="插件是「数据」：它告诉 EriReborn 某个资源叫什么、可以从哪些网盘下载。生成的是一个 .eriplugin.json 文件，导入它不会执行任何代码。" />
+                <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                           Text="三步：① 填插件信息（名称 / id / 版本）；② 挨个添加资源（资源 id、显示名、分区、目录名、来源链接与网盘）；③ 点「生成插件」。" />
+                <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                           Text="同一个资源可以有多条来源（同一个软件的多个网盘分享）——那是「一个资源多个下载点」，不是多个软件。" />
+                <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                           Text="想改别人已经做好的插件：把他那份 .eriplugin.json 的内容粘到下面「预览 / 编辑 JSON」框里，点「读入」就会覆盖上面的表单，改完再生成。" />
+              </StackPanel>
+            </Border>
+
+            <!-- 可编辑：文件夹里已经有的插件直接载入表单，不用复制粘贴。 -->
+            <Border Classes="card">
+              <StackPanel Spacing="6">
+                <TextBlock Text="编辑已有插件" FontWeight="SemiBold" />
+                <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                           Text="下面这些是插件文件夹里已经存在的插件。点「载入编辑」把它读进表单，改完点「生成插件」就写回同一个文件。" />
+                <ItemsControl ItemsSource="{Binding PluginBuilder.InstalledPlugins}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:PluginFileEntry">
+                      <Grid ColumnDefinitions="*,Auto" Margin="0,3">
+                        <StackPanel Grid.Column="0" Spacing="2">
+                          <TextBlock Text="{Binding FileName}" FontSize="12" TextTrimming="CharacterEllipsis" />
+                          <TextBlock Text="{Binding Summary}" Classes="muted" FontSize="11"
+                                     TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                        <Button Grid.Column="1" Content="载入编辑" VerticalAlignment="Center"
+                                Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).PluginBuilder.EditInstalledPluginCommand}"
+                                CommandParameter="{Binding}" />
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+            </Border>
+
+            <Border Classes="card">
+              <StackPanel Spacing="6">
+                <TextBlock Text="{Binding PluginBuilder.ResourceFormTitle}" FontWeight="SemiBold" />
+                <Grid ColumnDefinitions="*,10,*">
+                  <StackPanel Grid.Column="0" Spacing="4">
+                    <TextBlock Text="资源 id（英文）" Classes="muted" />
+                    <TextBox Text="{Binding PluginBuilder.DraftId}" />
+                  </StackPanel>
+                  <StackPanel Grid.Column="2" Spacing="4">
+                    <TextBlock Text="显示名" Classes="muted" />
+                    <TextBox Text="{Binding PluginBuilder.DraftName}" />
+                  </StackPanel>
+                </Grid>
+
+                <TextBlock Text="分区（官方清单里选，或自己填一个合法 id）" Classes="muted" />
+                <ComboBox ItemsSource="{Binding PluginBuilder.Categories}"
+                          SelectedItem="{Binding PluginBuilder.DraftCategory}" HorizontalAlignment="Stretch" />
+                <Grid ColumnDefinitions="*,8,Auto">
+                  <TextBox Grid.Column="0" Text="{Binding PluginBuilder.NewCategory}"
+                           Watermark="自定义分区 id（小写英文）" />
+                  <Button Grid.Column="2" Content="用这个分区" Command="{Binding PluginBuilder.AddCategoryCommand}" />
+                </Grid>
+
+                <TextBlock Text="目录名（英文）" Classes="muted" />
+                <TextBox Text="{Binding PluginBuilder.DraftDirectoryName}" />
+
+                <TextBlock Text="来源类型" Classes="muted" />
+                <ComboBox ItemsSource="{Binding PluginBuilder.SourceKinds}"
+                          SelectedItem="{Binding PluginBuilder.DraftKind}" HorizontalAlignment="Stretch" />
+
+                <StackPanel Spacing="4" IsVisible="{Binding PluginBuilder.DraftNeedsProvider}">
+                  <TextBlock Text="网盘平台" Classes="muted" />
+                  <ComboBox ItemsSource="{Binding PluginBuilder.Providers}"
+                            SelectedItem="{Binding PluginBuilder.DraftProviderId}" HorizontalAlignment="Stretch" />
+                </StackPanel>
+
+                <StackPanel Spacing="4" IsVisible="{Binding PluginBuilder.DraftNeedsShareUrl}">
+                  <TextBlock Text="分享链接（粘进来点「识别网盘」，不用自己挑平台）" Classes="muted" />
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBox Grid.Column="0" Text="{Binding PluginBuilder.DraftShareUrl}" />
+                    <Button Grid.Column="1" Content="识别网盘" Margin="8,0,0,0"
+                            Command="{Binding PluginBuilder.DetectProviderFromLinkCommand}"
+                            ToolTip.Tip="按链接的域名判断它属于哪个网盘；认不出会直说，不会替你猜。" />
+                  </Grid>
+                  <TextBlock Text="{Binding PluginBuilder.DraftDetectionStatus}" Classes="muted"
+                             FontSize="11" TextWrapping="Wrap" />
+                </StackPanel>
+
+                <!-- winget 来源的全部地址就是这个包 id。以前这一格不存在，导致官方插件里那些
+                     winget 来源被当成云盘分享来问，保存时还会把 id 丢掉。 -->
+                <StackPanel Spacing="4" IsVisible="{Binding PluginBuilder.DraftNeedsWingetId}">
+                  <TextBlock Text="winget 包 id" Classes="muted" FontSize="11" />
+                  <TextBox Text="{Binding PluginBuilder.DraftWingetId}"
+                           Watermark="例如 Microsoft.VisualStudioCode" />
+                </StackPanel>
+
+                <!-- 只存分享链接是不够的：一个分享是一整棵目录树，得说清要它里面的哪一个。 -->
+                <StackPanel Spacing="4" IsVisible="{Binding PluginBuilder.DraftNeedsLocator}">
+                  <TextBlock Text="资源在分享里的位置（不填就只在分享根目录按文件名找）" Classes="muted"
+                             FontSize="11" TextWrapping="Wrap" />
+                  <Grid ColumnDefinitions="Auto,110,Auto,*">
+                    <TextBlock Grid.Column="0" Text="类型" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding PluginBuilder.LocatorKinds}"
+                              SelectedItem="{Binding PluginBuilder.DraftLocatorKind}" HorizontalAlignment="Stretch" />
+                    <TextBlock Grid.Column="2" Text="路径" VerticalAlignment="Center" Margin="10,0,6,0" />
+                    <TextBox Grid.Column="3" Text="{Binding PluginBuilder.DraftLocatorPath}"
+                             Watermark="例如 A/a1/b1/ResourceA.zip" />
+                  </Grid>
+                  <TextBlock Text="平台自己的条目 id（有就填：改名、移动都不会失效）" Classes="muted" FontSize="11" />
+                  <TextBox Text="{Binding PluginBuilder.DraftProviderItemId}" />
+                  <TextBlock Text="同一个分享可以服务很多条资源：分享链接相同没关系，路径各不相同就是不同资源。"
+                             Classes="muted" FontSize="11" TextWrapping="Wrap" />
+
+                  <!-- 不用手写路径：读一次分享，在真实树里懒展开点选。文件夹既能整夹选择，
+                       也能继续往里钻选子文件夹/文件；选中项直接成为插件树里的独立资源。 -->
+                  <Border Classes="chip">
+                    <StackPanel Spacing="6">
+                      <TextBlock Text="从分享目录树里点选" FontWeight="SemiBold" />
+                      <!-- 说明文字放在按钮下面：横向 StackPanel 会给它无限宽度，写了 Wrap 也不会换行，
+                           于是文字一路顶到卡片右边被裁掉。 -->
+                      <Button Content="读取分享" Command="{Binding PluginBuilder.ReadShareCommand}" Classes="primary"
+                              HorizontalAlignment="Left" />
+                      <TextBlock Text="{Binding PluginBuilder.ShareBrowseStatus}" Classes="muted"
+                                 FontSize="11" TextWrapping="Wrap" />
+
+                      <ScrollViewer MaxHeight="260" VerticalScrollBarVisibility="Auto">
+                        <TreeView ItemsSource="{Binding PluginBuilder.ShareTreeRoots}" Background="Transparent">
+                          <!-- 行上的 IsExpanded 同时驱动懒加载：点自带箭头和点「展开」按钮等价。 -->
+                          <TreeView.Styles>
+                            <Style Selector="TreeViewItem" x:DataType="vm:ShareTreeRow">
+                              <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            </Style>
+                          </TreeView.Styles>
+                          <TreeView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                              <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                          </TreeView.ItemsPanel>
+                          <TreeView.ItemTemplate>
+                            <TreeDataTemplate x:DataType="vm:ShareTreeRow" ItemsSource="{Binding Children}">
+                              <StackPanel Spacing="1" Margin="0,2" MinWidth="420">
+                                <Grid ColumnDefinitions="44,*,Auto,Auto,Auto">
+                                  <TextBlock Grid.Column="0" Text="{Binding KindMark}" FontSize="11"
+                                             Classes="muted" VerticalAlignment="Center" />
+                                  <TextBlock Grid.Column="1" Text="{Binding File.Name}" FontSize="12"
+                                             VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                  <!-- 文件夹：展开（懒加载，只在第一次展开时读） -->
+                                  <Button Grid.Column="2" FontSize="11" Padding="6,1" Margin="6,0,0,0"
+                                          Content="{Binding ExpandText}"
+                                          IsVisible="{Binding CanExpand}"
+                                          Command="{Binding ToggleExpandCommand}" />
+                                  <!-- 读取失败：重试 -->
+                                  <Button Grid.Column="2" FontSize="11" Padding="6,1" Margin="6,0,0,0"
+                                          Content="重试" IsVisible="{Binding ShowRetry}"
+                                          Command="{Binding RetryCommand}" />
+                                  <!-- 文件夹：选择此文件夹（不枚举内容） -->
+                                  <Button Grid.Column="3" FontSize="11" Padding="6,1" Margin="4,0,0,0"
+                                          Content="选择此文件夹"
+                                          IsVisible="{Binding IsFolder}"
+                                          Command="{Binding SelectCommand}"
+                                          ToolTip.Tip="把整个文件夹作为一个资源记录，不会展开枚举里面的文件" />
+                                  <!-- 文件：选择 -->
+                                  <Button Grid.Column="3" FontSize="11" Padding="6,1" Margin="4,0,0,0"
+                                          Content="选择"
+                                          IsVisible="{Binding IsFile}"
+                                          Command="{Binding SelectCommand}" />
+                                  <TextBlock Grid.Column="4" Text="读取中…" FontSize="11" Classes="muted"
+                                             Margin="6,0,0,0" VerticalAlignment="Center"
+                                             IsVisible="{Binding IsLoading}" />
+                                </Grid>
+                                <TextBlock FontSize="10" TextWrapping="Wrap"
+                                           IsVisible="{Binding ShowFolderSupport}"
+                                           Text="{Binding FolderSupportText}"
+                                           Classes="warning" Margin="44,0,0,2" />
+                                <TextBlock FontSize="10" TextWrapping="Wrap"
+                                           IsVisible="{Binding ShowRetry}"
+                                           Text="{Binding LoadError, StringFormat='读取失败：{0}'}"
+                                           Classes="warning" Margin="44,0,0,2" />
+                              </StackPanel>
+                            </TreeDataTemplate>
+                          </TreeView.ItemTemplate>
+                        </TreeView>
+                      </ScrollViewer>
+                    </StackPanel>
+                  </Border>
+                </StackPanel>
+
+                <StackPanel Spacing="4" IsVisible="{Binding PluginBuilder.DraftNeedsUrl}">
+                  <TextBlock Text="下载直链" Classes="muted" />
+                  <TextBox Text="{Binding PluginBuilder.DraftUrl}" />
+                </StackPanel>
+
+                <StackPanel Spacing="4" IsVisible="{Binding PluginBuilder.DraftNeedsFileName}">
+                  <TextBlock Text="文件名" Classes="muted" />
+                  <TextBox Text="{Binding PluginBuilder.DraftFileName}" />
+                </StackPanel>
+
+                <!-- 这一列只有 320–440 宽，两项并排时每个下拉只剩约 150，
+                     「Recommended」会被截成「Recommende」。改为各占一整行。 -->
+                <StackPanel Spacing="4">
+                  <TextBlock Text="层级" Classes="muted" />
+                  <ComboBox ItemsSource="{Binding PluginBuilder.Tiers}"
+                            SelectedItem="{Binding PluginBuilder.DraftTier}" HorizontalAlignment="Stretch" />
+                  <TextBlock Text="安装方式" Classes="muted" Margin="0,4,0,0" />
+                  <ComboBox ItemsSource="{Binding PluginBuilder.Modes}"
+                            SelectedItem="{Binding PluginBuilder.DraftMode}" HorizontalAlignment="Stretch" />
+                </StackPanel>
+
+                <!-- 会换行的一排：窗口窄的时候按钮落到下一行，而不是被右边缘切掉一个。 -->
+                <WrapPanel Orientation="Horizontal" Margin="0,6,0,0">
+                  <Button Content="添加到资源树" Command="{Binding PluginBuilder.AddResourceCommand}" Classes="primary"
+                          Margin="0,0,8,6"
+                          IsVisible="{Binding PluginBuilder.IsAddingResource}"
+                          ToolTip.Tip="添加到左侧选中的分组/文件夹之下；未选中任何节点时加到根层" />
+                  <Button Content="保存修改" Command="{Binding PluginBuilder.SaveResourceEditCommand}" Classes="primary"
+                          Margin="0,0,8,6"
+                          IsVisible="{Binding PluginBuilder.IsEditingResource}"
+                          ToolTip.Tip="写回资源树里正在编辑的那一个节点（子节点保留）" />
+                  <Button Content="取消编辑" Command="{Binding PluginBuilder.CancelResourceEditCommand}"
+                          Margin="0,0,8,6"
+                          IsVisible="{Binding PluginBuilder.IsEditingResource}" />
+                </WrapPanel>
+              </StackPanel>
+            </Border>
+
+            <Border Classes="card">
+              <StackPanel Spacing="6">
+                <TextBlock Text="生成" FontWeight="SemiBold" />
+                <!-- 四个按钮排一行比这一列还宽，「清空」以前只能被切掉半个。会换行就没这一回事。 -->
+                <WrapPanel Orientation="Horizontal">
+                  <Button Content="生成插件" Command="{Binding PluginBuilder.GeneratePluginCommand}" Classes="primary"
+                          Margin="0,0,8,6" />
+                  <Button Content="预览 JSON" Command="{Binding PluginBuilder.PreviewJsonCommand}" Margin="0,0,8,6" />
+                  <Button Content="打开插件文件夹" Command="{Binding PluginBuilder.OpenPluginsFolderCommand}" Margin="0,0,8,6" />
+                  <Button Content="清空" Command="{Binding PluginBuilder.ResetCommand}" Margin="0,0,8,6" />
+                </WrapPanel>
+                <TextBlock Text="{Binding PluginBuilder.Status}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding PluginBuilder.GeneratedPath}" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+                <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                           Text="生成后到「插件」页点「导入文件夹里的插件」即可生效。" />
+              </StackPanel>
+            </Border>
+
+            <Border Classes="card">
+              <StackPanel Spacing="6">
+                <TextBlock Text="预览 / 编辑 JSON" FontWeight="SemiBold" />
+                <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                           Text="可以直接改，也可以把别人的插件粘进来点「读入」。读入会覆盖上面的表单。" />
+                <TextBox Text="{Binding PluginBuilder.GeneratedJson}" AcceptsReturn="True" Height="220"
+                         TextWrapping="NoWrap" />
+                <Button Content="读入（覆盖表单）" Command="{Binding PluginBuilder.ImportJsonCommand}" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+          </Grid>
+        </TabItem>
+
+        <!-- ============================================ AI 多轮对话建插件（spec v3.1） ============ -->
+        <TabItem Header="AI 对话建插件">
+          <Grid RowDefinitions="Auto,*" Margin="8">
+            <!-- 顶部：分享链接 + 会话操作。链接换了，会话与草稿树自动重建。 -->
+            <Border Grid.Row="0" Classes="card" Margin="0,0,0,8">
+              <StackPanel Spacing="6">
+                <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                  <TextBlock Grid.Column="0" Text="分享链接" VerticalAlignment="Center" Margin="0,0,8,0" />
+                  <TextBox Grid.Column="1"
+                           Text="{Binding PluginBuilder.AiShareUrl}"
+                           Watermark="网盘分享链接（123 / 百度 / 夸克 / 蓝奏 / 迅雷）" />
+                  <Button Grid.Column="2" Content="重试上一轮" Margin="8,0,0,0"
+                          Command="{Binding PluginBuilder.RetryAiTurnCommand}" />
+                  <Button Grid.Column="3" Content="清空对话" Margin="8,0,0,0"
+                          Command="{Binding PluginBuilder.ClearAiConversationCommand}" />
+                </Grid>
+                <TextBlock Text="{Binding PluginBuilder.AiStatus}" Classes="muted" FontSize="11"
+                           TextWrapping="Wrap" />
+              </StackPanel>
+            </Border>
+
+            <Grid Grid.Row="1" ColumnDefinitions="*,8,*">
+              <!-- 左栏：对话消息流 + 指令输入。首轮发送时才读真实分享树。 -->
+              <Border Grid.Column="0" Classes="card">
+                <Grid RowDefinitions="*,Auto">
+                  <ListBox Grid.Row="0" ItemsSource="{Binding PluginBuilder.AiMessages}"
+                           Background="Transparent" BorderThickness="0"
+                           ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemTemplate>
+                      <DataTemplate x:DataType="vm:AiChatMessage">
+                        <Border Classes="chip" Margin="0,2" Padding="8,6" CornerRadius="6">
+                          <StackPanel Spacing="2">
+                            <TextBlock Text="{Binding AuthorText}" FontSize="10"
+                                       FontWeight="SemiBold" Opacity="0.7" />
+                            <TextBlock Text="{Binding Text}" TextWrapping="Wrap" FontSize="12" />
+                          </StackPanel>
+                        </Border>
+                      </DataTemplate>
+                    </ListBox.ItemTemplate>
+                  </ListBox>
+
+                  <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+                    <TextBox Grid.Column="0"
+                             Text="{Binding PluginBuilder.AiInput}"
+                             Watermark="例如：把 Windows 工具放一组、皮肤放一组；没用的删掉"
+                             AcceptsReturn="True" Height="52" TextWrapping="Wrap" />
+                    <Button Grid.Column="1" Content="发送" Classes="primary" Margin="8,0,0,0"
+                            VerticalAlignment="Stretch"
+                            Command="{Binding PluginBuilder.SendAiMessageCommand}"
+                            CommandParameter="{x:Null}" />
+                  </Grid>
+                </Grid>
+              </Border>
+
+              <!-- 右栏：实时草稿树。每轮整体替换；勾选决定应用哪些子树。 -->
+              <Border Grid.Column="2" Classes="card">
+                <Grid RowDefinitions="Auto,Auto,*,Auto">
+                  <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                    <TextBlock Grid.Column="0" Text="实时草稿树（每轮整体替换）" FontWeight="SemiBold"
+                               VerticalAlignment="Center" TextWrapping="Wrap" />
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding PluginBuilder.AiDraftName, StringFormat='建议插件名：{0}'}"
+                               Classes="muted" FontSize="11" VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" MaxWidth="220" />
+                  </Grid>
+                  <TextBlock Grid.Row="1" Classes="muted" FontSize="11" TextWrapping="Wrap" Margin="0,2,0,4"
+                             Text="勾选 = 应用时纳入该子树；可移除单个节点。节点 id 全部来自真实分享，模型不能编造。" />
+
+                  <TreeView Grid.Row="2" ItemsSource="{Binding PluginBuilder.AiDraftTreeRoots}"
+                            Background="Transparent">
+                    <TreeView.ItemTemplate>
+                      <TreeDataTemplate x:DataType="vm:AiDraftNodeVm" ItemsSource="{Binding Children}">
+                        <Grid ColumnDefinitions="Auto,52,*,Auto,Auto,Auto" MinHeight="30" Margin="0,1">
+                          <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected}" VerticalAlignment="Center"
+                                    ToolTip.Tip="勾选后，点「应用勾选到插件树」时该节点（及其勾选的子树）才会进入插件树。" />
+                          <Border Grid.Column="1" Classes="chip" VerticalAlignment="Center" Margin="6,0,8,0"
+                                  Padding="6,2" HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding KindText}" FontSize="10" />
+                          </Border>
+                          <StackPanel Grid.Column="2" Spacing="1" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"
+                                       TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Detail}" Classes="muted" FontSize="10"
+                                       TextTrimming="CharacterEllipsis" />
+                          </StackPanel>
+                          <Button Grid.Column="3" Content="改分组" Margin="4,0,0,0" VerticalAlignment="Center"
+                                  IsVisible="{Binding IsResource}"
+                                  Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).PluginBuilder.ConvertAiDraftNodeToGroupCommand}"
+                                  CommandParameter="{Binding}"
+                                  ToolTip.Tip="把这个文件/文件夹条目变成纯组织分组（保留子树、去掉下载绑定）。" />
+                          <Button Grid.Column="4" Content="取消分组" Margin="4,0,0,0" VerticalAlignment="Center"
+                                  IsVisible="{Binding IsGroup}"
+                                  Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).PluginBuilder.UngroupAiDraftNodeCommand}"
+                                  CommandParameter="{Binding}"
+                                  ToolTip.Tip="删除该分组，把它的直接子节点提升到同一层（资源绑定不变）。" />
+                          <Button Grid.Column="5" Content="移除" Margin="4,0,0,0" VerticalAlignment="Center"
+                                  Command="{Binding $parent[UserControl].((vm:WorkshopViewModel)DataContext).PluginBuilder.RemoveAiDraftNodeCommand}"
+                                  CommandParameter="{Binding}"
+                                  ToolTip.Tip="从 AI 草稿树移除该节点（不影响已生成的插件树）。" />
+                        </Grid>
+                      </TreeDataTemplate>
+                    </TreeView.ItemTemplate>
+                  </TreeView>
+
+                  <StackPanel Grid.Row="3" Spacing="4" Margin="0,8,0,0">
+                    <Button Content="应用勾选到插件树" Classes="primary" HorizontalAlignment="Left"
+                            Command="{Binding PluginBuilder.ApplyAiDraftCommand}"
+                            IsEnabled="{Binding PluginBuilder.HasAiDraftTree}"
+                            ToolTip.Tip="把勾选的子树合并进左侧「资源树与表单」标签的插件树；可重复应用，不会重复插入。" />
+                    <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                               Text="应用后对话与草稿仍保留，可继续修订。AI 不会替你点「生成插件」——核对无误后请到「资源树与表单」标签自己生成。" />
+                  </StackPanel>
+                </Grid>
+              </Border>
+            </Grid>
+          </Grid>
+        </TabItem>
+      </TabControl>
+    </TabItem>
+
+    <!-- ==================================================== D. 拓展创建 ===== -->
+    <TabItem Header="拓展创建">
+      <ScrollViewer Padding="8">
+        <StackPanel Spacing="8">
+          <TextBlock Classes="muted" TextWrapping="Wrap"
+                     Text="扩展和插件是两回事：插件是数据（哪个资源从哪下），扩展是能力（网盘、下载引擎）。这里写清扩展包的格式。" />
+
+          <Border Classes="card">
+            <StackPanel Spacing="6">
+              <TextBlock Text="包结构" FontWeight="SemiBold" />
+              <ItemsControl ItemsSource="{Binding ExtensionLayoutNotes}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="0,1" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </Border>
+
+          <Grid ColumnDefinitions="*,12,*">
+            <Border Grid.Column="0" Classes="card">
+              <StackPanel Spacing="6">
+                <TextBlock Text="manifest.json 字段" FontWeight="SemiBold" />
+                <ItemsControl ItemsSource="{Binding ExtensionManifestFields}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:WorkshopField">
+                      <StackPanel Margin="0,0,0,6">
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12" />
+                        <TextBlock Text="{Binding Meaning}" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+                      </StackPanel>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Classes="card">
+              <StackPanel Spacing="6">
+                <TextBlock Text="可声明的权限" FontWeight="SemiBold" />
+                <TextBlock Classes="muted" FontSize="11" TextWrapping="Wrap"
+                           Text="写错一个名字整包会被拒；没声明的能力扩展拿不到。" />
+                <ItemsControl ItemsSource="{Binding ExtensionPermissions}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:WorkshopField">
+                      <StackPanel Margin="0,0,0,6">
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12" />
+                        <TextBlock Text="{Binding Meaning}" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+                      </StackPanel>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+            </Border>
+          </Grid>
+
+          <Border Classes="card">
+            <StackPanel Spacing="6">
+              <TextBlock Text="起点模板" FontWeight="SemiBold" />
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Content="导出 manifest 模板" Command="{Binding ExportExtensionTemplateCommand}" Classes="primary" />
+              </StackPanel>
+              <TextBlock Text="{Binding ExtensionsTemplateStatus}" TextWrapping="Wrap" />
+              <TextBlock Text="{Binding ExtensionTemplatePath}" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+              <TextBox Text="{Binding ExtensionManifestTemplate}" AcceptsReturn="True" Height="180"
+                       TextWrapping="NoWrap" IsReadOnly="True" />
+            </StackPanel>
+          </Border>
+
+          <Border Classes="card">
+            <StackPanel Spacing="6">
+              <TextBlock Text="已安装的扩展（可对照它们的实际写法）" FontWeight="SemiBold" />
+              <ItemsControl ItemsSource="{Binding Extensions}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:WorkshopExtensionEntry">
+                    <TextBlock Margin="0,1">
+                      <Run Text="{Binding Name}" FontWeight="SemiBold" />
+                      <Run Text="  " />
+                      <Run Text="{Binding Id}" Classes="muted" />
+                      <Run Text="  " />
+                      <Run Text="{Binding Version}" Classes="muted" />
+                      <Run Text="  " />
+                      <Run Text="{Binding State}" Classes="muted" />
+                    </TextBlock>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+    </TabItem>
+  </TabControl>
+</UserControl>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
+  <assemblyIdentity version="3.0.0.0" name="EriReborn.Desktop" />
+  <!-- 这是装机工具：它要在系统里安装/卸载软件，并在资源管理器里打开目录。
+       在本机环境里（第三方安全软件 + 众多第三方 shell 扩展），非提权进程拉起
+       explorer.exe 会被拦截并报 0xc0000142；提权后一切正常。因此整个程序请求管理员权限，
+       与"以管理员身份运行"时行为一致。 -->
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+    <security>
+      <requestedPrivileges>
+        <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <application xmlns="urn:schemas-microsoft-com:asm.v3">
+    <windowsSettings>
+      <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2</dpiAwareness>
+      <activeCodePage xmlns="http://schemas.microsoft.com/SMI/2019/WindowsSettings">UTF-8</activeCodePage>
+    </windowsSettings>
+  </application>
+</assembly>

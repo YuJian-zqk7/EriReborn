@@ -1,0 +1,107 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>EriReborn.Desktop</RootNamespace>
+    <AssemblyName>EriReborn</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- Taskbar and Explorer icon: taken from the exe, not from the asset manifest. -->
+    <ApplicationIcon>..\..\assets\brand\erireborn_launcher_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EriReborn.App.Shared\EriReborn.App.Shared.csproj" />
+    <ProjectReference Include="..\EriReborn.UI.Avalonia\EriReborn.UI.Avalonia.csproj" />
+
+    <!-- Built first, but its assembly travels as content rather than as a
+         reference: the app never calls into the host, it launches it. -->
+    <ProjectReference Include="..\..\tools\EriReborn.Extension.Host\EriReborn.Extension.Host.csproj"
+                      ReferenceOutputAssembly="false"
+                      Private="false" />
+    <ProjectReference Include="..\EriReborn.Platform.Windows\EriReborn.Platform.Windows.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The extension host ships with the app so an extension that asked for its
+         own process can actually get one. Without it, such an extension honestly
+         fails to load rather than silently running in-process. -->
+    <Content Include="..\..\tools\EriReborn.Extension.Host\bin\$(Configuration)\net8.0\EriReborn.Extension.Host.dll"
+             Link="EriReborn.Extension.Host.dll"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\tools\EriReborn.Extension.Host\bin\$(Configuration)\net8.0\EriReborn.Extension.Host.runtimeconfig.json"
+             Link="EriReborn.Extension.Host.runtimeconfig.json"
+             CopyToOutputDirectory="PreserveNewest" />
+
+    <Content Include="..\..\assets\asset_manifest.json" Link="assets\asset_manifest.json" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The whole directory, not just *.json: catalog.sig must ship or the
+         published app has no official authority at all. -->
+    <Content Include="..\..\assets\catalog\*" Link="assets\catalog\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\brand\*.png" Link="assets\brand\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <!-- 收款码是一张 jpg。之前只发 *.png，所以它从来没进过运行目录，设置页的赞助入口
+         只能一直空着；这里显式带上 jpg，和 png 一样随包发布。 -->
+    <Content Include="..\..\assets\brand\*.jpg" Link="assets\brand\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\personas\*.json" Link="assets\personas\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The tutorial ships with the app: a tutorial that needs the network is
+         unavailable exactly when it is most needed. -->
+    <Content Include="..\..\assets\tutorial\*.json" Link="assets\tutorial\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\trust\*.json" Link="assets\trust\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+
+    <!-- The announcements that ship with the app. The update page shows these when no remote address is
+         configured (or when it cannot be reached), instead of an empty page with an error on it. -->
+    <Content Include="..\..\assets\announcements\*.json" Link="assets\announcements\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\sounds\*.mp3" Link="assets\sounds\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <!-- The official plugin ships with the app so the plugin page has something real to
+         import, and so "an official plugin" is a fact rather than a promise. It is data. -->
+    <Content Include="..\..\assets\plugins\*.eriplugin.json" Link="assets\plugins\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\skins\**\*.json" Link="assets\skins\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\skins\**\*.png" Link="assets\skins\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The UI asset library (characters, kuro, icons, empty/error art, cursors,
+         sprites, brand). Registered in asset_manifest.json, so it has to ship. -->
+    <Content Include="..\..\assets\library\**\*.png" Link="assets\library\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\library\**\*.json" Link="assets\library\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The second-version material set ships real .cur pointers with their own hotspots. -->
+    <Content Include="..\..\assets\library\**\*.cur" Link="assets\library\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 阅读器正文页：自包含 HTML，作为嵌入资源随程序集发布。 -->
+    <EmbeddedResource Include="Browser\ReaderPage.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Official extensions. Each builds first (ReferenceOutputAssembly=false: the app
+         never calls into them, it loads them), and only the extension assembly and its
+         manifest are copied into assets/extensions/<id>/, where the ordinary extension
+         scan finds them. The EriReborn.* SDK assemblies are intentionally NOT copied:
+         they resolve from the app's default load context, so IExtension and
+         ICloudProvider keep a single identity across the boundary. -->
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Cloud.Pan123\EriReborn.Ext.Cloud.Pan123.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Cloud.Baidu\EriReborn.Ext.Cloud.Baidu.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Cloud.Quark\EriReborn.Ext.Cloud.Quark.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Cloud.Lanzou\EriReborn.Ext.Cloud.Lanzou.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Cloud.Xunlei\EriReborn.Ext.Cloud.Xunlei.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Extensions\EriReborn.Ext.Download.Aria2\EriReborn.Ext.Download.Aria2.csproj" ReferenceOutputAssembly="false" Private="false" />
+
+  </ItemGroup>
+
+  <!-- Each official extension ships as a single .zip in assets/extensions/<id>.zip.
+       The extension projects themselves produce the zip (see common.zip.targets), so
+       it is a normal build artifact referenced here as publishable content. The loader
+       unpacks zips at startup, so the extensions folder contains one file per extension
+       — exactly what Creative Workshop and the GitHub release ship. -->
+  <ItemGroup>
+    <Content Include="..\Extensions\EriReborn.Ext.Cloud.Pan123\bin\$(Configuration)\net8.0\erireborn_cloud_123pan.zip" Link="assets\extensions\erireborn_cloud_123pan.zip" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\Extensions\EriReborn.Ext.Cloud.Baidu\bin\$(Configuration)\net8.0\erireborn_cloud_baidu.zip" Link="assets\extensions\erireborn_cloud_baidu.zip" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\Extensions\EriReborn.Ext.Cloud.Quark\bin\$(Configuration)\net8.0\erireborn_cloud_quark.zip" Link="assets\extensions\erireborn_cloud_quark.zip" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\Extensions\EriReborn.Ext.Cloud.Lanzou\bin\$(Configuration)\net8.0\erireborn_cloud_lanzou.zip" Link="assets\extensions\erireborn_cloud_lanzou.zip" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\Extensions\EriReborn.Ext.Cloud.Xunlei\bin\$(Configuration)\net8.0\erireborn_cloud_xunlei.zip" Link="assets\extensions\erireborn_cloud_xunlei.zip" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\Extensions\EriReborn.Ext.Download.Aria2\bin\$(Configuration)\net8.0\erireborn_download_aria2.zip" Link="assets\extensions\erireborn_download_aria2.zip" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <!-- 阅读扩展（erireborn_reader）已按用户决定下架：不再作为 Content 发布，
+         否则每次 publish 都会把已删除的 zip 重新拷回发布目录。 -->
+  </ItemGroup>
+</Project>

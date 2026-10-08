@@ -1,0 +1,58 @@
+{
+    "id": "win11",
+    "name": "Windows 11 Fluent",
+    "persona": "Win11",
+    "colors": {
+        "accent": "#0078D4",
+        "background": "#F3F3F3",
+        "surface": "#FFFFFF",
+        "surfaceAlt": "#FAFAFA",
+        "foreground": "#1B1B1B",
+        "muted": "#605E5C",
+        "border": "#E5E5E5"
+    },
+    "metrics": {
+        "cornerRadius": "14",
+        "density": "comfortable"
+    },
+    "fontFamily": "Segoe UI Variable Text, Microsoft YaHei UI, Microsoft YaHei, Segoe UI",
+    "assetManifestFile": "../../asset_manifest.json",
+    "theme": "light",
+    "typography": {
+        "fontSizeLarge": "18",
+        "fontSizeSmall": "12",
+        "fontWeight": "400",
+        "fontSize": "14"
+    },
+    "controls": {
+        "listRowHeight": "36",
+        "buttonHeight": "32",
+        "touchTarget": "false",
+        "inputHeight": "32"
+    },
+    "navigation": {
+        "position": "left",
+        "mode": "sidebar",
+        "itemHeight": "40"
+    },
+    "window": {
+        "minwidth": "960",
+        "minheight": "600",
+        "chrome": "system"
+    },
+    "layout": "desktop",
+    "assets": {
+        "sheets": "win11_*",
+        "character": "eri_windows_character",
+        "logo": "skin_win11_logo_mark",
+        "emptyState": "v2_win11_sticker_idle",
+        "loadingState": "v2_win11_sticker_loading"
+    },
+    "cursors": {
+        "default": "asset:v2_win11_cursor_arrow",
+        "busy": "asset:v2_win11_cursor_busy",
+        "link": "asset:v2_win11_cursor_hand",
+        "resizeHorizontal": "asset:v2_win11_cursor_resize_h",
+        "text": "asset:v2_win11_cursor_text"
+    }
+}

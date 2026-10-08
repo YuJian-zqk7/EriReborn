@@ -1,0 +1,159 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.SettingsView"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             x:DataType="vm:SettingsViewModel">
+  <UserControl.Resources>
+    <controls:SkinPreviewConverter x:Key="SkinPreview" />
+  </UserControl.Resources>
+  <!-- 这一页自己滚动（页头由外壳钉住），和其它页保持同一套版式。 -->
+  <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+  <StackPanel Spacing="6">
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <TextBlock Text="安装根目录" FontWeight="SemiBold" />
+        <TextBlock Text="用户选择的根目录只按 Windows 合法路径校验；官方目录命名规则不适用于它。" Classes="muted" TextWrapping="Wrap" />
+        <!-- 输入框不再写死 420：窄窗口下它会把「浏览…」「应用」挤出可视区。 -->
+        <WrapPanel Orientation="Horizontal">
+          <TextBox Text="{Binding InstallRootDraft}" MinWidth="240" MaxWidth="420" Margin="0,0,8,6"
+                   Watermark="例如 E:\EriReborn" />
+          <!-- 选目录只填入输入框，「应用」仍然是旁边那个按钮：选错了要能先看见路径，再决定要不要生效。 -->
+          <Button Content="浏览…" Click="OnBrowseInstallRootClick" Margin="0,0,8,6" />
+          <Button Command="{Binding ApplyInstallRootCommand}" Classes="primary" Margin="0,0,8,6">
+            <controls:UiText Key="common.apply" />
+          </Button>
+        </WrapPanel>
+        <TextBlock Text="{Binding InstallRoot, Converter={x:Static controls:BreakableTextConverter.Instance}}" Classes="muted" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding ConfigStatus}" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding ConfigFile, Converter={x:Static controls:BreakableTextConverter.Instance}}" Classes="muted" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <TextBlock Text="下载目录" FontWeight="SemiBold" />
+        <TextBlock Text="云盘下载和安装包都先下到这里。系统盘空间紧张时可改到其它盘；留空则用应用数据目录下的 downloads。" Classes="muted" TextWrapping="Wrap" />
+        <WrapPanel Orientation="Horizontal">
+          <TextBox Text="{Binding DownloadDirectoryDraft}" MinWidth="240" MaxWidth="420" Margin="0,0,8,6"
+                   Watermark="例如 D:\EriReborn\Downloads" />
+          <Button Content="浏览…" Click="OnBrowseDownloadDirectoryClick" Margin="0,0,8,6" />
+          <Button Command="{Binding ApplyDownloadDirectoryCommand}" Classes="primary" Margin="0,0,8,6">
+            <controls:UiText Key="common.apply" />
+          </Button>
+        </WrapPanel>
+        <TextBlock Text="{Binding DownloadDirectory, Converter={x:Static controls:BreakableTextConverter.Instance}}" Classes="muted" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+
+    <Border Classes="card">
+      <StackPanel Spacing="4">
+        <TextBlock Text="路径" FontWeight="SemiBold" />
+        <!-- 路径没有断点，Wrap 对它无效：先插零宽断点再换行，否则会把整列撑宽。 -->
+        <TextBlock Text="{Binding AssetsRoot, Converter={x:Static controls:BreakableTextConverter.Instance}}" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding CatalogDirectory, Converter={x:Static controls:BreakableTextConverter.Instance}}" TextWrapping="Wrap" Classes="muted" />
+        <TextBlock Text="{Binding SkinsDirectory, Converter={x:Static controls:BreakableTextConverter.Instance}}" TextWrapping="Wrap" Classes="muted" />
+        <TextBlock Text="{Binding ExtensionsDirectory, Converter={x:Static controls:BreakableTextConverter.Instance}}" TextWrapping="Wrap" Classes="muted" />
+        <TextBlock Text="{Binding UserDataDirectory, Converter={x:Static controls:BreakableTextConverter.Instance}}" TextWrapping="Wrap" Classes="muted" />
+      </StackPanel>
+    </Border>
+
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <TextBlock Text="皮肤" FontWeight="SemiBold" />
+        <TextBlock Text="点一张卡片即整套换肤。插画来自素材库的 skin_&lt;id&gt;_card。" Classes="muted" TextWrapping="Wrap" />
+        <!-- A gallery, not a dropdown: the library shipped six illustrations per skin
+             family and a combo box can only ever show their names. -->
+        <ItemsControl ItemsSource="{Binding Skins}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Button Margin="0,0,10,10" Padding="8"
+                      Command="{Binding $parent[UserControl].((vm:SettingsViewModel)DataContext).SelectSkinCommand}"
+                      CommandParameter="{Binding}"
+                      ToolTip.Tip="{Binding Name}">
+                <StackPanel Width="150" Spacing="6">
+                  <controls:AssetImage AssetId="{Binding Converter={StaticResource SkinPreview}}"
+                                       Height="96" Stretch="Uniform" />
+                  <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                  <TextBlock Text="{Binding Id}" Classes="muted" FontSize="11" />
+                </StackPanel>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </Border>
+
+    <Border Classes="card">
+      <StackPanel Spacing="4">
+        <TextBlock Text="凭据与日志" FontWeight="SemiBold" />
+        <TextBlock Text="{Binding PlatformId}" Classes="muted" />
+        <TextBlock Text="{Binding CredentialStore}" Classes="muted" />
+        <TextBlock Text="{Binding LogFile, Converter={x:Static controls:BreakableTextConverter.Instance}}" TextWrapping="Wrap" Classes="muted" />
+        <Button Content="刷新凭据列表" Command="{Binding ReloadCredentialsCommand}" />
+        <TextBlock Text="{Binding CredentialSummary}" Classes="muted" />
+      </StackPanel>
+    </Border>
+
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <TextBlock Text="关于与支持作者" FontWeight="SemiBold" />
+        <TextBlock Text="EriReborn 3.0" FontWeight="SemiBold" />
+        <TextBlock Text="{Binding AboutText}" Classes="muted" TextWrapping="Wrap" />
+        <Border Classes="divider" />
+        <!-- 每个入口都是一个真实地址，点下去用系统浏览器打开。还没有地址的入口（赞助、邮箱、QQ）
+             在拿到之前不画成按钮：点不动的控件比没有更糟，编一个收款地址更糟。 -->
+        <ItemsControl ItemsSource="{Binding SupportLinks}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:SupportLink">
+              <Button Margin="0,0,8,8" Padding="12,6"
+                      Command="{Binding $parent[UserControl].((vm:SettingsViewModel)DataContext).OpenSupportLinkCommand}"
+                      CommandParameter="{Binding}">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="{Binding Label}" FontWeight="SemiBold" />
+                  <TextBlock Text="{Binding Detail}" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+                </StackPanel>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBlock Text="{Binding LinkStatus}" TextWrapping="Wrap" />
+        <!-- 打不开时还能手抄：地址本身也列出来（地址没有断点，先插零宽断点再换行）。 -->
+        <ItemsControl ItemsSource="{Binding SupportLinks}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:SupportLink">
+              <TextBlock Text="{Binding Url, Converter={x:Static controls:BreakableTextConverter.Instance}}"
+                         Classes="muted" FontSize="11" TextWrapping="Wrap" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- 收款码是一张图，不是一个地址，所以它进不了上面那排按钮：外壳能打开链接，但没有任何
+             东西能替用户「打开」一个二维码，直接显示才是它唯一能用的样子。随包不带图时整块不画。 -->
+        <Border Classes="divider" IsVisible="{Binding HasSponsorImage}" />
+        <StackPanel Spacing="6" IsVisible="{Binding HasSponsorImage}">
+          <TextBlock Text="赞助作者" FontWeight="SemiBold" />
+          <TextBlock Text="如果这个工具帮到了你，可以扫码支持一下；直接转账，本程序不经手任何交易。"
+                     Classes="muted" TextWrapping="Wrap" />
+          <Border Background="{DynamicResource SkinSurfaceAlt}" BorderBrush="{DynamicResource SkinBorder}"
+                  BorderThickness="1" CornerRadius="{DynamicResource SkinCornerRadius}" Padding="6"
+                  HorizontalAlignment="Left">
+            <Image Stretch="Uniform" MaxWidth="220" MaxHeight="330"
+                   Source="{Binding SponsorImagePath, Converter={x:Static controls:PathToBitmapConverter.Instance}}" />
+          </Border>
+        </StackPanel>
+      </StackPanel>
+    </Border>
+  </StackPanel>
+  </ScrollViewer>
+</UserControl>

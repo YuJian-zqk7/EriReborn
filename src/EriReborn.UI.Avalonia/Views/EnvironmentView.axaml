@@ -1,0 +1,100 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.EnvironmentView"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             x:DataType="vm:EnvironmentViewModel">
+  <!-- 第二版的版式：顶栏先说人话，下面左目录 / 右内容。
+       本页在 MainViewModel.PageFillsViewport 里，外壳因此不再滚动本页，
+       所以滚动必须由这一层自己提供；否则内容会被永久截断（见 MainView.ApplyPageHostHeight）。 -->
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+    <StackPanel Spacing="10" MinWidth="720">
+      <Border Classes="card">
+        <StackPanel Spacing="4">
+          <TextBlock Text="环境检查" FontSize="18" FontWeight="SemiBold" />
+          <TextBlock Classes="muted" TextWrapping="Wrap"
+                     Text="这一页检查这台机器上的运行环境。左边挑一类（运行时、开发工具、显卡驱动……），右边是这一类的检查结果：绿点=已就绪，其他颜色=需要处理，后面的小字说明原因。" />
+          <TextBlock Text="{Binding Summary}" Classes="muted" TextWrapping="Wrap" />
+        </StackPanel>
+      </Border>
+
+      <Border Classes="card">
+        <StackPanel Spacing="6">
+          <TextBlock Text="环境构建器" FontWeight="SemiBold" FontSize="15" />
+          <TextBlock Classes="muted" TextWrapping="Wrap"
+                     Text="定义目标环境（软件 / 运行时 / 驱动 / 安全），一次性生成构建计划并执行；执行后可「复检」重新扫描确认。" />
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Command="{Binding GeneratePlanCommand}" Content="生成构建计划" />
+            <Button Command="{Binding ExecutePlanCommand}" Content="执行计划" />
+            <Button Command="{Binding RecheckCommand}" Content="复检" />
+          </StackPanel>
+          <TextBlock Text="{Binding PlanSummary}" Classes="muted" TextWrapping="Wrap" />
+          <ListBox ItemsSource="{Binding Plan}" MaxHeight="220" Margin="0,4,0,0">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,2">
+                  <TextBlock Grid.Column="0" Text="{Binding Bucket}" FontWeight="SemiBold"
+                             VerticalAlignment="Center" MinWidth="90" />
+                  <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" />
+                  <TextBlock Grid.Column="2" Text="{Binding Reason}" Classes="muted"
+                             VerticalAlignment="Center" MaxWidth="220" TextWrapping="Wrap" />
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </StackPanel>
+      </Border>
+
+      <Grid ColumnDefinitions="Auto,14,*">
+        <!-- 左：分类目录。宽度按内容自适应，窄窗口下不再把右侧挤没。 -->
+        <Border Grid.Column="0" Classes="card" Padding="10" MinWidth="180" MaxWidth="280">
+          <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="检查分类" FontWeight="SemiBold" Margin="0,0,0,6" />
+            <ListBox ItemsSource="{Binding Sections}" SelectedItem="{Binding SelectedSection}">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Title}" TextWrapping="Wrap" />
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </DockPanel>
+        </Border>
+
+        <!-- 右：选中分类的结果 -->
+        <Border Grid.Column="2" Classes="card" MinWidth="360" DataContext="{Binding SelectedSection}">
+          <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Spacing="4">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <controls:AssetImage AssetId="{Binding IconId}" Width="22" Height="22" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="15" VerticalAlignment="Center" />
+              </StackPanel>
+              <TextBlock Text="{Binding Summary}" Classes="muted" TextWrapping="Wrap" />
+            </StackPanel>
+
+            <views:EmptyStateView DockPanel.Dock="Top" ItemsSource="{Binding Results}"
+                                  AssetId="empty_nothing_to_detect"
+                                  Caption="这一类还没有结果。点上方的「扫描环境」跑一次就有了。" />
+
+            <ListBox ItemsSource="{Binding Results}" Margin="0,8,0,0">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <Grid ColumnDefinitions="*,Auto,*" Margin="0,2">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                      <controls:AssetImage AssetId="{Binding StatusIconId}" Width="20" Height="20" VerticalAlignment="Center" />
+                      <TextBlock Text="{Binding Name}" VerticalAlignment="Center" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" Text="{Binding StatusText}" FontWeight="SemiBold"
+                               VerticalAlignment="Center" MinWidth="110" Margin="10,0" />
+                    <TextBlock Grid.Column="2" Text="{Binding Detail}" Classes="muted"
+                               TextWrapping="Wrap" VerticalAlignment="Center" MaxWidth="320" />
+                  </Grid>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </DockPanel>
+        </Border>
+      </Grid>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

@@ -1,0 +1,58 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             x:Class="EriReborn.UI.Avalonia.App"
+             RequestedThemeVariant="Dark">
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="avares://EriReborn.UI.Avalonia/Styles/Skin.axaml" />
+  </Application.Styles>
+  <Application.DataTemplates>
+    <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+      <views:HomeView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SoftwareViewModel}">
+      <views:SoftwareView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:EnvironmentViewModel}">
+      <views:EnvironmentView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:CloudViewModel}">
+      <views:CloudView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:AiViewModel}">
+      <views:AiView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:ExtensionViewModel}">
+      <views:ExtensionsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:MarketplaceViewModel}">
+      <views:MarketplaceView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:PluginsViewModel}">
+      <views:PluginsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:TutorialViewModel}">
+      <views:TutorialView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:JobsViewModel}">
+      <views:JobsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:WorkshopViewModel}">
+      <views:WorkshopView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+      <views:SettingsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:UpdateViewModel}">
+      <views:UpdateView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:BlogViewModel}">
+      <views:BlogView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:ExtensionPageViewModel}">
+      <views:ExtensionPageView />
+    </DataTemplate>
+  </Application.DataTemplates>
+</Application>

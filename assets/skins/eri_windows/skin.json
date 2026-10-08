@@ -1,0 +1,59 @@
+{
+    "id": "eri_windows",
+    "name": "Eri · Windows",
+    "persona": "Eri",
+    "colors": {
+        "accent": "#7C7BF0",
+        "background": "#F7F8FF",
+        "surface": "#FFFFFF",
+        "surfaceAlt": "#EEEDFF",
+        "foreground": "#2B2B3A",
+        "muted": "#6E6E85",
+        "border": "#DDDCF0"
+    },
+    "metrics": {
+        "cornerRadius": "22",
+        "density": "comfortable"
+    },
+    "fontFamily": "Microsoft YaHei UI, Microsoft YaHei, Segoe UI",
+    "assetManifestFile": "../../asset_manifest.json",
+    "theme": "light",
+    "typography": {
+        "fontSizeLarge": "16",
+        "fontSizeSmall": "11",
+        "fontWeight": "400",
+        "fontSize": "13"
+    },
+    "controls": {
+        "listRowHeight": "30",
+        "buttonHeight": "30",
+        "touchTarget": "false",
+        "inputHeight": "30"
+    },
+    "navigation": {
+        "position": "left",
+        "mode": "sidebar",
+        "itemHeight": "32"
+    },
+    "window": {
+        "minwidth": "960",
+        "minheight": "600",
+        "chrome": "system"
+    },
+    "layout": "desktop",
+    "assets": {
+        "sheets": "eri_windows_*",
+        "character": "eri_windows_character",
+        "logo": "skin_eri_windows_logo_mark",
+        "emptyState": "v2_eri_sticker_idle",
+        "loadingState": "v2_eri_sticker_loading",
+        "companion": "kuro_walk_sheet"
+    },
+    "cursors": {
+        "default": "asset:v2_eri2_cursor_arrow",
+        "busy": "asset:v2_eri2_cursor_busy",
+        "link": "asset:v2_eri2_cursor_hand",
+        "resizeHorizontal": "asset:v2_eri2_cursor_resize_h",
+        "text": "asset:v2_eri2_cursor_text"
+    }
+}

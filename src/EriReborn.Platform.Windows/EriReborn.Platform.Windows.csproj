@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>EriReborn.Platform.Windows</RootNamespace>
+    <AssemblyName>EriReborn.Platform.Windows</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+    <PackageReference Include="SharpCompress" Version="0.39.0" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EriReborn.Core\EriReborn.Core.csproj" />
+    <ProjectReference Include="..\EriReborn.Platform.Abstractions\EriReborn.Platform.Abstractions.csproj" />
+    <ProjectReference Include="..\EriReborn.Cloud\EriReborn.Cloud.csproj" />
+    <ProjectReference Include="..\EriReborn.Engine\EriReborn.Engine.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The exit-code classification is pure decision logic and has no business being
+         unreachable from a test just because it lives in a platform assembly. -->
+    <InternalsVisibleTo Include="EriReborn.Windows.Tests" />
+  </ItemGroup>
+
+</Project>

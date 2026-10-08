@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.ExtensionsView"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             x:DataType="vm:ExtensionViewModel">
+  <DockPanel>
+    <!-- 页头限高并可滚动：与插件页同一套版式，也同一套「页头不得挤掉列表」的规矩。 -->
+    <ScrollViewer DockPanel.Dock="Top" MaxHeight="240"
+                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+    <StackPanel Spacing="6" Margin="0,0,0,10">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Button Command="{Binding RefreshExtensionsCommand}" Classes="primary"
+                controls:SkinElement.Id="extensions.refresh_button">
+          <controls:UiText Key="extensions.refresh" />
+        </Button>
+        <!-- Installing an extension means dropping files into this folder, so the folder
+             itself is the entry point, not a path to be read off the screen. -->
+        <Button Command="{Binding OpenExtensionsFolderCommand}"
+                controls:SkinElement.Id="extensions.open_folder_button">
+          <controls:UiText Key="extensions.open_folder" />
+        </Button>
+      </StackPanel>
+      <!-- 与插件页同一套版式：按钮一行 → 目录一行 → 状态若干行。 -->
+      <TextBlock Text="{Binding ExtensionsDirectory}" Classes="muted" TextWrapping="Wrap" />
+      <TextBlock Text="{Binding Summary}" Classes="muted" />
+      <TextBlock Text="{Binding FolderStatus}" Classes="muted" TextWrapping="Wrap" />
+    </StackPanel>
+    </ScrollViewer>
+    <views:EmptyStateView DockPanel.Dock="Top" ItemsSource="{Binding Items}" AssetId="empty_no_extension" CaptionTextKey="extensions.empty_state" />
+    <!-- The list scrolls in its own pane, so the buttons and the folder path stay put and the
+         bar has the whole list to travel. Left as a bare last child of the DockPanel it was
+         measured with the remaining height and clipped: the page reported no overflow, so the
+         shell had nothing to scroll and the bottom cards were unreachable. -->
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+      <ItemsControl ItemsSource="{Binding Items}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Border Classes="card">
+            <StackPanel Spacing="3">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <Button Content="{Binding ToggleText}" Command="{Binding ToggleCommand}"
+                        IsVisible="{Binding CanToggle}" />
+              </StackPanel>
+              <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Classes="muted" />
+              <TextBlock Classes="muted">
+                <Run Text="ID：" />
+                <Run Text="{Binding Id}" />
+                <Run Text="   版本：" />
+                <Run Text="{Binding Version}" />
+                <Run Text="   信任：" />
+                <Run Text="{Binding Trust}" />
+                <Run Text="   状态：" />
+                <Run Text="{Binding State}" />
+              </TextBlock>
+              <TextBlock Text="{Binding Message}" TextWrapping="Wrap" />
+              <TextBlock Classes="muted">
+                <Run Text="权限：" />
+                <Run Text="{Binding Permissions}" />
+              </TextBlock>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+  </DockPanel>
+
+</UserControl>

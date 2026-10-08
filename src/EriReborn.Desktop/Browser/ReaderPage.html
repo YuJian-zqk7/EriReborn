@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>reader</title>
+<style>
+  :root {
+    --bg: #EFE7D6;
+    --fg: #3B3128;
+    --mark: #FFE08A;
+    --mark-note: #FFD1A3;
+    --find: #A8D3F5;
+    --bar-bg: #3B3128;
+    --bar-fg: #F7F2E7;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #FF0000;
+    color: var(--fg);
+    font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+    overflow: hidden;
+  }
+  #page {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 6px 10px 24px 6px;
+    outline: none;
+  }
+  #content {
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.7;
+    font-size: 17px;
+  }
+  mark {
+    background: var(--mark);
+    color: inherit;
+    padding: 0;
+    border-radius: 2px;
+  }
+  mark.note { background: var(--mark-note); }
+  mark.find { background: var(--find); }
+  #empty {
+    display: none;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: .55;
+    font-size: 15px;
+    line-height: 1.9;
+    padding: 0 24px;
+  }
+  #bar {
+    position: fixed;
+    display: none;
+    z-index: 10;
+    background: var(--bar-bg);
+    color: var(--bar-fg);
+    border-radius: 8px;
+    padding: 6px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.28);
+    white-space: nowrap;
+  }
+  #bar input {
+    width: 170px;
+    border: 0;
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 13px;
+    background: rgba(255,255,255,.92);
+    color: #222;
+    vertical-align: middle;
+  }
+  #bar button {
+    border: 0;
+    border-radius: 5px;
+    padding: 5px 12px;
+    margin-left: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    background: rgba(255,255,255,.16);
+    color: var(--bar-fg);
+  }
+  #bar button:hover { background: rgba(255,255,255,.3); }
+  ::selection { background: rgba(90,140,220,.35); }
+</style>
+</head>
+<body>
+  <div id="page">
+    <div id="content"></div>
+    <div id="empty"></div>
+  </div>
+  <div id="bar">
+    <input id="note" type="text" placeholder="笔记（可选）" />
+    <button id="btn-mark">划线</button>
+    <button id="btn-copy">复制</button>
+    <button id="btn-del" style="display:none">删除划线</button>
+    <button id="btn-cancel">取消</button>
+  </div>
+<script>
+(function () {
+  "use strict";
+
+  var content = document.getElementById("content");
+  var empty = document.getElementById("empty");
+  var page = document.getElementById("page");
+  var bar = document.getElementById("bar");
+  var noteInput = document.getElementById("note");
+  var btnMark = document.getElementById("btn-mark");
+  var btnCopy = document.getElementById("btn-copy");
+  var btnDel = document.getElementById("btn-del");
+  var btnCancel = document.getElementById("btn-cancel");
+
+  // 工具条当前关联的操作：选区（可划线/复制）或某个已有划线（可删除）。
+  var action = null;
+
+  function send(obj) {
+    try { window.chrome.webview.postMessage(JSON.stringify(obj)); } catch (e) { /* 无宿主时静默 */ }
+  }
+
+  function textLen(node) {
+    return node && node.textContent ? node.textContent.length : 0;
+  }
+
+  // 选区端点（node, offset）-> 相对正文纯文本的全局字符偏移。
+  // content 的直接子节点只会是 TextNode 或 mark（mark 内一个 TextNode）。
+  function offsetOf(node, offset) {
+    var total = 0;
+    var cur = node;
+    if (cur === content) {
+      for (var i = 0; i < offset && i < content.childNodes.length; i++) {
+        total += textLen(content.childNodes[i]);
+      }
+      return total;
+    }
+    while (cur && cur !== content) {
+      var sib = cur.previousSibling;
+      while (sib) { total += textLen(sib); sib = sib.previousSibling; }
+      cur = cur.parentNode;
+    }
+    if (node.nodeType === 3) {
+      total += offset;
+    }
+    return total;
+  }
+
+  // 一个 mark 元素在正文里的全局区间。
+  function elementRange(markEl) {
+    var start = 0;
+    for (var i = 0; i < content.childNodes.length; i++) {
+      var child = content.childNodes[i];
+      if (child === markEl) {
+        return { s: start, e: start + textLen(child) };
+      }
+      start += textLen(child);
+    }
+    return null;
+  }
+
+  // ---- 页面渲染 ----
+  // payload: { text, ranges:[[start,end,cls,id],...], emphasis:[s,e]|null, emptyText }
+  function renderPage(payload) {
+    send({ type: "debug", msg: "renderPage called, textLen=" + (payload.text ? payload.text.length : 0) });
+    hideBar();
+    var text = payload.text || "";
+
+    if (!text) {
+      content.textContent = "";
+      content.style.display = "none";
+      empty.style.display = "flex";
+      empty.textContent = payload.emptyText || "打开一本书开始阅读。";
+      return;
+    }
+    empty.style.display = "none";
+    content.style.display = "";
+
+    // 同页重渲染（新增划线后的刷新）要保住阅读位置；只有换页才回到页首。
+    var sameText = content.textContent === text;
+    var savedTop = sameText ? page.scrollTop : 0;
+
+    var marks = [];
+    var ranges = payload.ranges || [];
+    for (var i = 0; i < ranges.length; i++) {
+      marks.push({ s: ranges[i][0], e: ranges[i][1], cls: ranges[i][2] || "", id: ranges[i][3] || "" });
+    }
+    if (payload.emphasis) {
+      // 搜索命中最后压入，同区间时它覆盖在划线之上。
+      marks.push({ s: payload.emphasis[0], e: payload.emphasis[1], cls: "find", id: "" });
+    }
+    marks.sort(function (a, b) {
+      if (a.s !== b.s) return a.s - b.s;
+      return a.cls === "find" ? 1 : -1;
+    });
+
+    // 用纯 DOM API 切节点：正文一律 createTextNode，不存在注入/HTML 解析问题。
+    content.textContent = "";
+    var frag = document.createDocumentFragment();
+    var pos = 0;
+    for (var k = 0; k < marks.length; k++) {
+      var m = marks[k];
+      var s = Math.max(0, Math.min(m.s, text.length));
+      var e = Math.max(0, Math.min(m.e, text.length));
+      if (s < pos || e <= s) continue; // 重叠区间先到先得，杜绝反向切片
+      if (s > pos) frag.appendChild(document.createTextNode(text.slice(pos, s)));
+      var markEl = document.createElement("mark");
+      if (m.cls) markEl.className = m.cls;
+      if (m.id) markEl.setAttribute("data-id", m.id);
+      markEl.appendChild(document.createTextNode(text.slice(s, e)));
+      frag.appendChild(markEl);
+      pos = e;
+    }
+    if (pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+    content.appendChild(frag);
+
+    if (payload.emphasis) {
+      var found = content.querySelector("mark.find");
+      if (found) found.scrollIntoView({ block: "center" });
+    } else {
+      page.scrollTop = savedTop;
+    }
+  }
+
+  // ---- 外观 ----
+  // colors 由宿主按主题给定，页面不自己猜主题。
+  function applySettings(s) {
+    var root = document.documentElement.style;
+    root.setProperty("--bg", s.bg);
+    root.setProperty("--fg", s.fg);
+    root.setProperty("--mark", s.mark);
+    root.setProperty("--mark-note", s.markNote);
+    root.setProperty("--find", s.find);
+    root.setProperty("--bar-bg", s.barBg);
+    root.setProperty("--bar-fg", s.barFg);
+    content.style.fontSize = s.fontSize + "px";
+    content.style.lineHeight = String(s.lineHeight);
+  }
+
+  // ---- 选择工具条 ----
+  function showBar(rect) {
+    bar.style.display = "block";
+    // 先显示才能量尺寸，再把位置夹在视口内。
+    var bw = bar.offsetWidth;
+    var bh = bar.offsetHeight;
+    var x = Math.min(Math.max(6, rect.left + rect.width / 2 - bw / 2), window.innerWidth - bw - 6);
+    var y = rect.top - bh - 10;
+    if (y < 6) y = rect.bottom + 10;
+    bar.style.left = x + "px";
+    bar.style.top = y + "px";
+  }
+
+  function hideBar() {
+    bar.style.display = "none";
+    action = null;
+    noteInput.value = "";
+  }
+
+  function currentSelectionInfo() {
+    var sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0) return null;
+    var range = sel.getRangeAt(0);
+    if (!content.contains(range.startContainer) || !content.contains(range.endContainer)) return null;
+    var s = offsetOf(range.startContainer, range.startOffset);
+    var e = offsetOf(range.endContainer, range.endOffset);
+    if (e < s) { var t = s; s = e; e = t; }
+    var text = content.textContent.slice(s, e);
+    if (!text.trim()) return null;
+    return { s: s, e: e, text: text, rect: range.getBoundingClientRect() };
+  }
+
+  document.addEventListener("mouseup", function () {
+    // 点击工具条自身时不要立刻收起。
+    var info = currentSelectionInfo();
+    if (info) {
+      // 选区是否落在一条已有划线里（取起点所在的 mark）。
+      var markEl = enclosingMark(window.getSelection().getRangeAt(0).startContainer);
+      action = {
+        kind: "selection",
+        s: info.s,
+        e: info.e,
+        text: info.text,
+        markId: markEl ? markEl.getAttribute("data-id") : null
+      };
+      noteInput.value = "";
+      btnMark.style.display = "";
+      btnCopy.style.display = "";
+      btnDel.style.display = action.markId ? "" : "none";
+      showBar(info.rect);
+    }
+  });
+
+  // 单击已有划线（无拖选）时给删除入口。
+  content.addEventListener("click", function (ev) {
+    var sel = window.getSelection();
+    if (sel && !sel.isCollapsed) return; // 刚做了拖选，交给 mouseup 流程
+    var markEl = ev.target && ev.target.closest ? ev.target.closest("mark") : null;
+    if (!markEl || !content.contains(markEl)) return;
+    var id = markEl.getAttribute("data-id");
+    var range = elementRange(markEl);
+    if (!id || !range) return;
+    action = { kind: "mark", id: id, s: range.s, e: range.e };
+    btnMark.style.display = "none";
+    btnCopy.style.display = "none";
+    btnDel.style.display = "";
+    var rect = markEl.getBoundingClientRect();
+    showBar(rect);
+  });
+
+  function enclosingMark(node) {
+    var cur = node;
+    while (cur && cur !== content) {
+      if (cur.nodeType === 1 && cur.tagName === "MARK") return cur;
+      cur = cur.parentNode;
+    }
+    return null;
+  }
+
+  btnMark.addEventListener("click", function () {
+    if (!action || action.kind !== "selection") return;
+    send({ type: "highlight", start: action.s, end: action.e, note: noteInput.value || "" });
+    hideBar();
+    window.getSelection().removeAllRanges();
+  });
+
+  btnDel.addEventListener("click", function () {
+    if (!action) return;
+    if (action.kind === "mark" || (action.kind === "selection" && action.markId)) {
+      var delId = action.markId || action.id;
+      send({ type: "removeHighlight", id: delId });
+      // 宿主删除成功后只刷新侧栏；正文这里就地解包，立即从页面消失且保住滚动位置。
+      unwrapMarks(delId);
+    }
+    hideBar();
+    window.getSelection().removeAllRanges();
+  });
+
+  // 把指定 id 的 mark 替换成它内部的文本节点（保持其余区间的偏移仍然连续）。
+  function unwrapMarks(id) {
+    if (!id) return;
+    var nodes = content.querySelectorAll('mark[data-id="' + cssEscape(id) + '"]');
+    for (var i = 0; i < nodes.length; i++) {
+      var markEl = nodes[i];
+      while (markEl.firstChild) {
+        markEl.parentNode.insertBefore(markEl.firstChild, markEl);
+      }
+      markEl.parentNode.removeChild(markEl);
+    }
+    content.normalize();
+  }
+
+  function cssEscape(s) {
+    return String(s).replace(/["\\]/g, "\\$&");
+  }
+
+  btnCopy.addEventListener("click", function () {
+    if (!action || !action.text) return;
+    copyText(action.text);
+    hideBar();
+  });
+
+  btnCancel.addEventListener("click", function () {
+    hideBar();
+    window.getSelection().removeAllRanges();
+  });
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).catch(function () { legacyCopy(text); });
+    } else {
+      legacyCopy(text);
+    }
+  }
+
+  // NavigateToString 不是安全上下文，clipboard API 可能不可用，留一手。
+  function legacyCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch (e) { /* ignore */ }
+    document.body.removeChild(ta);
+  }
+
+  // 焦点在网页内时，翻页键会被内核吃掉——在这里接住，转交给宿主窗口。
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "PageDown" || ev.key === "ArrowRight" || ev.key === " ") {
+      send({ type: "key", key: "next" });
+      ev.preventDefault();
+    } else if (ev.key === "PageUp" || ev.key === "ArrowLeft") {
+      send({ type: "key", key: "prev" });
+      ev.preventDefault();
+    } else if (ev.key === "f" && ev.ctrlKey) {
+      send({ type: "key", key: "search" });
+      ev.preventDefault();
+    } else if (ev.key === "Escape") {
+      send({ type: "key", key: "escape" });
+      ev.preventDefault();
+    }
+  });
+
+  // 笔记输入框里的空格不应触发翻页。
+  noteInput.addEventListener("keydown", function (ev) { ev.stopPropagation(); });
+
+  // 宿主推数据的唯一入口。
+  window.renderPage = renderPage;
+  window.applyReaderSettings = applySettings;
+
+  // 告诉宿主 DOM 已就绪，可以开始推送。
+  send({ type: "domReady" });
+})();
+</script>
+</body>
+</html>

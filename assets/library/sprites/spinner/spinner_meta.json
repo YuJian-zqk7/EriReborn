@@ -1,0 +1,21 @@
+{
+    "name":  "spinner",
+    "frameCount":  8,
+    "frameWidth":  256,
+    "frameHeight":  256,
+    "columns":  8,
+    "rows":  1,
+    "fps":  12,
+    "sheet":  "spinner_sheet.png",
+    "loop":  true,
+    "frames":  [
+                   "spinner_01.png",
+                   "spinner_02.png",
+                   "spinner_03.png",
+                   "spinner_04.png",
+                   "spinner_05.png",
+                   "spinner_06.png",
+                   "spinner_07.png",
+                   "spinner_08.png"
+               ]
+}

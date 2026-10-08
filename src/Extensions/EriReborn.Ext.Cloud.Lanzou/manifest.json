@@ -1,0 +1,11 @@
+{
+  "id": "erireborn_cloud_lanzou",
+  "name": "蓝奏云",
+  "version": "1.0.0",
+  "author": "EriReborn",
+  "description": "把蓝奏云接入「来源」页。适合分享小文件，解析分享页直链通常无需登录。",
+  "assembly": "EriReborn.Ext.Cloud.Lanzou.dll",
+  "trust": "official",
+  "permissions": ["cloud.contribute", "network.http", "credentials.read"],
+  "categories": ["cloud"]
+}

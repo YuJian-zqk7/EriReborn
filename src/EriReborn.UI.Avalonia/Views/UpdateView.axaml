@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.UpdateView"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             x:DataType="vm:UpdateViewModel">
+  <!-- 这一页自己滚动（页头由外壳钉住），和其它页保持同一套版式。 -->
+  <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+  <StackPanel Spacing="6">
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <TextBlock Text="更新公告" FontWeight="SemiBold" />
+        <TextBlock Text="{Binding SourceState}" TextWrapping="Wrap" Classes="muted" />
+        <Button Content="重新加载" Command="{Binding LoadCommand}" Classes="primary" />
+        <views:EmptyStateView ItemsSource="{Binding Announcements}" AssetId="empty_no_update" Caption="还没有更新公告。" />
+        <ItemsControl ItemsSource="{Binding Announcements}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border Classes="card">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                  <TextBlock Classes="muted">
+                    <Run Text="{Binding Version}" />
+                    <Run Text=" · " />
+                    <Run Text="{Binding Date}" />
+                  </TextBlock>
+                  <TextBlock Text="{Binding Body}" TextWrapping="Wrap" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </Border>
+  </StackPanel>
+  </ScrollViewer>
+
+</UserControl>

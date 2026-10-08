@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.MarketplaceView"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             x:DataType="vm:MarketplaceViewModel"
+             x:Name="MarketRoot">
+  <DockPanel>
+    <!-- 顶部这一块以前不参与任何滚动：页面既然填满视口，它比视口高时自己会被裁掉，
+         下面的列表还会被挤成 0 高（够不着）。现在给它限高并允许内部滚动。 -->
+    <ScrollViewer DockPanel.Dock="Top" MaxHeight="300"
+                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+    <StackPanel Spacing="8" Margin="0,0,0,8">
+      <WrapPanel Orientation="Horizontal">
+        <TextBox Text="{Binding IndexUrl}" MinWidth="220" MaxWidth="380" Margin="0,0,8,8"
+                 Watermark="商城索引 JSON 地址" />
+        <Button Content="保存并刷新" Command="{Binding SaveIndexUrlCommand}" Classes="primary" Margin="0,0,8,8" />
+        <Button Command="{Binding LoadCommand}" IsEnabled="{Binding !Busy}" Margin="0,0,8,8">
+          <controls:UiText Key="common.refresh" />
+        </Button>
+      </WrapPanel>
+      <TextBlock Text="{Binding SourceState}" TextWrapping="Wrap" Classes="muted" />
+      <WrapPanel Orientation="Horizontal">
+        <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"
+                  MinWidth="150" MaxWidth="200" Margin="0,0,8,8" />
+        <TextBox Text="{Binding SearchText}" Watermark="搜索名称 / ID / 标签"
+                 MinWidth="200" MaxWidth="260" Margin="0,0,8,8" />
+      </WrapPanel>
+      <TextBlock Text="{Binding ActionState}" TextWrapping="Wrap" />
+    </StackPanel>
+    </ScrollViewer>
+
+    <views:EmptyStateView DockPanel.Dock="Top" ItemsSource="{Binding Entries}" AssetId="empty_no_plugin" Caption="商城目录里还没有可安装的条目。" />
+    <ListBox ItemsSource="{Binding Entries}" SelectedItem="{Binding SelectedEntry}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Border Classes="card">
+            <StackPanel Spacing="3">
+              <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="SemiBold" />
+                <TextBlock Grid.Column="1" Text="{Binding InstalledText}" Classes="muted" />
+              </Grid>
+              <TextBlock Classes="muted">
+                <Run Text="{Binding Id}" /><Run Text=" · " /><Run Text="{Binding Author}" />
+                <Run Text=" · v" /><Run Text="{Binding Version}" />
+                <Run Text=" · 信任 " /><Run Text="{Binding Trust}" />
+              </TextBlock>
+              <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+              <TextBlock Classes="muted" TextWrapping="Wrap">
+                <Run Text="分类：" /><Run Text="{Binding Categories}" />
+                <Run Text="   标签：" /><Run Text="{Binding Tags}" />
+              </TextBlock>
+              <TextBlock Classes="muted" TextWrapping="Wrap">
+                <Run Text="权限：" /><Run Text="{Binding Permissions}" />
+                <Run Text="   依赖：" /><Run Text="{Binding Dependencies}" />
+              </TextBlock>
+              <TextBlock Classes="muted" TextWrapping="Wrap">
+                <Run Text="更新：" /><Run Text="{Binding Changelog}" />
+              </TextBlock>
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Classes="primary"
+                        Command="{Binding $parent[UserControl].((vm:MarketplaceViewModel)DataContext).InstallCommand}"
+                        CommandParameter="{Binding}">
+                  <controls:UiText Key="common.install" />
+                </Button>
+                <Button Content="卸载"
+                        Command="{Binding $parent[UserControl].((vm:MarketplaceViewModel)DataContext).UninstallCommand}"
+                        CommandParameter="{Binding}" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </DockPanel>
+</UserControl>

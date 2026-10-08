@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.HomeView"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             x:DataType="vm:HomeViewModel">
+  <!-- 这一页自己滚动（页头由外壳钉住），和其它页保持同一套版式。 -->
+  <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+  <StackPanel Spacing="4">
+    <!-- The skin's character is artwork rather than schema, so it stays here. Each element names
+         its own editable slot, so clicking it in the skin editor selects the right thing. -->
+    <Border Classes="card" Name="CharacterCard" IsVisible="False"
+            controls:SkinElement.Id="home.character_card">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <Image Name="CharacterImage" Grid.Column="0" Width="132" MaxHeight="150"
+               Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,14,0"
+               controls:SkinElement.Id="home.character" />
+        <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
+          <!-- The skin's own brand mark, drawn from its element set. -->
+          <Image Name="LogoMark" Width="24" Height="24" HorizontalAlignment="Left" Margin="0,0,0,2"
+                 controls:SkinElement.Id="home.logo" />
+          <TextBlock Name="CharacterTitle" FontWeight="SemiBold" />
+          <TextBlock Name="CharacterSubtitle" Classes="muted" TextWrapping="Wrap" />
+          <TextBlock Text="{Binding PersonaGreeting}" TextWrapping="Wrap" Margin="0,6,0,0" />
+          <TextBlock Text="{Binding PersonaBadge}" Classes="muted" />
+        </StackPanel>
+        <Image Name="CompanionImage" Grid.Column="2" Width="78" MaxHeight="88"
+               Stretch="Uniform" VerticalAlignment="Bottom" Margin="10,0,0,0" IsVisible="False"
+               ToolTip.Tip="小黑会一直跟着她。"
+               AutomationProperties.Name="小黑（搭档黑猫）"
+               controls:SkinElement.Id="home.companion" />
+      </Grid>
+    </Border>
+
+    <!-- Shown only while the catalog really is empty. The illustration is the
+         skin's; the sentence states the fact and nothing more. -->
+    <Border Classes="card" Name="EmptyStateCard" IsVisible="False">
+      <StackPanel Orientation="Horizontal" Spacing="12">
+        <Image Name="EmptyStateImage" Width="104" Height="104" Stretch="Uniform" VerticalAlignment="Center"
+               controls:SkinElement.Id="home.empty_state_art" />
+        <TextBlock Name="EmptyStateText" TextWrapping="Wrap" VerticalAlignment="Center" MaxWidth="520"
+                   controls:SkinElement.Id="home.empty_state_text"
+                   controls:SkinElement.Kind="Text" />
+      </StackPanel>
+    </Border>
+
+    <!-- Everything below is rendered from the layout document, so what the
+         Creative Workshop edits is what this page shows. Values and actions
+         arrive through the document's binding names, not through this markup. -->
+    <ContentControl Name="LayoutHost" />
+  </StackPanel>
+  </ScrollViewer>
+</UserControl>

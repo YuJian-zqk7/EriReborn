@@ -1,0 +1,52 @@
+# ---------- 构建产物 ----------
+bin/
+obj/
+publish/
+packages/
+*.user
+.vs/
+.idea/
+
+# ---------- 运行时数据（绝不入库：含登录凭据 / API Key / 本机状态） ----------
+EriReborn-data/
+EriReborn-credentials/
+EriReborn-webview/
+logs/
+*.log
+cloud-bind-asked.flag
+.write-probe
+seeded-plugins.json
+*.eriplugin.json
+
+# ---------- 私有数据：官方资源目录 / 网盘分享定位 / 官方插件生成工具 ----------
+# 这些是作者私人的数据资产（含网盘分享链接与目录树），不随源码公开。
+assets/catalog/
+assets/catalog-v2-legacy/
+assets/shares/
+tools/generate-official-plugin.mjs
+tools/import-asset-library.mjs
+tools/locate-official-shares.mjs
+
+# ---------- 测试与冒烟运行残留 ----------
+# TEMP has to live inside the workspace because spawned processes cannot write
+# to the user temp directory, and the smoke tool keeps its data here too.
+.test-temp/
+.smoke-data/
+.smoke-aria2/
+.smoke-plugin-ai/
+.smoke-t12/
+acl-recovery/
+tools/out/
+docs/Environment_Smoke_Log*.txt
+docs/mutation-last.txt
+docs/reg-out.txt
+docs/regression-last.txt
+
+# ---------- 一次性排查 / 交接产物 ----------
+_probe/
+_handoff_pkg/
+_ai_probe*.json
+_*.log
+
+# ---------- IDE / 代理工作区 ----------
+.trae/

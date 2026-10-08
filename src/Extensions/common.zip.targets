@@ -1,0 +1,17 @@
+<Project>
+  <!-- Package this extension's build output (dll + manifest.json + dependencies) as a
+       single <ExtensionId>.zip. The app's loader unpacks zips at startup, so the
+       extensions folder ships one file per extension — exactly what Creative Workshop
+       and the GitHub release distribute. tar ships with Windows. -->
+  <Target Name="ZipExtensionOutput" AfterTargets="Build">
+    <!-- Pack only the extension's own assembly and its manifest. The EriReborn.* SDK
+         assemblies resolve from the app's default load context, so shipping them would
+         only duplicate types across assembly-load contexts.
+
+         $(OutDir) ends with a directory separator. Written as -C "$(OutDir)" the closing
+         quote is escaped by that trailing backslash ("...\net8.0\"), the argument list
+         breaks and tar exits 1. Appending "." keeps the quotes intact and is the same
+         directory. -->
+    <Exec Command="tar -a -cf &quot;$(OutDir)$(ExtensionId).zip&quot; -C &quot;$(OutDir).&quot; &quot;$(AssemblyName).dll&quot; &quot;manifest.json&quot;" />
+  </Target>
+</Project>

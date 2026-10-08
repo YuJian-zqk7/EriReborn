@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>EriReborn.Ext.Cloud.Quark</AssemblyName>
+    <RootNamespace>EriReborn.Ext.Cloud.Quark</RootNamespace>
+    <OutputType>Library</OutputType>
+    <ExtensionId>erireborn_cloud_quark</ExtensionId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EriReborn.Cloud\EriReborn.Cloud.csproj" />
+    <ProjectReference Include="..\..\EriReborn.Extension\EriReborn.Extension.csproj" />
+    <ProjectReference Include="..\..\EriReborn.Core\EriReborn.Core.csproj" />
+    <ProjectReference Include="..\..\EriReborn.Platform.Abstractions\EriReborn.Platform.Abstractions.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="manifest.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Import Project="..\common.zip.targets" />
+</Project>

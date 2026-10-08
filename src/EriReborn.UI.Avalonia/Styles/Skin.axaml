@@ -1,0 +1,287 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:EriReborn.UI.Avalonia.Controls">
+  <!-- Every value below comes from the active skin manifest (spec 40/48). -->
+  <Style Selector="TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource SkinForeground}" />
+    <Setter Property="FontFamily" Value="{DynamicResource SkinFontFamily}" />
+    <Setter Property="FontSize" Value="{DynamicResource SkinFontSize}" />
+  </Style>
+
+  <Style Selector="TextBlock.muted">
+    <Setter Property="Foreground" Value="{DynamicResource SkinMuted}" />
+    <Setter Property="FontSize" Value="{DynamicResource SkinFontSizeSmall}" />
+  </Style>
+
+  <!-- Emphasis for a problem the user must act on. Uses the skin's accent
+       because the skin schema has no dedicated warning colour yet. -->
+  <Style Selector="TextBlock.warning">
+    <Setter Property="Foreground" Value="{DynamicResource SkinAccent}" />
+    <Setter Property="FontSize" Value="{DynamicResource SkinFontSizeSmall}" />
+    <Setter Property="Margin" Value="0,4,0,0" />
+  </Style>
+
+  <!-- A security-relevant banner. Uses the skin's accent because the skin
+       schema has no dedicated warning colour yet. -->
+  <Style Selector="Border.warningBanner">
+    <Setter Property="Background" Value="{DynamicResource SkinSurfaceAlt}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource SkinAccent}" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="CornerRadius" Value="{DynamicResource SkinCornerRadiusSmall}" />
+    <Setter Property="Padding" Value="10,8" />
+    <Setter Property="Margin" Value="0,2,0,4" />
+  </Style>
+
+  <Style Selector="Border.chip">
+    <Setter Property="Background" Value="{DynamicResource SkinSurfaceAlt}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource SkinBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{DynamicResource SkinCornerRadiusSmall}" />
+    <Setter Property="Padding" Value="8,3" />
+  </Style>
+
+  <!-- 可点击的 chip：和上面那样式一样，只是它是一个动作（点选探测到的模型），不是标签。 -->
+  <Style Selector="Button.chip">
+    <Setter Property="Background" Value="{DynamicResource SkinSurfaceAlt}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource SkinBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{DynamicResource SkinCornerRadiusSmall}" />
+    <Setter Property="Padding" Value="8,3" />
+    <Setter Property="FontSize" Value="{DynamicResource SkinFontSizeSmall}" />
+    <Setter Property="Foreground" Value="{DynamicResource SkinForeground}" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+
+  <Style Selector="TextBlock.pageTitle">
+    <Setter Property="FontSize" Value="{DynamicResource SkinFontSizeLarge}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Margin" Value="0,0,0,8" />
+  </Style>
+
+  <Style Selector="Border.card">
+    <Setter Property="Background" Value="{DynamicResource SkinSurface}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource SkinBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{DynamicResource SkinCornerRadius}" />
+    <!-- Follows the skin's density, so a compact skin really is more compact. -->
+    <Setter Property="Padding" Value="{DynamicResource SkinCardPadding}" />
+    <Setter Property="Margin" Value="0,0,0,10" />
+  </Style>
+
+  <!-- The same card, drawn from the skin's frame art when it ships one. A skin with
+       no frame gets the flat surface and hairline border below, so both kinds of
+       skin look deliberate. -->
+  <Style Selector="controls|NineSliceBorder.card">
+    <Setter Property="Padding" Value="{DynamicResource SkinCardPadding}" />
+    <Setter Property="Margin" Value="0,0,0,10" />
+    <Setter Property="FallbackBackground" Value="{DynamicResource SkinSurface}" />
+    <Setter Property="FallbackBorderBrush" Value="{DynamicResource SkinBorder}" />
+    <Setter Property="FallbackBorderThickness" Value="1" />
+    <Setter Property="FallbackCornerRadius" Value="{DynamicResource SkinCornerRadius}" />
+  </Style>
+
+  <!-- A hairline under a panel's title, and an action row whose primary button sits
+       on the right — the reference launcher structures its confirming panels this way. -->
+  <Style Selector="Border.divider">
+    <Setter Property="Height" Value="1" />
+    <Setter Property="Background" Value="{DynamicResource SkinBorder}" />
+    <Setter Property="Margin" Value="0,6,0,8" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+  </Style>
+
+  <Style Selector="StackPanel.dialogFooter">
+    <Setter Property="Orientation" Value="Horizontal" />
+    <Setter Property="Spacing" Value="8" />
+    <Setter Property="HorizontalAlignment" Value="Right" />
+    <Setter Property="Margin" Value="0,10,0,0" />
+  </Style>
+
+  <!-- The Fluent default paints a list panel grey, which turns an empty list into a
+       large grey slab inside an otherwise white card. -->
+  <Style Selector="ListBox">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+
+  <!-- Anything clickable shows the skin's hand. The value is a Cursor resource published
+       by SkinResourceApplier, so a skin that ships hand art gets its own pointer. -->
+  <Style Selector="Button">
+    <Setter Property="Cursor" Value="{DynamicResource SkinCursorLink}" />
+  </Style>
+  <Style Selector="CheckBox">
+    <Setter Property="Cursor" Value="{DynamicResource SkinCursorLink}" />
+  </Style>
+  <Style Selector="RadioButton">
+    <Setter Property="Cursor" Value="{DynamicResource SkinCursorLink}" />
+  </Style>
+  <Style Selector="ComboBox">
+    <Setter Property="Cursor" Value="{DynamicResource SkinCursorLink}" />
+  </Style>
+  <Style Selector="TabItem">
+    <Setter Property="Cursor" Value="{DynamicResource SkinCursorLink}" />
+  </Style>
+  <Style Selector="TreeViewItem">
+    <Setter Property="Cursor" Value="{DynamicResource SkinCursorLink}" />
+  </Style>
+  <Style Selector="ListBoxItem">
+    <Setter Property="Cursor" Value="{DynamicResource SkinCursorLink}" />
+  </Style>
+  <Style Selector="GridSplitter">
+    <Setter Property="Cursor" Value="{DynamicResource SkinCursorResizeHorizontal}" />
+  </Style>
+  <Style Selector="TextBox">
+    <Setter Property="Cursor" Value="{DynamicResource SkinCursorText}" />
+  </Style>
+
+  <Style Selector="Button">
+    <!-- The skin's own button metric, not a size chosen here. -->
+    <Setter Property="MinHeight" Value="{DynamicResource SkinButtonHeight}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource SkinCornerRadiusSmall}" />
+    <Setter Property="FontFamily" Value="{DynamicResource SkinFontFamily}" />
+    <Setter Property="Background" Value="{DynamicResource SkinSurfaceAlt}" />
+    <Setter Property="Foreground" Value="{DynamicResource SkinForeground}" />
+    <!-- An outline and breathing room: without them a button reads as a flat block of colour. -->
+    <Setter Property="BorderBrush" Value="{DynamicResource SkinBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Padding" Value="14,6" />
+  </Style>
+
+  <Style Selector="Button /template/ ContentPresenter">
+    <Setter Property="BorderBrush" Value="{DynamicResource SkinBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+
+  <!-- Five states, because a control with three of them looks unfinished.
+       Rest, hover, pressed, focused and disabled are all defined from the skin. -->
+  <Style Selector="Button:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SkinAccentHover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource SkinAccent}" />
+  </Style>
+
+  <Style Selector="Button:pressed /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SkinAccentPressed}" />
+  </Style>
+
+  <Style Selector="Button:disabled /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SkinSurfaceDisabled}" />
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SkinForegroundDisabled}" />
+  </Style>
+
+  <Style Selector="Button:focus /template/ ContentPresenter">
+    <Setter Property="BorderBrush" Value="{DynamicResource SkinAccent}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+
+  <Style Selector="Button:focus-visible /template/ ContentPresenter">
+    <Setter Property="BorderBrush" Value="{DynamicResource SkinAccent}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+
+  <!-- The touch floor applies to controls that are not buttons. -->
+  <Style Selector="CheckBox">
+    <Setter Property="MinHeight" Value="{DynamicResource SkinMinTargetHeight}" />
+  </Style>
+
+  <!-- Navigation entries get their own metric (spec 117/118). -->
+  <Style Selector="ListBox.nav ListBoxItem">
+    <Setter Property="MinHeight" Value="{DynamicResource SkinNavItemHeight}" />
+  </Style>
+
+  <Style Selector="TreeView.nav TreeViewItem">
+    <Setter Property="MinHeight" Value="{DynamicResource SkinNavItemHeight}" />
+    <!-- The reference launcher's nav rows: left-aligned text, 12,9 of padding, 5px corners. -->
+    <Setter Property="Padding" Value="12,9" />
+    <Setter Property="CornerRadius" Value="{DynamicResource SkinCornerRadiusSmall}" />
+  </Style>
+
+  <Style Selector="Button.primary">
+    <Setter Property="Background" Value="{DynamicResource SkinAccent}" />
+    <Setter Property="Foreground" Value="#FFFFFF" />
+    <Setter Property="CornerRadius" Value="{DynamicResource SkinCornerRadiusSmall}" />
+    <Setter Property="Padding" Value="14,6" />
+  </Style>
+
+  <Style Selector="Button.primary /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SkinAccent}" />
+    <Setter Property="Foreground" Value="#FFFFFF" />
+    <Setter Property="BorderBrush" Value="{DynamicResource SkinAccentPressed}" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+
+  <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SkinAccentHover}" />
+    <Setter Property="Foreground" Value="#FFFFFF" />
+  </Style>
+
+  <Style Selector="Button.primary:pressed /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SkinAccentPressed}" />
+    <Setter Property="Foreground" Value="#FFFFFF" />
+  </Style>
+
+  <Style Selector="Button.primary:disabled /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SkinSurfaceDisabled}" />
+    <Setter Property="Foreground" Value="{DynamicResource SkinForegroundDisabled}" />
+  </Style>
+
+  <Style Selector="TextBox">
+    <Setter Property="MinHeight" Value="{DynamicResource SkinInputHeight}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource SkinCornerRadiusSmall}" />
+    <Setter Property="FontFamily" Value="{DynamicResource SkinFontFamily}" />
+  </Style>
+
+  <Style Selector="ListBoxItem">
+    <Setter Property="MinHeight" Value="{DynamicResource SkinListRowHeight}" />
+  </Style>
+
+  <Style Selector="ComboBox">
+    <Setter Property="MinHeight" Value="{DynamicResource SkinInputHeight}" />
+  </Style>
+
+  <!-- A slider is three parts, and each is addressed on its own: a theme that
+       only colours "the slider" is why sliders usually look foreign. -->
+  <Style Selector="Slider">
+    <Setter Property="MinHeight" Value="{DynamicResource SkinSliderThumbSize}" />
+    <Setter Property="Background" Value="{DynamicResource SkinSliderTrackBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource SkinSliderFillBrush}" />
+  </Style>
+
+  <Style Selector="Slider /template/ Track">
+    <Setter Property="MinHeight" Value="{DynamicResource SkinSliderTrackHeight}" />
+  </Style>
+
+  <Style Selector="Slider /template/ Thumb">
+    <Setter Property="Background" Value="{DynamicResource SkinSliderThumbBrush}" />
+    <Setter Property="Width" Value="{DynamicResource SkinSliderThumbSize}" />
+    <Setter Property="Height" Value="{DynamicResource SkinSliderThumbSize}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource SkinSliderThumbSize}" />
+  </Style>
+
+  <Style Selector="Slider:disabled">
+    <Setter Property="Background" Value="{DynamicResource SkinSurfaceDisabled}" />
+    <Setter Property="Foreground" Value="{DynamicResource SkinForegroundDisabled}" />
+  </Style>
+  <!-- A button whose picture already *is* the button must not paint its own plate behind
+       it, in any state: two stacked textures is what "overlapping" looks like. These rules sit
+       last on purpose so they win over the primary-button plate. -->
+  <Style Selector="Button.art">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+  <Style Selector="Button.art /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="Button.art:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Button.art:pressed /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Button.art:disabled /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Button.art:focus /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+</Styles>

@@ -1,0 +1,17 @@
+{
+    "name":  "eri_blink",
+    "frameCount":  4,
+    "frameWidth":  512,
+    "frameHeight":  512,
+    "columns":  4,
+    "rows":  1,
+    "fps":  6,
+    "sheet":  "eri_blink_sheet.png",
+    "loop":  true,
+    "frames":  [
+                   "eri_blink_01.png",
+                   "eri_blink_02.png",
+                   "eri_blink_03.png",
+                   "eri_blink_04.png"
+               ]
+}

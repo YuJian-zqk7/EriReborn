@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>EriReborn.Tools.Smoke</RootNamespace>
+    <AssemblyName>EriReborn.Tools.Smoke</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EriReborn.App.Shared\EriReborn.App.Shared.csproj" />
+    <ProjectReference Include="..\..\src\EriReborn.Platform.Windows\EriReborn.Platform.Windows.csproj" />
+    <ProjectReference Include="..\..\samples\EriReborn.SampleExtension\EriReborn.SampleExtension.csproj" />
+  </ItemGroup>
+</Project>

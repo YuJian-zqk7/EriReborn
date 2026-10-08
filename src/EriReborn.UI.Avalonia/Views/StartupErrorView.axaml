@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.StartupErrorView"
+             xmlns:views="using:EriReborn.UI.Avalonia.Views"
+             x:DataType="views:StartupErrorViewModel">
+  <ScrollViewer Padding="20">
+    <StackPanel Spacing="10">
+      <TextBlock Text="启动阶段发生错误" FontSize="22" FontWeight="SemiBold" Foreground="#FF8A8A" />
+      <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" />
+      <TextBlock Text="{Binding KindText}" Classes="muted" />
+      <TextBlock Text="{Binding Detail}" TextWrapping="Wrap" />
+      <TextBlock Text="日志位置" Classes="muted" />
+      <TextBlock Text="{Binding LogPath}" TextWrapping="Wrap" />
+      <TextBox Text="{Binding StackTrace}" IsReadOnly="True" AcceptsReturn="True" Height="200" TextWrapping="NoWrap" />
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

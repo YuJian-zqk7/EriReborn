@@ -1,0 +1,81 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EriReborn.UI.Avalonia.Views.TutorialView"
+             xmlns:vm="using:EriReborn.App.Shared.ViewModels"
+             xmlns:controls="using:EriReborn.UI.Avalonia.Controls"
+             x:DataType="vm:TutorialViewModel">
+  <!-- A Grid, not a StackPanel: a vertical StackPanel hands its children unlimited height, so
+       the detail pane's ScrollViewer believes it has all the room it wants and never scrolls.
+       The last row takes the leftover height, which gives that pane a real one. -->
+  <Grid RowDefinitions="Auto,*">
+    <!-- 顶部两块以前各占一个 Auto 行：比视口高时会把下面的目录挤成 0 高，而它们自己又没有
+         滚动条、被裁掉就够不着。现在它们被限高并可滚动，目录始终保持可用高度。 -->
+    <ScrollViewer Grid.Row="0" MaxHeight="300" VerticalScrollBarVisibility="Auto">
+    <StackPanel Spacing="6">
+    <!-- The tutorial is always available, never only on first run. -->
+    <Border Classes="card" IsVisible="{Binding HasTutorial}">
+      <StackPanel Spacing="5">
+        <TextBlock Text="使用教程" FontWeight="SemiBold" />
+        <TextBlock Classes="muted" TextWrapping="Wrap"
+                   Text="教程随程序一起打包，没有网络也能看。首次向导只讲怎么开始用；概念与故障排查在下面的目录里。" />
+        <Button Content="重新观看首次向导" Command="{Binding RestartOnboardingCommand}" HorizontalAlignment="Left" />
+      </StackPanel>
+    </Border>
+
+    <Border Margin="0,6,0,0" Classes="card" IsVisible="{Binding ShowOnboarding}">
+      <StackPanel Spacing="6">
+        <TextBlock Text="{Binding StepCounter}" Classes="muted" />
+        <TextBlock Text="{Binding StepTitle}" FontWeight="SemiBold" FontSize="16" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding StepBody}" TextWrapping="Wrap" />
+
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Content="上一步" Command="{Binding BackCommand}" IsEnabled="{Binding CanGoBack}" />
+          <Button Command="{Binding NextCommand}" Classes="primary">
+            <controls:UiText Key="common.next" />
+          </Button>
+          <Button Content="跳过" Command="{Binding SkipCommand}" />
+        </StackPanel>
+      </StackPanel>
+    </Border>
+
+    </StackPanel>
+    </ScrollViewer>
+
+    <!-- Two panes with a handle between them. A fixed gap only looks like a cut: it
+         cannot be dragged, so the reader cannot give the list more room when a topic
+         title is long. -->
+    <Grid Grid.Row="1" Margin="0,6,0,0" ColumnDefinitions="Auto,6,*">
+      <Border Grid.Column="0" Padding="12,10" MinWidth="200" MaxWidth="360"
+              Background="{DynamicResource SkinBackground}"
+              BorderBrush="{DynamicResource SkinBorder}"
+              BorderThickness="0,0,1,0"
+              CornerRadius="{DynamicResource SkinCornerRadiusSmall}">
+        <DockPanel>
+          <TextBlock DockPanel.Dock="Top" Text="教程目录" FontWeight="SemiBold" Margin="0,0,0,6" />
+          <ListBox Name="TopicList" ItemsSource="{Binding Topics}" Background="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <TextBlock>
+                  <Run Text="{Binding Indent}" /><Run Text="{Binding Title}" />
+                </TextBlock>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </DockPanel>
+      </Border>
+
+      <GridSplitter Grid.Column="1" ResizeDirection="Columns" Width="6"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Background="{DynamicResource SkinBorder}" />
+
+      <Border Grid.Column="2" Classes="card" MinWidth="320">
+        <ScrollViewer>
+          <StackPanel Spacing="6">
+            <TextBlock Text="{Binding SelectedTitle}" FontWeight="SemiBold" FontSize="16" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding SelectedBody}" TextWrapping="Wrap" />
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>
